@@ -2,7 +2,6 @@ package envoirement;
 
 public class GridCreator {
 	
-//	private Tile[][] gridLayer;
 	private Tile baseTile;
 	private Tile spawnerTile;
 	
@@ -26,6 +25,8 @@ public class GridCreator {
 					break;
 				case 'B':
 					nT.setType(Tile.TYPE_BASE);
+					nT.setNextTile(null);
+					nT.setHasNextTile(false);
 					this.setBaseTile(nT);
 					break;
 				case 'S':
@@ -40,41 +41,70 @@ public class GridCreator {
 				
 			}
 		}
-//		gridLayer = grid;
-//		printGrid(pHight, pLength);
+		this.pathing(grid, pHight, pLength);
 		return grid;
 	}
-	/*TODO: Complete automated pathfinding and get the Tile to be accurate about the inheritant */
-	/*TODO: Or let the enemy fin their way trough the level*/
-//	private void setPath_BaseToSpwan(Tile[][] grid, Integer pHight, Integer pLength) {
-//		Tile current = this.getBaseTile();
-//		while(current != this.getSpawnerTile()) {
-//			Integer yPos = current.getyPos();
-//			Integer xPos = current.getxPos();
-//			for(int y = yPos-1;y<yPos+1;y++) {
-//				if((y>=0)&&(y<=pHight-1)) {
-//					for(int x = xPos-1; x<xPos+1;x++) {
-//						if((x>=0)&&(x<=pLength-1)) {
-//							if((y==yPos-1)&&(x==xPos-1)||(y==yPos-1)&&(x!=xPos+1)||(y==yPos+1)&&(x==xPos-1)||(y==yPos+1)&&(x==xPos+1)) {}
-//							else {
-//								if(current == this.getBaseTile()) {
-//									if(grid[y][x].getContraction() == 'P') {
-//										
-//									}
-//								}
-//								else if(current == this.getSpawnerTile()) {
-//										
-//								}
-//								else if(current.getContraction() == 'P') {
-//										
-//								}
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
-//	}
+	
+	private void pathing(Tile[][] pGrid, Integer pHight, Integer pLength) {
+		Tile current = this.getSpawnerTile();
+		while(current != baseTile) {
+			while((current.getHasNextTile() != true)&&(current != baseTile)) {
+				//The Tile above the current Tile
+				if((0 <= current.getyPos()-1)&&(current.getyPos()-1 < pHight)) {
+					if((0 <= current.getxPos())&&(current.getxPos() < pLength)) {
+						Tile tmp = pGrid[current.getyPos()-1][current.getxPos()];
+						if((tmp.getType() == Tile.TYPE_PATH) || (tmp.getType() == Tile.TYPE_BASE)) {
+							if(tmp.getHasNextTile() == false) {
+								current.setNextTile(tmp);
+								current = tmp;
+								break;
+							}
+						}
+					}
+				}
+				//The tile left of the current Tile
+				if((0 <= current.getyPos())&&(current.getyPos() < pHight)) {
+					if((0 <= current.getxPos()-1)&&(current.getxPos()-1 < pLength)) {
+						Tile tmp = pGrid[current.getyPos()][current.getxPos()-1];
+						if((tmp.getType() == Tile.TYPE_PATH) || (tmp.getType() == Tile.TYPE_BASE)) {
+							if(tmp.getHasNextTile() == false) {
+								current.setNextTile(tmp);
+								current = tmp;
+								break;
+							}
+						}
+					}
+				}
+				//The Tile right of the current TIle
+				if((0 <= current.getyPos())&&(current.getyPos() < pHight)) {
+					if((0 <= current.getxPos()+1)&&(current.getxPos()+1 < pLength)) {
+						Tile tmp = pGrid[current.getyPos()][current.getxPos()+1];
+						if((tmp.getType() == Tile.TYPE_PATH) || (tmp.getType() == Tile.TYPE_BASE)) {
+							if(tmp.getHasNextTile() == false) {
+								current.setNextTile(tmp);
+								current = tmp;
+								break;
+							}
+						}
+					}
+				}
+				//The Tile under the current Tile
+				if((0 <= current.getyPos()+1)&&(current.getyPos()+1 < pHight)) {
+					if((0 <= current.getxPos())&&(current.getxPos() < pLength)) {
+						Tile tmp = pGrid[current.getyPos()+1][current.getxPos()];
+						if((tmp.getType() == Tile.TYPE_PATH) || (tmp.getType() == Tile.TYPE_BASE)) {
+							if(tmp.getHasNextTile() == false) {
+								current.setNextTile(tmp);
+								current = tmp;
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+		System.out.println("Pathing Complete");
+	}
 
 	public Tile getBaseTile() {
 		return baseTile;
@@ -91,18 +121,4 @@ public class GridCreator {
 	public void setSpawnerTile(Tile spawnerTile) {
 		this.spawnerTile = spawnerTile;
 	}
-	
-//	private void printGrid(Integer hight, Integer length) {
-//		for(Integer y = 0; y <= hight-1; y++) {
-//			for(Integer x = 0; x <= length-1; x++) {
-//				System.out.print(gridLayer[y][x].getContraction());				
-//			}
-//			System.out.println();
-//		}
-//	}
-//	
-//	public static void main(String args[]) {
-//		GridCreator g = new GridCreator();
-//		g.presetToGrid(Level_Test_Preset.layout, Level_Test_Preset.hight, Level_Test_Preset.length);
-//	}
 }

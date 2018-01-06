@@ -7,19 +7,22 @@ public class Tile {
 	public static final int TYPE_BASE = 1;
 	public static final int TYPE_PATH = 2;
 	public static final int TYPE_SPAWN = 3;
+	public static final int TYPE_TOWER = 4;
 	
 	private int type;
 	
 	private boolean statusOccupied;
 	
 	private Tile nextTile;
-	private Tile prevTile;
+	
+	private Boolean hasNextTile;
 	
 	private Integer yPos;
 	private Integer xPos;
 	
 	public Tile(Integer pYPos, Integer pXPos) {
 		this.setStatusOccupied(false);
+		this.setHasNextTile(false);
 		this.yPos = pYPos;
 		this.xPos = pXPos;
 	}
@@ -38,15 +41,8 @@ public class Tile {
 	}
 
 	public void setNextTile(Tile nextTile) {
+		this.setHasNextTile(true);
 		this.nextTile = nextTile;
-	}
-
-	public Tile getPrevTile() {
-		return prevTile;
-	}
-
-	public void setPrevTile(Tile prevTile) {
-		this.prevTile = prevTile;
 	}
 
 	public boolean isStatusOccupied() {
@@ -71,6 +67,14 @@ public class Tile {
 
 	public void setxPos(Integer xPos) {
 		this.xPos = xPos;
+	}
+
+	public Boolean getHasNextTile() {
+		return hasNextTile;
+	}
+
+	public void setHasNextTile(Boolean hasNextTile) {
+		this.hasNextTile = hasNextTile;
 	}
 	
 }

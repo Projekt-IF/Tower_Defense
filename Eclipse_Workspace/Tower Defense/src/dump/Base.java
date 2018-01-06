@@ -1,4 +1,6 @@
-package envoirement;
+package dump;
+
+import envoirement.Tile;
 
 public class Base extends Tile{
 	
