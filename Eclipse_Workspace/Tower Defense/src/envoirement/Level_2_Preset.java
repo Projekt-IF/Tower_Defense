@@ -1,8 +1,12 @@
 package envoirement;
 
+/**
+ *	The Class Level_2_Preset contains the static final properties the Level's Grid will have.
+ */
 public class Level_2_Preset {
 	
-	/* O = Tile Field 		[Towers can be placed on here]
+	/* Legend for the Grid Mapping
+	 * O = Tile Field 		[Towers can be placed on here]
 	 * B = BaseTile	  		[Enemies want to go here]
 	 * S = SpawnerTile	  	[Enemies spawn here]
 	 * P = Path				[Enemies follow these Tiles to the Base]
@@ -19,7 +23,7 @@ public class Level_2_Preset {
 	 * 		8 P P P P P P P P S
 	 * 				 		*/
 	
-	
+	//The Array represents the type of the Tiles in the Grid
 	public static final Character[][] layout = {{'B','P','P','P','P','P','P','P','P'},
 												{'O','O','O','O','O','O','O','O','P'},
 												{'P','P','P','P','P','P','P','P','P'},
@@ -30,8 +34,10 @@ public class Level_2_Preset {
 												{'P','O','O','O','O','O','O','O','O'},
 												{'P','P','P','P','P','P','P','P','S'}};
 	
-	public static final Integer hight = 9;
+	//The Grid's height
+	public static final Integer height = 9;
 	
+	//The Grid's length
 	public static final Integer length = 9;
 
 }

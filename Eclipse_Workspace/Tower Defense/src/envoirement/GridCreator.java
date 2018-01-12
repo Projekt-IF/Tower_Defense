@@ -1,18 +1,35 @@
 package envoirement;
 
+/**
+ * The GridCreator assembles the Array that Contains the Map
+ * and connects the Path Tiles to for a Path from the Spawner to the Base Tile.
+ */
 public class GridCreator {
 	
 	private Tile baseTile;
 	private Tile spawnerTile;
 	
+	/**
+	 * The Constructor of the GridCreator
+	 */
 	public GridCreator() {
 		
 	}
 
-	public Tile[][] presetToGrid(Character[][] preset, Integer pHight, Integer pLength){
-		Tile[][] grid = new Tile[pHight][pLength];
+	/**
+	 * The method goes through the elements of the array of the specified level 
+	 * and initializes the Tile's Type's.
+	 * Then it connects the path Tiles via the pathing method.
+	 * 
+	 * @param preset
+	 * @param pHeight
+	 * @param pLength
+	 * @return
+	 */
+	public Tile[][] presetToGrid(Character[][] preset, Integer pHeight, Integer pLength){
+		Tile[][] grid = new Tile[pHeight][pLength];
 		
-		for(Integer y = 0; y <= pHight-1; y++) {
+		for(Integer y = 0; y <= pHeight-1; y++) {
 			for(Integer x = 0; x <= pLength-1; x++) {
 				Tile nT = new Tile(y, x);
 				Character tmp = preset[y][x];
@@ -41,16 +58,24 @@ public class GridCreator {
 				
 			}
 		}
-		this.pathing(grid, pHight, pLength);
+		this.pathing(grid, pHeight, pLength);
 		return grid;
 	}
 	
-	private void pathing(Tile[][] pGrid, Integer pHight, Integer pLength) {
+	/**
+	 * The method starts from the spawner Tile and follows the path tiles to the
+	 * base Tile to form a path enemies can follow.
+	 * 
+	 * @param pGrid
+	 * @param pHeight
+	 * @param pLength
+	 */
+	private void pathing(Tile[][] pGrid, Integer pHeight, Integer pLength) {
 		Tile current = this.getSpawnerTile();
 		while(current != baseTile) {
 			while((current.getHasNextTile() != true)&&(current != baseTile)) {
 				//The Tile above the current Tile
-				if((0 <= current.getyPos()-1)&&(current.getyPos()-1 < pHight)) {
+				if((0 <= current.getyPos()-1)&&(current.getyPos()-1 < pHeight)) {
 					if((0 <= current.getxPos())&&(current.getxPos() < pLength)) {
 						Tile tmp = pGrid[current.getyPos()-1][current.getxPos()];
 						if((tmp.getType() == Tile.TYPE_PATH) || (tmp.getType() == Tile.TYPE_BASE)) {
@@ -63,7 +88,7 @@ public class GridCreator {
 					}
 				}
 				//The tile left of the current Tile
-				if((0 <= current.getyPos())&&(current.getyPos() < pHight)) {
+				if((0 <= current.getyPos())&&(current.getyPos() < pHeight)) {
 					if((0 <= current.getxPos()-1)&&(current.getxPos()-1 < pLength)) {
 						Tile tmp = pGrid[current.getyPos()][current.getxPos()-1];
 						if((tmp.getType() == Tile.TYPE_PATH) || (tmp.getType() == Tile.TYPE_BASE)) {
@@ -76,7 +101,7 @@ public class GridCreator {
 					}
 				}
 				//The Tile right of the current TIle
-				if((0 <= current.getyPos())&&(current.getyPos() < pHight)) {
+				if((0 <= current.getyPos())&&(current.getyPos() < pHeight)) {
 					if((0 <= current.getxPos()+1)&&(current.getxPos()+1 < pLength)) {
 						Tile tmp = pGrid[current.getyPos()][current.getxPos()+1];
 						if((tmp.getType() == Tile.TYPE_PATH) || (tmp.getType() == Tile.TYPE_BASE)) {
@@ -89,7 +114,7 @@ public class GridCreator {
 					}
 				}
 				//The Tile under the current Tile
-				if((0 <= current.getyPos()+1)&&(current.getyPos()+1 < pHight)) {
+				if((0 <= current.getyPos()+1)&&(current.getyPos()+1 < pHeight)) {
 					if((0 <= current.getxPos())&&(current.getxPos() < pLength)) {
 						Tile tmp = pGrid[current.getyPos()+1][current.getxPos()];
 						if((tmp.getType() == Tile.TYPE_PATH) || (tmp.getType() == Tile.TYPE_BASE)) {
@@ -103,7 +128,7 @@ public class GridCreator {
 				}
 			}
 		}
-		System.out.println("Pathing Complete");
+System.out.println("Pathing Complete");
 	}
 
 	public Tile getBaseTile() {
