@@ -29,6 +29,7 @@ public class Enemy {
 		this.posX = pPosX;
 		this.posY = pPosY;
 		this.life = this.calcLife(pType, pLevel);
+		this.speed = this.calcSpeed(pType, pLevel);
 	}
 
 	/**
@@ -40,6 +41,17 @@ public class Enemy {
 	private Double calcLife(Integer pType, Integer pLevel) {
 		Double tmpLife = (pType * 5.0) + (pLevel * 10);
 		return tmpLife;
+	}
+	
+	/**
+	 * 
+	 * @param pType
+	 * @param pLevel
+	 * @return
+	 */
+	private Double calcSpeed(Integer pType, Integer pLevel) {
+		Double tmpSpeed = pType * 0.5 + pLevel * 0.25;
+		return tmpSpeed;
 	}
 
 	public Integer getPosX() {
