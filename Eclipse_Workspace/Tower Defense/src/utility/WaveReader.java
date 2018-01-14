@@ -19,8 +19,8 @@ public class WaveReader {
 	/**
 	 * 
 	 */
-	public WaveReader(String fileName) {
-		loadWaveFile(fileName);
+	public WaveReader() {
+		
 	}
 	
 	/**
