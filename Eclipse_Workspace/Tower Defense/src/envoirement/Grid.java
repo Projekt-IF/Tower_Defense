@@ -38,20 +38,20 @@ public class Grid {
 			this.gridLayer = gc.presetToGrid(Level_Test_Preset.layout, Level_Test_Preset.height, Level_Test_Preset.length);
 			this.height = Level_Test_Preset.height;
 			this.length = Level_Test_Preset.length;
-			this.baseTile = gc.getBaseTile();
-			this.spawnerTile = gc.getSpawnerTile();
+			this.setBaseTile(gc.getBaseTile());
+			this.setSpawnerTile(gc.getSpawnerTile());
 		} else if(level.equalsIgnoreCase("ONE")) {
 			this.gridLayer = gc.presetToGrid(Level_1_Preset.layout, Level_1_Preset.height, Level_1_Preset.length);
 			this.height = Level_1_Preset.height;
 			this.length = Level_1_Preset.length;
-			this.baseTile = gc.getBaseTile();
-			this.spawnerTile = gc.getSpawnerTile();
+			this.setBaseTile(gc.getBaseTile());
+			this.setSpawnerTile(gc.getSpawnerTile());
 		} else if(level.equalsIgnoreCase("TWO")) {
 			this.gridLayer = gc.presetToGrid(Level_2_Preset.layout, Level_2_Preset.height, Level_2_Preset.length);
 			this.height = Level_2_Preset.height;
 			this.length = Level_2_Preset.length;
-			this.baseTile = gc.getBaseTile();
-			this.spawnerTile = gc.getSpawnerTile();
+			this.setBaseTile(gc.getBaseTile());
+			this.setSpawnerTile(gc.getSpawnerTile());
 		}
 	}
 	
@@ -84,5 +84,21 @@ public class Grid {
 		g = new Grid("tWo");
 		g.printGrid();
 		g.printPath();
+	}
+
+	public Tile getBaseTile() {
+		return baseTile;
+	}
+
+	public void setBaseTile(Tile baseTile) {
+		this.baseTile = baseTile;
+	}
+
+	public Tile getSpawnerTile() {
+		return spawnerTile;
+	}
+
+	public void setSpawnerTile(Tile spawnerTile) {
+		this.spawnerTile = spawnerTile;
 	}
 }
