@@ -12,7 +12,7 @@ public class WaveReader {
 	/**
 	 * File structure is the following:
 	 * 		
-	 * 		[Number of Enemies],[Enemies Type],[Enemies Level]    |    [Number of Enemies],[...],...
+	 * 			[Number of Enemies],[Enemies Type],[Enemies Level];
 	 */
 	private String dateiInhalt;
 
