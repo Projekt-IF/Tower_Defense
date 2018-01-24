@@ -11,6 +11,7 @@ public class Grid {
 	
 	private Tile[][] gridLayer;
 
+	//Hallo
 	private Tile baseTile;
 	private Tile spawnerTile;
 	
