@@ -22,10 +22,21 @@ public class Enemy_Controller {
 	
 	/**
 	 * 
+	 * @param pType
+	 * @param pLevel
+	 * @return
 	 */
 	public Enemy spawnEnemy(Integer pType, Integer pLevel) {
 		Enemy e = new Enemy(this.spawnerTile.getxPos(), this.spawnerTile.getyPos(), pType, pLevel);
 		return e;
+	}
+	
+	
+	public void moveEnemy(Enemy e) {
+		Tile[][] g = grid.getGridLayer();
+		e.setPosX(g[e.getPosX()][e.getPosY()].getNextTile().getxPos());
+		e.setPosY(g[e.getPosX()][e.getPosY()].getNextTile().getyPos());
+
 	}
 
 	public Grid getGrid() {

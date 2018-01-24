@@ -10,7 +10,7 @@ public class Grid {
 	private Integer length;
 	
 	private Tile[][] gridLayer;
-	
+
 	private Tile baseTile;
 	private Tile spawnerTile;
 	
@@ -84,6 +84,14 @@ public class Grid {
 		g = new Grid("tWo");
 		g.printGrid();
 		g.printPath();
+	}
+	
+	public Tile[][] getGridLayer() {
+		return gridLayer;
+	}
+
+	public void setGridLayer(Tile[][] gridLayer) {
+		this.gridLayer = gridLayer;
 	}
 
 	public Tile getBaseTile() {
