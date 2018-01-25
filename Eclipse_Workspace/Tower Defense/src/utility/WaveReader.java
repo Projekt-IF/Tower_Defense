@@ -14,7 +14,7 @@ public class WaveReader {
 	 * 		
 	 * 			[Number of Enemies],[Enemies Type],[Enemies Level];
 	 */
-	private String dateiInhalt;
+	private String fileContent;
 
 	/**
 	 * 
@@ -35,7 +35,7 @@ public class WaveReader {
             String input = "";
             
             while((input = br.readLine()) != null) {
-                dateiInhalt = dateiInhalt + input;
+                fileContent = fileContent + input;
             }
             
             br.close();
@@ -44,11 +44,18 @@ public class WaveReader {
         }
     }
 	
-	public String getDateiInhalt() {
-		return dateiInhalt;
+	/**
+	 * uses Regular Expression to process the Lines of the File into the requested format
+	 */
+	public void processFileContent() {
+		
+	}
+	
+	public String getFileContent() {
+		return fileContent;
 	}
 
-	public void setDateiInhalt(String dateiInhalt) {
-		this.dateiInhalt = dateiInhalt;
+	public void setFileContent(String fileContent) {
+		this.fileContent = fileContent;
 	}
 }

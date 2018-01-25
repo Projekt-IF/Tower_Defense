@@ -33,10 +33,8 @@ public class Enemy_Controller {
 	
 	
 	public void moveEnemy(Enemy e) {
-		Tile[][] g = grid.getGridLayer();
-		e.setPosX(g[e.getPosX()][e.getPosY()].getNextTile().getxPos());
-		e.setPosY(g[e.getPosX()][e.getPosY()].getNextTile().getyPos());
-
+		e.setPosX(grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getxPos());
+		e.setPosY(grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getyPos());
 	}
 
 	public Grid getGrid() {

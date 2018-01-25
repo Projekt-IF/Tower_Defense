@@ -4,12 +4,9 @@ import utility.WaveReader;
 
 public class Wave_Controller {
 	
-	private Enemy_Controller eC;
-	
 	private WaveReader wR;
 	
-	public Wave_Controller(Enemy_Controller pEC) {
-		this.eC = pEC;
+	public Wave_Controller() {
 		wR = new WaveReader();
 	}
 	

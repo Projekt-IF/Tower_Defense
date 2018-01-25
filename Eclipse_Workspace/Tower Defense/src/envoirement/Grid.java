@@ -75,17 +75,17 @@ public class Grid {
 		System.out.println();
 	}
 	
-	public static void main(String args[]) {
-		Grid g = new Grid("Test");
-		g.printGrid();
-		g.printPath();
-		g = new Grid("One");
-		g.printGrid();
-		g.printPath();
-		g = new Grid("tWo");
-		g.printGrid();
-		g.printPath();
-	}
+//	public static void main(String args[]) {
+//		Grid g = new Grid("Test");
+//		g.printGrid();
+//		g.printPath();
+//		g = new Grid("One");
+//		g.printGrid();
+//		g.printPath();
+//		g = new Grid("tWo");
+//		g.printGrid();
+//		g.printPath();
+//	}
 	
 	public Tile[][] getGridLayer() {
 		return gridLayer;

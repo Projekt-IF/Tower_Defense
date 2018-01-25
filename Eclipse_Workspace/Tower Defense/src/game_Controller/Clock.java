@@ -35,7 +35,7 @@ public class Clock
 	      ring.start();
 	}
 	
-	//Nur in einem anderen Thread ausführen! penis
+	//Nur in einem anderen Thread ausführen!
 	public void spielRing()
 	{
 		
