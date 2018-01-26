@@ -9,23 +9,23 @@ public class Enemy {
 	/**
 	 * 
 	 */
-	public static final Integer TYPE_NORMAL = 1;
+	public static final int TYPE_NORMAL = 1;
 	
-	private Integer posX;
-	private Integer posY;
+	private int posX;
+	private int posY;
 	
-	private Integer type;
-	private Integer level;
+	private int type;
+	private int level;
 	
 	private Double life;
 	private Double speed;
 	
-	private Integer cost;
+	private int cost;
 	
 	/*
 	 * 
 	 */
-	public Enemy(Integer pPosX, Integer pPosY, Integer pType, Integer pLevel) {
+	public Enemy(int pPosX, int pPosY, int pType, int pLevel) {
 		this.posX = pPosX;
 		this.posY = pPosY;
 		this.life = this.calcLife(pType, pLevel);
@@ -38,7 +38,7 @@ public class Enemy {
 	 * @param pLevel
 	 * @return
 	 */
-	private Double calcLife(Integer pType, Integer pLevel) {
+	private Double calcLife(int pType, int pLevel) {
 		Double tmpLife = (pType * 5.0) + (pLevel * 10);
 		return tmpLife;
 	}
@@ -49,24 +49,24 @@ public class Enemy {
 	 * @param pLevel
 	 * @return
 	 */
-	private Double calcSpeed(Integer pType, Integer pLevel) {
+	private Double calcSpeed(int pType, int pLevel) {
 		Double tmpSpeed = pType * 0.5 + pLevel * 0.25;
 		return tmpSpeed;
 	}
 
-	public Integer getPosX() {
+	public int getPosX() {
 		return posX;
 	}
 
-	public void setPosX(Integer posX) {
+	public void setPosX(int posX) {
 		this.posX = posX;
 	}
 
-	public Integer getPosY() {
+	public int getPosY() {
 		return posY;
 	}
 
-	public void setPosY(Integer posY) {
+	public void setPosY(int posY) {
 		this.posY = posY;
 	}
 
@@ -86,27 +86,27 @@ public class Enemy {
 		this.speed = speed;
 	}
 
-	public Integer getCost() {
+	public int getCost() {
 		return cost;
 	}
 
-	public void setCost(Integer cost) {
+	public void setCost(int cost) {
 		this.cost = cost;
 	}
 
-	public Integer getType() {
+	public int getType() {
 		return type;
 	}
 
-	public void setType(Integer type) {
+	public void setType(int type) {
 		this.type = type;
 	}
 
-	public Integer getLevel() {
+	public int getLevel() {
 		return level;
 	}
 
-	public void setLevel(Integer level) {
+	public void setLevel(int level) {
 		this.level = level;
 	}
 	

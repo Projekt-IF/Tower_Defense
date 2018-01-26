@@ -2,29 +2,29 @@ package dump;
 
 public class Spawner {
 	
-	private Integer yPos;
-	private Integer xPos;
+	private int yPos;
+	private int xPos;
 	
 	private Path nextPathTile;
 	
-	public Spawner(Integer pYPos, Integer pXPos) {
+	public Spawner(int pYPos, int pXPos) {
 		this.setyPos(pYPos);
 		this.setxPos(pXPos);
 	}
 
-	public Integer getyPos() {
+	public int getyPos() {
 		return yPos;
 	}
 
-	public void setyPos(Integer yPos) {
+	public void setyPos(int yPos) {
 		this.yPos = yPos;
 	}
 
-	public Integer getxPos() {
+	public int getxPos() {
 		return xPos;
 	}
 
-	public void setxPos(Integer xPos) {
+	public void setxPos(int xPos) {
 		this.xPos = xPos;
 	}
 

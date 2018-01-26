@@ -4,25 +4,25 @@ import envoirement.Tile;
 
 public class Base extends Tile{
 	
-	private Integer xPos;
-	private Integer yPos;
+	private int xPos;
+	private int yPos;
 	
 	private Path previousPathTile;
 	
-	public Base(Integer pYPos, Integer pXPos) {
+	public Base(int pYPos, int pXPos) {
 		super(pYPos,pXPos);
 	}
 	
-	public Integer getyPos() {
+	public int getyPos() {
 		return yPos;
 	}
-	public void setyPos(Integer yPos) {
+	public void setyPos(int yPos) {
 		this.yPos = yPos;
 	}
-	public Integer getxPos() {
+	public int getxPos() {
 		return xPos;
 	}
-	public void setxPos(Integer xPos) {
+	public void setxPos(int xPos) {
 		this.xPos = xPos;
 	}
 

@@ -2,24 +2,24 @@ package objects;
 
 public class Shot {
 	
-	private Integer strength;		//strength of shots
+	private int strength;		//strength of shots
 	private Double speed;			//number of shots in 'time'
 	private Double velocity;		//velocity of shots
 	
 	
-	public Shot(Integer pStrength, Double pSpeed, Double pVelocity)
+	public Shot(int pStrength, Double pSpeed, Double pVelocity)
 	{
 		this.strength=pStrength;
 		this.speed=pSpeed;
 		this.velocity=pVelocity;
 	}
 	
-	public Integer getStrength()				//returns value of 'strength'
+	public int getStrength()				//returns value of 'strength'
 	{
 		return strength;
 	}
 	
-	public void setStrength(Integer strength)	
+	public void setStrength(int strength)	
 	{
 		this.strength=strength;
 	}

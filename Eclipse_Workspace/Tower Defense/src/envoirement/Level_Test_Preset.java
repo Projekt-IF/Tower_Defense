@@ -27,9 +27,12 @@ public class Level_Test_Preset {
 												{'O','O','O','O','O'}};
 	
 	//The Grid's height
-	public static final Integer height = 5;
+	public static final int height = 5;
 	
 	//The Grid's length
-	public static final Integer length = 5;
+	public static final int length = 5;
+	
+	//The Wave Files Name as String
+	public static final String waveFileName = "Wave_Test";
 
 }

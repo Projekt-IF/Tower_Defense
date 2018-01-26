@@ -22,15 +22,15 @@ public class Tile {
 	private Boolean hasNextTile;
 	
 	//The Tiles position in the level
-	private Integer yPos;
-	private Integer xPos;
+	private int yPos;
+	private int xPos;
 	
 	/**
 	 * The Constructor initializes the Tile and gives the position in the level.
 	 * @param pYPos
 	 * @param pXPos
 	 */
-	public Tile(Integer pYPos, Integer pXPos) {
+	public Tile(int pYPos, int pXPos) {
 		this.setStatusOccupied(false);
 		this.setHasNextTile(false);
 		this.yPos = pYPos;
@@ -63,19 +63,19 @@ public class Tile {
 		this.statusOccupied = statusOccupied;
 	}
 
-	public Integer getyPos() {
+	public int getyPos() {
 		return yPos;
 	}
 
-	public void setyPos(Integer yPos) {
+	public void setyPos(int yPos) {
 		this.yPos = yPos;
 	}
 
-	public Integer getxPos() {
+	public int getxPos() {
 		return xPos;
 	}
 
-	public void setxPos(Integer xPos) {
+	public void setxPos(int xPos) {
 		this.xPos = xPos;
 	}
 

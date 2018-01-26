@@ -26,11 +26,11 @@ public class GridCreator {
 	 * @param pLength
 	 * @return
 	 */
-	public Tile[][] presetToGrid(Character[][] preset, Integer pHeight, Integer pLength){
+	public Tile[][] presetToGrid(Character[][] preset, int pHeight, int pLength){
 		Tile[][] grid = new Tile[pHeight][pLength];
 		
-		for(Integer y = 0; y <= pHeight-1; y++) {
-			for(Integer x = 0; x <= pLength-1; x++) {
+		for(int y = 0; y <= pHeight-1; y++) {
+			for(int x = 0; x <= pLength-1; x++) {
 				Tile nT = new Tile(y, x);
 				Character tmp = preset[y][x];
 				switch(tmp.charValue()) {
@@ -70,7 +70,7 @@ public class GridCreator {
 	 * @param pHeight
 	 * @param pLength
 	 */
-	private void pathing(Tile[][] pGrid, Integer pHeight, Integer pLength) {
+	private void pathing(Tile[][] pGrid, int pHeight, int pLength) {
 		Tile current = this.getSpawnerTile();
 		while(current != baseTile) {
 			while((current.getHasNextTile() != true)&&(current != baseTile)) {

@@ -2,28 +2,28 @@ package dump;
 
 public class Path {
 	
-	private Integer yPos;
-	private Integer xPos;
+	private int yPos;
+	private int xPos;
 	
 	private Path nextPathTile;
 	private Path previousPathTile;
 	
 	
-	public Path(Integer pYPos, Integer pXPos) {
+	public Path(int pYPos, int pXPos) {
 		this.setxPos(pYPos);
 		this.setyPos(pXPos);
 	}
 	
-	public Integer getyPos() {
+	public int getyPos() {
 		return yPos;
 	}
-	public void setyPos(Integer yPos) {
+	public void setyPos(int yPos) {
 		this.yPos = yPos;
 	}
-	public Integer getxPos() {
+	public int getxPos() {
 		return xPos;
 	}
-	public void setxPos(Integer xPos) {
+	public void setxPos(int xPos) {
 		this.xPos = xPos;
 	}
 

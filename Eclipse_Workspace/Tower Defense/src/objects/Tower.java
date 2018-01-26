@@ -2,52 +2,52 @@ package objects;
 
 public class Tower {
 
-	private Integer posX;
-	private Integer posY;
+	private int posX;
+	private int posY;
 	
-	private Integer cost;
+	private int cost;
 	
 	private Shot shot;
 	
-	public Tower(Integer pPosX, Integer pPosY, Integer pStrength, Double pSpeed, Double pVelocity) {
+	public Tower(int pPosX, int pPosY, int pStrength, Double pSpeed, Double pVelocity) {
 		this.posX = pPosX;
 		this.posY = pPosY;
 		this.shot= new Shot(pStrength, pSpeed, pVelocity);
 	}
 	
-	public Integer getPosX() {
+	public int getPosX() {
 		return posX;
 	}
 
-	public void setPosX(Integer posX) {
+	public void setPosX(int posX) {
 		this.posX = posX;
 	}
 	
-	public Integer getPosY() {
+	public int getPosY() {
 		return posY;
 	}
 
-	public void setPosY(Integer posY) {
+	public void setPosY(int posY) {
 		this.posY = posY;
 	}
 	
-	public Integer getCost() {
+	public int getCost() {
 		return cost;
 	}
 
-	public void setCost(Integer cost) {
+	public void setCost(int cost) {
 		this.cost = cost;
 	}
 	
 	
-	public void upgradeShot(Integer strength, Double speed, Double velocity)
+	public void upgradeShot(int strength, Double speed, Double velocity)
 	{
 		this.shot.setStrength(strength);
 		this.shot.setSpeed(speed);
 		this.shot.setVelocity(velocity);
 	}
 	
-	public void degradeShot(Integer strength, Double speed, Double velocity)
+	public void degradeShot(int strength, Double speed, Double velocity)
 	{
 		this.shot.setStrength(strength);
 		this.shot.setSpeed(speed);

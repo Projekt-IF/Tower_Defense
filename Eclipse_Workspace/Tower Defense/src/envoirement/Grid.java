@@ -6,8 +6,8 @@ import envoirement.Tile;
  * Therefore the Map is represented as an Array.
  */
 public class Grid {
-	private Integer height;
-	private Integer length;
+	private int height;
+	private int length;
 	
 	private Tile[][] gridLayer;
 
@@ -57,8 +57,8 @@ public class Grid {
 	}
 	
 	private void printGrid() {
-		for(Integer y = 0; y <= height-1; y++) {
-			for(Integer x = 0; x <= length-1; x++) {
+		for(int y = 0; y <= height-1; y++) {
+			for(int x = 0; x <= length-1; x++) {
 				System.out.print(this.gridLayer[y][x].getType() + " ");				
 			}
 			System.out.println();

@@ -35,9 +35,12 @@ public class Level_2_Preset {
 												{'P','P','P','P','P','P','P','P','S'}};
 	
 	//The Grid's height
-	public static final Integer height = 9;
+	public static final int height = 9;
 	
 	//The Grid's length
-	public static final Integer length = 9;
+	public static final int length = 9;
+	
+	//The Wave Files Name as String
+	public static final String waveFileName = "Wave_2";
 
 }
