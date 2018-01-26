@@ -31,24 +31,10 @@ public class Enemy_Controller {
 		return e;
 	}
 	
-	/**
-	 * 
-	 * @param e
-	 */
-	public void moveEnemy(Enemy e) {
-		int currentXPos = e.getPosX();
-		int currentYPos = e.getPosY();
-		e.setPosX(grid.getGridLayer()[currentYPos][currentXPos].getNextTile().getxPos());
-		e.setPosY(grid.getGridLayer()[currentYPos][currentXPos].getNextTile().getyPos());
-	}
 	
-	/**
-	 * 
-	 * @param e
-	 * @return
-	 */
-	public Boolean isMovable(Enemy e) {
-		return grid.getGridLayer()[e.getPosY()][e.getPosX()].getHasNextTile();
+	public void moveEnemy(Enemy e) {
+		e.setPosX(grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getxPos());
+		e.setPosY(grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getyPos());
 	}
 
 	public Grid getGrid() {
@@ -66,4 +52,6 @@ public class Enemy_Controller {
 	public void setSpawnerTile(Tile spawnerTile) {
 		this.spawnerTile = spawnerTile;
 	}
+	
+	
 }

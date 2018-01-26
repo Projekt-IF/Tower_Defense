@@ -41,7 +41,6 @@ public class WaveReader {
 			String input = "";
 
 			while ((input = br.readLine()) != null) {
-				System.out.println(input);
 				if (!input.startsWith(WaveReader.COMMENT_START)) {
 					processFileContent(input);
 				}
@@ -59,17 +58,13 @@ public class WaveReader {
 	 * format
 	 */
 	public void processFileContent(String pInput) {
-		String regex = "(\\d+)\\s*,(\\d+)\\s*,(\\d+)\\s*;";
+		String regex = "\\D*(\\d+)\\D*,\\D*(\\d+)\\D*,\\D*(\\d+)\\D*;\\D*";
 		Pattern pattern = Pattern.compile(regex);
-		System.out.println(pattern.toString());
 		Matcher matcher = pattern.matcher(pInput);
 		if (matcher.matches()) {
 			int numberOfEnemies = Integer.valueOf(matcher.group(1));
-			System.out.println(numberOfEnemies);
 			int typeOfEnemies = Integer.valueOf(matcher.group(2));
-			System.out.println(typeOfEnemies);
 			int levelOfEnemies = Integer.valueOf(matcher.group(3));
-			System.out.println(levelOfEnemies);
 			Wave nW = new Wave(numberOfEnemies, typeOfEnemies, levelOfEnemies);
 			this.waveList.add(nW);
 		}
