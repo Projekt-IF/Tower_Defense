@@ -24,17 +24,17 @@ public class Game_Controller {
 		currentLevel = "One";
 		Grid grid = new Grid("One");
 		eC.setGrid(grid);
+		eC.setSpawnerTile(grid.getSpawnerTile());
 	}
 	
 	public static void main(String args[]) {
-		
-		Grid g = new Grid("test");
 		Wave_Controller wC = new Wave_Controller();
 		Enemy_Controller eC = new Enemy_Controller();
-		eC.setGrid(g);
-		eC.setSpawnerTile(g.getSpawnerTile());
 		Game_Controller gC = new Game_Controller(wC, eC);
 		Enemy e = eC.spawnEnemy(1, 1);
+		while(true) {
+			break;
+		}
 		System.out.println("PosX: " + e.getPosX() + " ; PosY: " + e.getPosY());
 		eC.moveEnemy(e);
 		System.out.println("PosX: " + e.getPosX() + " ; PosY: " + e.getPosY());
