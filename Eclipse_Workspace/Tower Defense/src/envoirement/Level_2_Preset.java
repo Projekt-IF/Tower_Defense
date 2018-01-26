@@ -24,7 +24,7 @@ public class Level_2_Preset {
 	 * 				 		*/
 	
 	//The Array represents the type of the Tiles in the Grid
-	public static final Character[][] layout = {{'B','P','P','P','P','P','P','P','P'},
+	public static final Character[][] LAYOUT = {{'B','P','P','P','P','P','P','P','P'},
 												{'O','O','O','O','O','O','O','O','P'},
 												{'P','P','P','P','P','P','P','P','P'},
 												{'P','O','O','O','O','O','O','O','O'},
@@ -35,12 +35,12 @@ public class Level_2_Preset {
 												{'P','P','P','P','P','P','P','P','S'}};
 	
 	//The Grid's height
-	public static final int height = 9;
+	public static final int HEIGHT = 9;
 	
 	//The Grid's length
-	public static final int length = 9;
+	public static final int LENGTH = 9;
 	
 	//The Wave Files Name as String
-	public static final String waveFileName = "Wave_2";
+	public static final String WAVEFILENAME = "Wave_2";
 
 }

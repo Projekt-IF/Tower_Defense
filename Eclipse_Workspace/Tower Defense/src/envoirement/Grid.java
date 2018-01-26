@@ -6,8 +6,8 @@ import envoirement.Tile;
  * Therefore the Map is represented as an Array.
  */
 public class Grid {
-	private int height;
-	private int length;
+	private int HEIGHT;
+	private int LENGTH;
 	
 	private Tile[][] gridLayer;
 
@@ -36,29 +36,29 @@ public class Grid {
 	 */
 	private void loadLevel(String level) {
 		if(level.equalsIgnoreCase("TEST")) {
-			this.gridLayer = gc.presetToGrid(Level_Test_Preset.layout, Level_Test_Preset.height, Level_Test_Preset.length);
-			this.height = Level_Test_Preset.height;
-			this.length = Level_Test_Preset.length;
+			this.gridLayer = gc.presetToGrid(Level_Test_Preset.LAYOUT, Level_Test_Preset.HEIGHT, Level_Test_Preset.LENGTH);
+			this.HEIGHT = Level_Test_Preset.HEIGHT;
+			this.LENGTH = Level_Test_Preset.LENGTH;
 			this.setBaseTile(gc.getBaseTile());
 			this.setSpawnerTile(gc.getSpawnerTile());
 		} else if(level.equalsIgnoreCase("ONE")) {
-			this.gridLayer = gc.presetToGrid(Level_1_Preset.layout, Level_1_Preset.height, Level_1_Preset.length);
-			this.height = Level_1_Preset.height;
-			this.length = Level_1_Preset.length;
+			this.gridLayer = gc.presetToGrid(Level_1_Preset.LAYOUT, Level_1_Preset.HEIGHT, Level_1_Preset.LENGTH);
+			this.HEIGHT = Level_1_Preset.HEIGHT;
+			this.LENGTH = Level_1_Preset.LENGTH;
 			this.setBaseTile(gc.getBaseTile());
 			this.setSpawnerTile(gc.getSpawnerTile());
 		} else if(level.equalsIgnoreCase("TWO")) {
-			this.gridLayer = gc.presetToGrid(Level_2_Preset.layout, Level_2_Preset.height, Level_2_Preset.length);
-			this.height = Level_2_Preset.height;
-			this.length = Level_2_Preset.length;
+			this.gridLayer = gc.presetToGrid(Level_2_Preset.LAYOUT, Level_2_Preset.HEIGHT, Level_2_Preset.LENGTH);
+			this.HEIGHT = Level_2_Preset.HEIGHT;
+			this.LENGTH = Level_2_Preset.LENGTH;
 			this.setBaseTile(gc.getBaseTile());
 			this.setSpawnerTile(gc.getSpawnerTile());
 		}
 	}
 	
 	private void printGrid() {
-		for(int y = 0; y <= height-1; y++) {
-			for(int x = 0; x <= length-1; x++) {
+		for(int y = 0; y <= HEIGHT-1; y++) {
+			for(int x = 0; x <= LENGTH-1; x++) {
 				System.out.print(this.gridLayer[y][x].getType() + " ");				
 			}
 			System.out.println();

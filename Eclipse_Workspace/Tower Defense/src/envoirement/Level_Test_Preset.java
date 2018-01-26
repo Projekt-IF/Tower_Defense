@@ -20,19 +20,19 @@ public class Level_Test_Preset {
 	 * 				 		*/
 	
 	//The Array represents the type of the Tiles in the Grid
-	public static final Character[][] layout = {{'O','O','O','O','O'},
+	public static final Character[][] LAYOUT = {{'O','O','O','O','O'},
 												{'O','O','O','O','O'},
 												{'B','P','P','P','S'},
 												{'O','O','O','O','O'},
 												{'O','O','O','O','O'}};
 	
 	//The Grid's height
-	public static final int height = 5;
+	public static final int HEIGHT = 5;
 	
 	//The Grid's length
-	public static final int length = 5;
+	public static final int LENGTH = 5;
 	
 	//The Wave Files Name as String
-	public static final String waveFileName = "Wave_Test";
+	public static final String WAVEFILeNAME = "Wave_Test";
 
 }

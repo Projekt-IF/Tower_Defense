@@ -20,19 +20,19 @@ public class Level_1_Preset {
 	 * 				 		*/
 	
 	//The Array represents the type of the Tiles in the Grid
-	public static final Character[][] layout = {{'O','O','O','O','O'},
+	public static final Character[][] LAYOUT = {{'O','O','O','O','O'},
 												{'O','P','P','P','O'},
 												{'B','P','O','P','O'},
 												{'O','O','O','P','S'},
 												{'O','O','O','O','O'}};
 	
 	//The Grid's height
-	public static final int height = 5;
+	public static final int HEIGHT = 5;
 	
 	//The Grid's length
-	public static final int length = 5;
+	public static final int LENGTH = 5;
 	
 	//The Wave Files Name as String
-	public static final String waveFileName = "Wave_1";
+	public static final String WAVEFILENAME = "Wave_1";
 
 }
