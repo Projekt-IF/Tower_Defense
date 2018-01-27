@@ -14,6 +14,8 @@ public class Game_Controller {
 	private Enemy_Controller eC;
 
 	private Wave_Controller wC;
+	
+	private Level_Controller lC;
 
 	public Game_Controller(Wave_Controller wC, Enemy_Controller eC) {
 		this.wC = wC;
@@ -26,7 +28,7 @@ public class Game_Controller {
 	 */
 	public void iniciateGame() {
 		currentLevel = "One";
-		Grid grid = new Grid("One");
+		Grid grid = lC.changeLevel(currentLevel);
 		eC.setGrid(grid);
 		eC.setSpawnerTile(grid.getSpawnerTile());
 	}
@@ -36,6 +38,40 @@ public class Game_Controller {
 			Enemy e = new Enemy(eC.getSpawnerTile().getxPos(), eC.getSpawnerTile().getyPos(), pType, pLevel);
 			this.enemyList.add(e);
 		}
+	}
+	
+	public Grid changeLevel(String pLevelName) {
+		return lC.changeLevel(pLevelName);
+	}
+	
+	public Boolean isEnemyListEmpty() {
+		if(enemyList.isEmpty()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public void removeEnemyFromList(Enemy pKilledEnemy) {
+		if(!enemyList.isEmpty()) {
+			for (int i = 0;i < enemyList.size();i++) {
+				if(enemyList.get(i).equals(pKilledEnemy)) {
+					enemyList.remove(pKilledEnemy);
+				}
+			}
+		}
+	}
+	
+	public void checkEnemiesLife() {
+		for (int i = 0;i < enemyList.size();i++) {
+			if(enemyList.get(i).getLife() <= 0) {
+				removeEnemyFromList(enemyList.get(i));
+			}
+		}
+	}
+	
+	public Boolean isWaveListEmpty() {
+		return wC.getWaveList().isEmpty();
 	}
 
 	public ArrayList<Enemy> getEnemyList() {
