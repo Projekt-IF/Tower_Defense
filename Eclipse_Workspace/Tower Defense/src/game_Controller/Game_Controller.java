@@ -17,9 +17,10 @@ public class Game_Controller {
 	
 	private Level_Controller lC;
 
-	public Game_Controller(Wave_Controller wC, Enemy_Controller eC) {
-		this.wC = wC;
-		this.eC = eC;
+	public Game_Controller(Wave_Controller pWC, Enemy_Controller pEC, Level_Controller pLC) {
+		this.wC = pWC;
+		this.eC = pEC;
+		this.lC = pLC;
 		iniciateGame();
 	}
 
@@ -85,7 +86,8 @@ public class Game_Controller {
 	public static void main(String args[]) {
 		Wave_Controller wC = new Wave_Controller();
 		Enemy_Controller eC = new Enemy_Controller();
-		Game_Controller gC = new Game_Controller(wC, eC);
+		Level_Controller lC = new Level_Controller();
+		Game_Controller gC = new Game_Controller(wC, eC, lC);
 		ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
 		wC.loadWaves("src/Waves/Wave_1.txt");
 		while(!wC.getWaveList().isEmpty()) {
