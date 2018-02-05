@@ -56,6 +56,7 @@ public class Enemy_Controller {
 	}
 
 	public void setGrid(Grid grid) {
+		this.spawnerTile = grid.getSpawnerTile();
 		this.grid = grid;
 	}
 
