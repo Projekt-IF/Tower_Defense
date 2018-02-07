@@ -60,6 +60,7 @@ public class Game_Controller {
 		if (!enemyList.isEmpty()) {
 			for (int i = 0; i < enemyList.size(); i++) {
 				if (enemyList.get(i).equals(pKilledEnemy)) {
+					System.out.println(i);
 					enemyList.remove(pKilledEnemy);
 				}
 			}
@@ -106,10 +107,14 @@ public class Game_Controller {
 				enemyList = gC.getEnemyList();
 				for (int o = 0; o < enemyList.size(); o++) {
 					Enemy current = enemyList.get(o);
-					System.out.println("test " + enemyList.size() + eC.isMovable(current));
+					System.out.println("test " + enemyList.size() + " " + eC.isMovable(current) + " " + o);
 					if (eC.isMovable(current)) {
 						System.out.println("Num: " + enemyList.indexOf(current) + " PosX: " + current.getPosX()
-								+ " ; PosY: " + current.getPosY());
+								+ " ; PosY: " + current.getPosY() + " Life: " + current.getLife());
+						if(current.getLife() >= 1) {
+							current.setLife(current.getLife() - 1);
+						}
+						gC.checkEnemiesLife();
 						eC.moveEnemy(current);
 					} else {
 						System.out.println("Enemy " + enemyList.size() + " reached the Base!" + "  On Map: "
@@ -120,10 +125,14 @@ public class Game_Controller {
 				while (!enemyList.isEmpty()) {
 					for (int o = 0; o < enemyList.size(); o++) {
 						Enemy current = enemyList.get(o);
-						System.out.println("move " + enemyList.size() + eC.isMovable(current));
+						System.out.println("move " + enemyList.size() + " " + eC.isMovable(current) + " " + o);
 						if (eC.isMovable(current)) {
 							System.out.println("Num: " + enemyList.indexOf(current) + " PosX: " + current.getPosX()
-									+ " ; PosY: " + current.getPosY());
+									+ " ; PosY: " + current.getPosY() + " Life: " + current.getLife());
+							if(current.getLife() >= 1) {
+								current.setLife(current.getLife() - 1);
+							}
+							gC.checkEnemiesLife();
 							eC.moveEnemy(current);
 						} else {
 							System.out.println("Enemy " + enemyList.size() + " reached the Base!" + "  On Map: "
