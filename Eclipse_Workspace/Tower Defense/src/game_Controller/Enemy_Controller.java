@@ -1,5 +1,7 @@
 package game_Controller;
 
+import java.util.ArrayList;
+
 import envoirement.Grid;
 import envoirement.Tile;
 import objects.Enemy;
@@ -12,6 +14,8 @@ public class Enemy_Controller {
 	private Grid grid;
 	
 	private Tile spawnerTile;
+	
+	private ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
 	
 	/**
 	 * 
@@ -66,5 +70,19 @@ public class Enemy_Controller {
 
 	public void setSpawnerTile(Tile spawnerTile) {
 		this.spawnerTile = spawnerTile;
+	}
+
+	/**
+	 * @return the enemyList
+	 */
+	public ArrayList<Enemy> getEnemyList() {
+		return enemyList;
+	}
+
+	/**
+	 * @param enemyList the enemyList to set
+	 */
+	public void setEnemyList(ArrayList<Enemy> enemyList) {
+		this.enemyList = enemyList;
 	}
 }
