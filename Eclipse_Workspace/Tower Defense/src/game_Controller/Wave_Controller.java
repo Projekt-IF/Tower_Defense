@@ -13,11 +13,13 @@ public class Wave_Controller {
 
 	private ArrayList<Wave> waveList = new ArrayList<Wave>();
 
-	public Wave_Controller() {
+	public Wave_Controller(ArrayList<Wave> pWaveList) {
 		wR = new WaveReader();
+		this.waveList = pWaveList;
 	}
 
 	public void loadWaves(String pFileName) {
+		clearWaveList();
 		System.out.println("Loading Waves");
 		waveList = wR.loadWaveFile(pFileName);
 		setCurrentWave(waveList.get(0));
@@ -29,6 +31,10 @@ public class Wave_Controller {
 		if(!waveList.isEmpty()) {
 			currentWave = waveList.get(0);
 		}
+	}
+	
+	public void clearWaveList() {
+		waveList.clear();
 	}
 	
 	public Wave getCurrentWave() {
@@ -54,11 +60,4 @@ public class Wave_Controller {
 			System.out.println("Number of Enemies: " + current.getEnemyNumber() + " Level: " + current.getEnemyLevel() + " Type: " + current.getEnemyType());
 		}
 	}
-
-	public static void main(String args[]) {
-		Wave_Controller wC = new Wave_Controller();
-		wC.loadWaves("src/Waves/Wave_1.txt");
-		wC.readWaves();
-	}
-
 }

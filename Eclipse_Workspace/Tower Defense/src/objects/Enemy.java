@@ -31,6 +31,15 @@ public class Enemy {
 		this.life = this.calcLife(pType, pLevel);
 		this.speed = this.calcSpeed(pType, pLevel);
 	}
+	
+	
+	public Boolean checkAlife() {
+		if(life <= 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 	/**
 	 * 

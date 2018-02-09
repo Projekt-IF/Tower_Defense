@@ -4,6 +4,7 @@ package game_Controller;
 //(bps = Bilder pro Sekunde, Part = Thread, X)
 
 public class Clock {
+	@SuppressWarnings("unused")
 	private int bps = 60;
 	private int bZähler = 0;
 	private boolean läuft = true; // Müssen geregelt werden.

@@ -26,7 +26,7 @@ public class Grid {
 		this.gridLayer = null;
 		loadLevel(level);
 	}
-	
+
 	/**
 	 * The loadLevel Method loads the Specialized level and initializes the Class variables 
 	 * to the grid
@@ -65,7 +65,7 @@ public class Grid {
 		}
 	}
 	
-	private void printPath() {
+	public void printPath() {
 		Tile current = this.spawnerTile;
 		while(current.getNextTile() != null) {
 			System.out.print("(" + current.getxPos() + "/" + current.getyPos() + ")");

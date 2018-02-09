@@ -6,8 +6,8 @@ public class Level_Controller {
 	
 	private String currentLevel;
 	
-	public Level_Controller() {
-		
+	public Level_Controller(String pCurrentLevel) {
+		this.currentLevel = pCurrentLevel;
 	}
 
 	public Grid changeLevel(String pLevelName) {

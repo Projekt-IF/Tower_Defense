@@ -20,8 +20,8 @@ public class Enemy_Controller {
 	/**
 	 * 
 	 */
-	public Enemy_Controller() {
-		
+	public Enemy_Controller(ArrayList<Enemy> pEnemyList) {
+		this.enemyList = pEnemyList;
 	}
 	
 	/**
@@ -53,6 +53,10 @@ public class Enemy_Controller {
 	 */
 	public Boolean isMovable(Enemy e) {
 		return grid.getGridLayer()[e.getPosY()][e.getPosX()].getHasNextTile();
+	}
+	
+	public void clearEnemyList() {
+		enemyList.clear();
 	}
 
 	public Grid getGrid() {

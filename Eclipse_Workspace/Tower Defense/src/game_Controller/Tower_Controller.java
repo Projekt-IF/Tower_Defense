@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import envoirement.Grid;
 import envoirement.Tile;
+import objects.Enemy;
 import objects.Tower;
 
 public class Tower_Controller {
@@ -12,15 +13,18 @@ public class Tower_Controller {
 	
 	private ArrayList<Tower> towerList = new ArrayList<Tower>();
 	
-	public Tower_Controller() {
+	public Tower_Controller(ArrayList<Tower> pTowerList) {
 //		TODO:
+		this.towerList = pTowerList;
 	}
 	
 	
-	public Tower setTower(int PPosX, int PPosY, int pRange, int pStrength, double pSpeed, double pVelocity) {
+	public void setTowerPosition(int pPosX, int pPosY,Tower pTower) {
 //		TODO: Testing if the tower is placed on a free Tile
-		grid.getGridLayer()[PPosY][PPosX].setType(Tile.TYPE_TOWER);
-		return new Tower(PPosX, PPosY, pRange, pStrength, pSpeed, pVelocity);
+		grid.getGridLayer()[pTower.getPosY()][pTower.getPosX()].setType(Tile.TYPE_UNOC);
+		grid.getGridLayer()[pPosY][pPosX].setType(Tile.TYPE_TOWER);
+		pTower.setPosX(pPosX);
+		pTower.setPosY(pPosY);
 	}
 	
 	
@@ -29,8 +33,10 @@ public class Tower_Controller {
 	}
 	
 	
-	public void createTower() {
+	public Tower createTower(int pPosX, int pPosY, int pRange, int pStrength, double pSpeed, double pVelocity) {
 //		TODO:
+		grid.getGridLayer()[pPosY][pPosX].setType(Tile.TYPE_TOWER);
+		return new Tower(pPosX, pPosY, pRange, pStrength, pSpeed, pVelocity);
 	}
 	
 	
@@ -39,7 +45,32 @@ public class Tower_Controller {
 	}
 	
 	
-	public void checkTower(int PPosX, int PPosY) {
+	public Boolean checkTowers(Enemy pEnemy) {
+//		TODO:
+		for(int a = 0; a < towerList.size(); a++) {
+			//Check Tiles In Range if Enemy on them
+			Tower current = towerList.get(a);
+			System.out.println(towerList.size() + "  " + a);
+			for(int y = -current.getRange(); y <= current.getRange(); y++) {
+				for(int x = -current.getRange(); x <= current.getRange(); x++) {
+					int currentY = y + current.getPosY();
+					int currentX = x + current.getPosX();
+					if((currentY >= 0)&&(currentY < grid.getLength())) {
+						if((currentX >= 0)&&(currentX < grid.getLength())) {
+//							System.out.println(current + "Test  Y: " + (y + current.getPosY()) + " X: " + (x + current.getPosX()));  
+							if((pEnemy.getPosY() == currentY)&&(pEnemy.getPosX() == currentX)) {
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	public void checkRange() {
+//		TODO:
 		
 	}
 	
@@ -47,8 +78,11 @@ public class Tower_Controller {
 	public void upgradeTower() {
 //		TODO:
 	}
-
-
+	
+	public void clearTowerList() {
+		towerList.clear();
+	}
+	
 	public Grid getGrid() {
 		return grid;
 	}

@@ -1,5 +1,9 @@
 package objects;
 
+import java.util.ArrayList;
+
+import envoirement.Tile;
+
 public class Tower {
 
 	private int posX;
@@ -8,6 +12,7 @@ public class Tower {
 	private int cost;
 	
 	private int range;
+	private ArrayList<Tile> tilesInRange = new ArrayList<Tile>();
 	
 	private Shot shot;
 	
@@ -18,6 +23,25 @@ public class Tower {
 		this.shot= new Shot(pStrength, pSpeed, pVelocity);
 	}
 	
+	public void upgradeShot(int strength, double speed, double velocity)
+	{
+		this.shot.setStrength(strength);
+		this.shot.setSpeed(speed);
+		this.shot.setVelocity(velocity);
+	}
+
+	public void degradeShot(int strength, double speed, double velocity)
+	{
+		this.shot.setStrength(strength);
+		this.shot.setSpeed(speed);
+		this.shot.setVelocity(velocity);
+	}
+
+	public void shoot()
+	{
+		
+	}
+
 	public int getPosX() {
 		return posX;
 	}
@@ -57,23 +81,18 @@ public class Tower {
 		this.range = range;
 	}
 
-	public void upgradeShot(int strength, double speed, double velocity)
-	{
-		this.shot.setStrength(strength);
-		this.shot.setSpeed(speed);
-		this.shot.setVelocity(velocity);
+	/**
+	 * @return the tilesInRange
+	 */
+	public ArrayList<Tile> getTilesInRange() {
+		return tilesInRange;
 	}
-	
-	public void degradeShot(int strength, double speed, double velocity)
-	{
-		this.shot.setStrength(strength);
-		this.shot.setSpeed(speed);
-		this.shot.setVelocity(velocity);
-	}
-	
-	public void shoot()
-	{
-		
+
+	/**
+	 * @param tilesInRange the tilesInRange to set
+	 */
+	public void setTilesInRange(ArrayList<Tile> tilesInRange) {
+		this.tilesInRange = tilesInRange;
 	}
 	
 	

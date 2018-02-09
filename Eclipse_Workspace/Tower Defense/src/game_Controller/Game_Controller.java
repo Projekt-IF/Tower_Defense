@@ -32,12 +32,21 @@ public class Game_Controller {
 	
 	private Tile baseTile;
 
-	public Game_Controller(Wave_Controller pWC, Enemy_Controller pEC, Level_Controller pLC, Tower_Controller pTC) {
-		this.wC = pWC;
-		this.eC = pEC;
-		this.lC = pLC;
-		this.tC = pTC;
-		iniciateGame();
+//	public Game_Controller(Wave_Controller pWC, Enemy_Controller pEC, Level_Controller pLC, Tower_Controller pTC) {
+	public Game_Controller() {	
+//		this.wC = pWC;
+//		this.eC = pEC;
+//		this.lC = pLC;
+//		this.tC = pTC;
+		this.currentLevel = "";
+		this.enemyList = new ArrayList<Enemy>();
+		this.towerList = new ArrayList<Tower>();
+		this.waveList = new ArrayList<Wave>();
+		this.lC = new Level_Controller(this.currentLevel);
+		this.wC = new Wave_Controller(this.waveList);
+		this.eC = new Enemy_Controller(this.enemyList);
+		this.tC = new Tower_Controller(this.towerList);
+//		iniciateGame();
 	}
 
 	/**
@@ -45,10 +54,10 @@ public class Game_Controller {
 	 */
 	public void iniciateGame() {
 		//TODO: These lines have to be deleted and instead the globalGrid has to be set while initialising the changeLevel
-		currentLevel = "One";
-		Grid grid = changeLevel(currentLevel);
-		grid.printGrid();
-		this.setGlobalGrid(grid);
+		currentLevel = "test";
+		changeLevel(currentLevel);
+//		getGlobalGrid().printGrid();
+		updateGame();
 	}
 
 	public void createWave(int pNumber, int pType, int pLevel) {
@@ -58,11 +67,15 @@ public class Game_Controller {
 			System.out.println(e.getPosX() + " " + e.getPosY());
 			this.enemyList.add(e);
 		}
+		updateGame();
 	}
 
-	public Grid changeLevel(String pLevelName) {
+	public void changeLevel(String pLevelName) {
 		this.currentLevel = pLevelName;
-		return lC.changeLevel(pLevelName);
+		setGlobalGrid(this.lC.changeLevel(pLevelName));
+		this.spawnerTile = getGlobalGrid().getSpawnerTile();
+		this.baseTile = getGlobalGrid().getBaseTile();
+		updateGame();
 	}
 
 	public void removeEnemyFromList(Enemy pKilledEnemy) {
@@ -73,6 +86,7 @@ public class Game_Controller {
 				}
 			}
 		}
+		updateGame();
 	}
 
 	public void checkEnemiesLife() {
@@ -187,82 +201,155 @@ public class Game_Controller {
 		this.waveList = waveList;
 	}
 
+	public Enemy_Controller getEnemyController() {
+		return eC;
+	}
+
+	public void setEnemyController(Enemy_Controller eC) {
+		this.eC = eC;
+	}
+
+	public Wave_Controller getWaveController() {
+		return wC;
+	}
+
+	public void setWaveController(Wave_Controller wC) {
+		this.wC = wC;
+	}
+
+	public Level_Controller getLevelController() {
+		return lC;
+	}
+
+	public void setLevelController(Level_Controller lC) {
+		this.lC = lC;
+	}
+
+	public Tower_Controller getTowerController() {
+		return tC;
+	}
+
+	public void setTowerController(Tower_Controller tC) {
+		this.tC = tC;
+	}
+
 	public static void main(String args[]) {
-		Wave_Controller wC = new Wave_Controller();
-		Enemy_Controller eC = new Enemy_Controller();
-		Level_Controller lC = new Level_Controller();
-		Tower_Controller tC = new Tower_Controller();
-		Game_Controller gC = new Game_Controller(wC, eC, lC, tC);
-		ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
+//		Wave_Controller wC = new Wave_Controller();
+//		Enemy_Controller eC = new Enemy_Controller();
+//		Level_Controller lC = new Level_Controller();
+//		Tower_Controller tC = new Tower_Controller();
+		Game_Controller gC = new Game_Controller();
+//		ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
 		String[] waves = new String[3];
-		waves[0] = "src/Waves/Wave_1.txt";
-		waves[1] = "src/Waves/Wave_Test.txt";
+		waves[0] = "src/Waves/Wave_Test.txt";
+		waves[1] = "src/Waves/Wave_1.txt";
 		waves[2] = "src/Waves/Wave_2.txt";
+	//Setting the Grid
+		gC.iniciateGame();
 		for (int a = 0; a < waves.length; a++) {
-			tC.setTower( 0, 1, 1, 5, 5, 5);;
-			eC.getGrid().printGrid();
-			System.out.println("Changed Level to: " + gC.currentLevel);
-			wC.loadWaves(waves[a]);
-			wC.readWaves();
-			while (!wC.getWaveList().isEmpty()) {
-				gC.createWave(wC.getCurrentWave().getEnemyNumber() - 1, wC.getCurrentWave().getEnemyType(),
-						wC.getCurrentWave().getEnemyLevel());
-				enemyList = gC.getEnemyList();
-				for (int o = 0; o < enemyList.size(); o++) {
-					Enemy current = enemyList.get(o);
-					System.out.println("test " + enemyList.size() + " " + eC.isMovable(current) + " " + o);
-					if (eC.isMovable(current)) {
-						System.out.println("Num: " + enemyList.indexOf(current) + " PosX: " + current.getPosX()
-								+ " ; PosY: " + current.getPosY() + " Life: " + current.getLife());
-						if(current.getLife() >= 2) {
-							for(int h = 0; h <=gC.getGlobalGrid().getGridLayer().length; h++) {
-								if(true) {
-									
-								}
-//								c
+	//Setting up tower
+			gC.getTowerController().clearTowerList();
+			gC.getTowerList().add(gC.getTowerController().createTower(2, 1, 1, 5, 5, 5));
+//			gC.getTowerList().add(gC.getTowerController().createTower(0, 1, 1, 5, 5, 5));
+	//Loading Waves
+			System.out.println(waves[a]);
+			System.out.println(gC.getWaveList() + "  " + gC.getWaveController().getWaveList());
+			System.out.println(gC.getEnemyList() + "  " + gC.getEnemyController().getEnemyList());
+			System.out.println(gC.getWaveList().size() + "  " + gC.getWaveController().getWaveList().size());
+			gC.getWaveController().loadWaves(waves[a]);
+			System.out.println(gC.getWaveList().size() + "  " + gC.getWaveController().getWaveList().size());
+	//Go Through Wave List
+			while (!gC.getWaveController().getWaveList().isEmpty()) {
+	//Create Wave
+				gC.createWave(gC.getWaveController().getCurrentWave().getEnemyNumber() - 1, gC.getWaveController().getCurrentWave().getEnemyType(), gC.getWaveController().getCurrentWave().getEnemyLevel());
+	//Go Though Enemies
+				for (int o = 0; o < gC.getEnemyList().size(); o++) {
+					Enemy current = gC.getEnemyList().get(o);
+					if (gC.getEnemyController().isMovable(current)) {
+						if(current.checkAlife()) {
+	//If Tower in Range
+//							 TODO:
+							if(gC.getTowerController().checkTowers(current)) {
+	//Damage the Enemy
+								System.out.println("Enemy Here");
 							}
-//							current.setLife(current.getLife() - 1);
-						}
-						gC.checkEnemiesLife();
-						eC.moveEnemy(current);
-					} else {
-						System.out.println("Enemy " + enemyList.size() + " reached the Base!" + "  On Map: "
-								+ waves[a].toString());
-						enemyList.remove(current);
-					}
-				}
-				while (!enemyList.isEmpty()) {
-					for (int o = 0; o < enemyList.size(); o++) {
-						Enemy current = enemyList.get(o);
-						System.out.println("move " + enemyList.size() + " " + eC.isMovable(current) + " " + o);
-						if (eC.isMovable(current)) {
-							System.out.println("Num: " + enemyList.indexOf(current) + " PosX: " + current.getPosX()
-									+ " ; PosY: " + current.getPosY() + " Life: " + current.getLife());
-							if(current.getLife() >= 2) {
-//								current.setLife(current.getLife() - 1);
-							}
-							gC.checkEnemiesLife();
-							eC.moveEnemy(current);
-						} else {
-							System.out.println("Enemy " + enemyList.size() + " reached the Base!" + "  On Map: "
-									+ waves[a].toString());
-							enemyList.remove(current);
+	//Move The Enemy
 						}
 					}
 				}
-				if (!wC.getWaveList().isEmpty()) {
-					wC.setNextWave();
-				}
 			}
-			if (waves[a].toString().contains("1")) {
-				eC.setGrid(gC.changeLevel("test"));
-				tC.setGrid(gC.changeLevel("test"));
-				eC.getGrid().printGrid();
-			} else if (waves[a].toString().contains("Test")) {
-				eC.setGrid(gC.changeLevel("two"));
-				tC.setGrid(gC.changeLevel("two"));
-				eC.getGrid().printGrid();
-			}
+			
+	//Set new Level
+			
+			
+			
+			
+			
+			
+//			tC.setTower( 0, 1, 1, 5, 5, 5);;
+////		eC.getGrid().printGrid();
+//			System.out.println("Changed Level to: " + gC.currentLevel);
+//			wC.loadWaves(waves[a]);
+//			wC.readWaves();
+//			while (!wC.getWaveList().isEmpty()) {
+//				gC.createWave(wC.getCurrentWave().getEnemyNumber() - 1, wC.getCurrentWave().getEnemyType(),
+//						wC.getCurrentWave().getEnemyLevel());
+//				enemyList = gC.getEnemyList();
+//				for (int o = 0; o < enemyList.size(); o++) {
+//					Enemy current = enemyList.get(o);
+//					System.out.println("test " + enemyList.size() + " " + eC.isMovable(current) + " " + o);
+//					if (eC.isMovable(current)) {
+//						System.out.println("Num: " + enemyList.indexOf(current) + " PosX: " + current.getPosX()
+//								+ " ; PosY: " + current.getPosY() + " Life: " + current.getLife());
+//						if(current.getLife() >= 2) {
+//							for(int h = 0; h <=gC.getGlobalGrid().getGridLayer().length; h++) {
+//								if(true) {
+//									
+//								}
+////								c
+//							}
+////							current.setLife(current.getLife() - 1);
+//						}
+//						gC.checkEnemiesLife();
+//						eC.moveEnemy(current);
+//					} else {
+//						System.out.println("Enemy " + enemyList.size() + " reached the Base!" + "  On Map: "
+//								+ waves[a].toString());
+//						enemyList.remove(current);
+//					}
+//				}
+//				while (!enemyList.isEmpty()) {
+//					for (int o = 0; o < enemyList.size(); o++) {
+//						Enemy current = enemyList.get(o);
+//						System.out.println("move " + enemyList.size() + " " + eC.isMovable(current) + " " + o);
+//						if (eC.isMovable(current)) {
+//							System.out.println("Num: " + enemyList.indexOf(current) + " PosX: " + current.getPosX()
+//									+ " ; PosY: " + current.getPosY() + " Life: " + current.getLife());
+//							if(current.getLife() >= 2) {
+////								current.setLife(current.getLife() - 1);
+//							}
+//							gC.checkEnemiesLife();
+//							eC.moveEnemy(current);
+//						} else {
+//							System.out.println("Enemy " + enemyList.size() + " reached the Base!" + "  On Map: "
+//									+ waves[a].toString());
+//							enemyList.remove(current);
+//						}
+//					}
+//				}
+//				if (!wC.getWaveList().isEmpty()) {
+//					wC.setNextWave();
+//				}
+//			}
+//			if (waves[a].toString().contains("1")) {
+//				eC.setGrid(gC.changeLevel("test"));
+//				tC.setGrid(gC.changeLevel("test"));
+//				eC.getGrid().printGrid();
+//			} else if (waves[a].toString().contains("Test")) {
+//				eC.setGrid(gC.changeLevel("two"));
+//				tC.setGrid(gC.changeLevel("two"));
+//				eC.getGrid().printGrid();
+//			}
 		}
 	}
 }
