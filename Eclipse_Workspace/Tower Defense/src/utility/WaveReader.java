@@ -33,6 +33,7 @@ public class WaveReader {
 	 * 
 	 */
 	public ArrayList<Wave> loadWaveFile(String fileName) {
+		waveList.clear();
 		System.out.println("Searching in File");
 		try {
 			FileReader file = new FileReader(fileName);

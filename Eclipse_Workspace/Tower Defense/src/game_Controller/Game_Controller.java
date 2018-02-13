@@ -12,11 +12,11 @@ public class Game_Controller {
 
 	private String currentLevel;
 
-	private ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
+	private ArrayList<Enemy> enemyList;
 	
-	private ArrayList<Tower> towerList = new ArrayList<Tower>();
+	private ArrayList<Tower> towerList;
 
-	private ArrayList<Wave> waveList = new ArrayList<Wave>();
+	private ArrayList<Wave> waveList;
 	
 	private Enemy_Controller eC;
 
@@ -61,7 +61,7 @@ public class Game_Controller {
 	}
 
 	public void createWave(int pNumber, int pType, int pLevel) {
-		this.enemyList.removeAll(enemyList);
+		this.enemyList.clear();
 		for (int i = 0; i <= pNumber; i++) {
 			Enemy e = eC.spawnEnemy(pType, pLevel);
 			System.out.println(e.getPosX() + " " + e.getPosY());
@@ -248,36 +248,58 @@ public class Game_Controller {
 		gC.iniciateGame();
 		for (int a = 0; a < waves.length; a++) {
 	//Setting up tower
+			System.out.println();
+			System.out.println();
+			System.out.println();
+			System.out.println();
+			System.out.println("Welle " + waves[a] + " Level: " + gC.getCurrentLevel());
 			gC.getTowerController().clearTowerList();
-			gC.getTowerList().add(gC.getTowerController().createTower(2, 1, 1, 5, 5, 5));
-//			gC.getTowerList().add(gC.getTowerController().createTower(0, 1, 1, 5, 5, 5));
+			gC.getTowerList().add(gC.getTowerController().createTower(2, 1, 2, 5, 5, 5));
 	//Loading Waves
-			System.out.println(waves[a]);
-			System.out.println(gC.getWaveList() + "  " + gC.getWaveController().getWaveList());
-			System.out.println(gC.getEnemyList() + "  " + gC.getEnemyController().getEnemyList());
-			System.out.println(gC.getWaveList().size() + "  " + gC.getWaveController().getWaveList().size());
+			System.out.println("TEst2");
+			System.out.println("The Length " + gC.getWaveList().size() + "  " + gC.getWaveController().getWaveList().size());
 			gC.getWaveController().loadWaves(waves[a]);
-			System.out.println(gC.getWaveList().size() + "  " + gC.getWaveController().getWaveList().size());
+			System.out.println("The Length " + gC.getWaveList().size() + "  " + gC.getWaveController().getWaveList().size());
+			System.out.println("TEst3");
 	//Go Through Wave List
 			while (!gC.getWaveController().getWaveList().isEmpty()) {
 	//Create Wave
 				gC.createWave(gC.getWaveController().getCurrentWave().getEnemyNumber() - 1, gC.getWaveController().getCurrentWave().getEnemyType(), gC.getWaveController().getCurrentWave().getEnemyLevel());
 	//Go Though Enemies
-				for (int o = 0; o < gC.getEnemyList().size(); o++) {
-					Enemy current = gC.getEnemyList().get(o);
-					if (gC.getEnemyController().isMovable(current)) {
-						if(current.checkAlife()) {
+				while(!gC.getEnemyList().isEmpty()) {
+					for (int o = 0; o < gC.getEnemyList().size(); o++) {
+						Enemy current = gC.getEnemyList().get(o);
+						System.out.println(gC.getEnemyController().isMovable(current));
+						if (gC.getEnemyController().isMovable(current)) {
+							if(current.checkAlife()) {
 	//If Tower in Range
-//							 TODO:
-							if(gC.getTowerController().checkTowers(current)) {
+								// TODO: Gegebenen Falls kann im überprüfen auf die Range der enemy gedamaged werden
+								for(int t = 0; t < gC.getTowerController().getTowerList().size(); t++) {
+									Tower tmpTower = null;
+									if((tmpTower = gC.getTowerController().checkTowers(current, t)) != null) {
 	//Damage the Enemy
-								System.out.println("Enemy Here");
-							}
+										System.out.println("Enemy Here");
+										current.setLife(current.getLife() - tmpTower.shoot());
+										System.out.println("Y: " + current.getPosY() + " X: " + current.getPosX() + " Life: " + current.getLife());
+									}
+								}
 	//Move The Enemy
+							}
+							gC.checkEnemiesLife();
+							gC.getEnemyController().moveEnemy(current);
+						} else {
+							gC.getEnemyList().remove(current);
 						}
 					}
 				}
+				gC.getWaveController().setNextWave();
 			}
+			if (waves[a].toString().contains("Test")) {
+				gC.changeLevel("one");
+			} else if (waves[a].toString().contains("1")) {
+				gC.changeLevel("two");
+			}
+			
 			
 	//Set new Level
 			

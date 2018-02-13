@@ -11,7 +11,7 @@ public class Wave_Controller {
 
 	private Wave currentWave;
 
-	private ArrayList<Wave> waveList = new ArrayList<Wave>();
+	private ArrayList<Wave> waveList;
 
 	public Wave_Controller(ArrayList<Wave> pWaveList) {
 		wR = new WaveReader();
@@ -19,14 +19,15 @@ public class Wave_Controller {
 	}
 
 	public void loadWaves(String pFileName) {
-		clearWaveList();
 		System.out.println("Loading Waves");
-		waveList = wR.loadWaveFile(pFileName);
+		ArrayList<Wave> tmpWaveList = wR.loadWaveFile(pFileName);
+		for(int i = 0; i < tmpWaveList.size(); i++) {
+			this.waveList.add(tmpWaveList.get(i));
+		}
 		setCurrentWave(waveList.get(0));
 	}
 	
 	public void setNextWave() {
-		System.out.println(waveList.size());
 		waveList.remove(currentWave);
 		if(!waveList.isEmpty()) {
 			currentWave = waveList.get(0);

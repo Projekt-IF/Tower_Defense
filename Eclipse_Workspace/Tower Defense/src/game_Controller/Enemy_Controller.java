@@ -15,7 +15,7 @@ public class Enemy_Controller {
 	
 	private Tile spawnerTile;
 	
-	private ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
+	private ArrayList<Enemy> enemyList;
 	
 	/**
 	 * 
