@@ -1,46 +1,32 @@
 package graphical_Interface;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
+import java.util.Date;
+import java.io.PrintStream;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.SwingUtilities;
 
-public class Game_Interface extends JFrame {
+public class Game_Interface{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4735403301459977441L;
-	private JPanel contentPane;
+	static PrintStream OUT = System.out;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Game_Interface frame = new Game_Interface();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		
+		SwingUtilities.invokeLater(new Runnable() 
+		{
+			public void run() 
+			{
+				startGUI();
 			}
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public Game_Interface() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+	private static void startGUI() 
+	{
+		JFrame window = new JFrame();
+		window.setTitle("Master Defense");
+		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		window.setUndecorated(true);
+		window.setVisible(true);
 	}
 
 }
