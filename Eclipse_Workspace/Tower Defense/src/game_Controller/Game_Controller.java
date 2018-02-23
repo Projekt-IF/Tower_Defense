@@ -269,6 +269,7 @@ public class Game_Controller {
 				while(!gC.getEnemyList().isEmpty()) {
 					for (int o = 0; o < gC.getEnemyList().size(); o++) {
 						Enemy current = gC.getEnemyList().get(o);
+						
 						if (gC.getEnemyController().isMovable(current)) {
 							if(current.checkAlife()) {
 	//If Tower in Range
