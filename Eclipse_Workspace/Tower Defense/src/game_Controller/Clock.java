@@ -2,60 +2,66 @@ package game_Controller;
 
 public class Clock {
 
-	private boolean läuft = true;
-	private boolean pausiert = false;
+	private int counter = 0;
+	private boolean running = true;
+	private boolean pause = false;
 
 	public static void main(String args[]) {
 		Clock c = new Clock();
-		c.laufenderSpielRing();
+		c.runningLoop();
 	}
 
 	public Clock() {
 
 	}
 
-	//Create a new Thread running the Game Loop
-	public void laufenderSpielRing() {
-		Thread ring = new Thread() {
+	// This will run the spielRing method in an other Thread.
+	public void runningLoop() {
+		Thread loop = new Thread() {
 
 			public void run() {
-				spielRing();
+				gameLoop();
 			}
 
 		};
 
-		ring.start();
+		loop.start();
 	}
 
-	//main construct
-	public void spielRing() {
+	// ONLY run this in an other thread!
+	public void gameLoop() {
 
-		final double wiederholrate = 30.0;
-		final int maxAktualisierungen = 1;
+		final double refreshRate = 60.0;
+		final int maxUpdates = 1;
 
-		
-		
-		while (läuft) {
+		// Main part
+		while (running) {
 
 			try {
-				Thread.sleep((long) (maxAktualisierungen / wiederholrate * 1000));
+				Thread.sleep((long) (maxUpdates / refreshRate * 1000));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 
-			if (!pausiert) {
-				
-					aktualisierung();
+			if (!pause) {
 
-				}
+				update();
+
+			}
 		}
 
 	}
 
-	//Integrate mechanics
-	public void aktualisierung() {
+	// Update game mechanics
+	public void update() {
 		
-		// System.out.println("Pathing Complete");
+		System.out.println("Update" + " " +counter);
+		counter = counter +1;
+		if(counter > 59){
+			
+			System.out.println("Update complete" + " " +counter);
+			counter = counter - 60;
+		}
 	}
 
 }
