@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+//MainGui
 public class Game_Interface {
 
 	public static void main(String[] args) {
