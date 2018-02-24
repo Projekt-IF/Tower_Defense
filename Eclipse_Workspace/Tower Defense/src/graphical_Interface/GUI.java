@@ -1,20 +1,26 @@
 package graphical_Interface;
 
+import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
+import java.io.*;
+import javax.imageio.*;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 //MainGui
 public class GUI {
+
+	private static final Color Color = null;
 	private static JFrame window_1;
 
 	public static void main(String[] args) {
@@ -24,28 +30,40 @@ public class GUI {
 				startGUI();
 			}
 		});
-	}
+}
 
 	// Setup the GUI
 	private static void startGUI() {
 		window_1 = new JFrame();
 		setupContent(window_1);
-		// IconJFrame(window);
 		window_1.setTitle("Master Defense");
 		window_1.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		window_1.setUndecorated(true);
 		window_1.setVisible(true);
 		window_1.setResizable(false);
-		window_1.getContentPane().setBackground(Color.BLACK);
+		window_1.getContentPane().setBackground(java.awt.Color.BLACK);
 	}
 
 	// Setup the GUI functions.
 	private static void setupContent(JFrame window) {
 
+		//I try to make the Background beautiful but it won´t work :( 
+		
+		/*
+		try {
+			
+			window_1.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("C:/Users/JustBrainless/git/Tower_Defense/eclipse_Workspace/Tower Defense/Images/1.png")))));
+			
+		}catch(IOException e) 
+		{
+			window_1.getContentPane().setBackground(java.awt.Color.BLACK);
+		}
+		*/
+		
 		JMenuBar menuBar = new JMenuBar();
 		window_1.setJMenuBar(menuBar);
 
-		// Gui settings
+		// GUI settings
 		JMenu mnOptions = new JMenu("Options");
 		menuBar.add(mnOptions);
 
@@ -72,20 +90,6 @@ public class GUI {
 			}
 		});
 		mnLanguage.add(mntmEnglish);
-
-		JMenu mnGameSettings = new JMenu("Game Settings");
-		mnOptions.add(mnGameSettings);
-
-		JMenuItem mntmSound = new JMenuItem("Sound");
-
-		// sets the programs sound volume
-		mntmSound.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setSound();
-			}
-		});
-		mnGameSettings.add(mntmSound);
-		// Sound option ends here
 
 		JSeparator separator = new JSeparator();
 		mnOptions.add(separator);
@@ -125,9 +129,12 @@ public class GUI {
 	private static void setEnglish() {
 
 	}
-	
-	// Sets the programs sound volume
-	private static void setSound() {
+
+	private static void login() {
+
+	}
+
+	private static void logout() {
 
 	}
 
