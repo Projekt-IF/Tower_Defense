@@ -16,9 +16,10 @@ import javax.swing.JSeparator;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
+import java.awt.GridBagLayout;
 
 //MainGui
-public class GUI {
+public class GUI extends GUI_Content {
 
 	private static final Color Color = null;
 	private static JFrame window_1;
@@ -41,7 +42,7 @@ public class GUI {
 		window_1.setUndecorated(true);
 		window_1.setVisible(true);
 		window_1.setResizable(false);
-		window_1.getContentPane().setBackground(java.awt.Color.BLACK);
+		window_1.getContentPane().setBackground(Color.BLACK);
 	}
 
 	// Setup the GUI functions.
@@ -52,13 +53,14 @@ public class GUI {
 		/*
 		try {
 			
-			window_1.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("C:/Users/JustBrainless/git/Tower_Defense/eclipse_Workspace/Tower Defense/Images/1.png")))));
+			window_1.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("C:\\Users\\JustBrainless\\git\\Tower_Defense\\Eclipse_Workspace\\Tower Defense\\Images\\1.png")))));
 			
 		}catch(IOException e) 
 		{
 			window_1.getContentPane().setBackground(java.awt.Color.BLACK);
 		}
 		*/
+		
 		
 		JMenuBar menuBar = new JMenuBar();
 		window_1.setJMenuBar(menuBar);
@@ -68,7 +70,7 @@ public class GUI {
 		menuBar.add(mnOptions);
 
 		// Options begin here!!
-		JMenu mnLanguage = new JMenu("Language");
+		JMenu mnLanguage = new JMenu("");
 		mnOptions.add(mnLanguage);
 
 		JMenuItem mntmDeutsch = new JMenuItem("Deutsch");
@@ -76,7 +78,7 @@ public class GUI {
 		// Sets the programs language to German
 		mntmDeutsch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setGerman();
+				switchLanguage();
 			}
 		});
 		mnLanguage.add(mntmDeutsch);
@@ -86,7 +88,7 @@ public class GUI {
 		// Sets the programs language to English
 		mntmEnglish.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setEnglish();
+				switchLanguage();
 			}
 		});
 		mnLanguage.add(mntmEnglish);
@@ -117,25 +119,6 @@ public class GUI {
 
 		JPanel content = new JPanel();
 		window.setContentPane(content);
-		content.setLayout(new BorderLayout(0, 0));
+		content.setLayout(null);
 	}
-
-	// Sets the programs language to German
-	private static void setGerman() {
-
-	}
-
-	// Sets the programs language to German
-	private static void setEnglish() {
-
-	}
-
-	private static void login() {
-
-	}
-
-	private static void logout() {
-
-	}
-
 }
