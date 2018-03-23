@@ -1,10 +1,2 @@
-/UML_Diagramm_Game_Controller.ucls
-/UML_diagram_TD.ucls
-/Waves/
-/dump/
-/envoirement/
-/game_Controller/
-/graphical_Interface/
-/linear/
-/objects/
-/utility/
+/server/
+/client/
