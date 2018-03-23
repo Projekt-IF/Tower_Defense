@@ -1,12 +1,13 @@
 package graphical_Interface;
 
+import java.awt.Toolkit;
 import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Color;
-
+import java.awt.Frame;
 import java.io.*;
 import javax.imageio.*;
 import javax.swing.JMenuBar;
@@ -17,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 
 //MainGui
 public class GUI extends GUI_Content {
@@ -31,7 +33,7 @@ public class GUI extends GUI_Content {
 				startGUI();
 			}
 		});
-}
+	}
 
 	// Setup the GUI
 	private static void startGUI() {
@@ -48,20 +50,8 @@ public class GUI extends GUI_Content {
 	// Setup the GUI functions.
 	private static void setupContent(JFrame window) {
 
-		//I try to make the Background beautiful but it won´t work :( 
-		
-		/*
-		try {
-			
-			window_1.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("C:\\Users\\JustBrainless\\git\\Tower_Defense\\Eclipse_Workspace\\Tower Defense\\Images\\1.png")))));
-			
-		}catch(IOException e) 
-		{
-			window_1.getContentPane().setBackground(java.awt.Color.BLACK);
-		}
-		*/
-		
-		
+		// I try to make the Background beautiful but it won´t work :(
+
 		JMenuBar menuBar = new JMenuBar();
 		window_1.setJMenuBar(menuBar);
 
@@ -70,7 +60,7 @@ public class GUI extends GUI_Content {
 		menuBar.add(mnOptions);
 
 		// Options begin here!!
-		JMenu mnLanguage = new JMenu("");
+		JMenu mnLanguage = new JMenu("Language");
 		mnOptions.add(mnLanguage);
 
 		JMenuItem mntmDeutsch = new JMenuItem("Deutsch");
@@ -118,7 +108,17 @@ public class GUI extends GUI_Content {
 		// Options end here!!
 
 		JPanel content = new JPanel();
+		content.setLayout(new BorderLayout());
+		try {
+			content.add(new JLabel(new ImageIcon(ImageIO
+					.read(new File("H:\\git\\Tower_Defense\\TestFile\\Eclipse_Workspace\\Tower Defense\\Images\\1.png"))
+					.getScaledInstance(Toolkit.getDefaultToolkit()
+				            .getScreenSize().width, Toolkit.getDefaultToolkit()
+				            .getScreenSize().height, Image.SCALE_FAST))), BorderLayout.CENTER);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		window.setContentPane(content);
-		content.setLayout(null);
+
 	}
 }

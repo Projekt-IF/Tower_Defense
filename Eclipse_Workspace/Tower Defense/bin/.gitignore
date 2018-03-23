@@ -1,2 +1,13 @@
+<<<<<<< HEAD
 /server/
 /client/
+=======
+/Waves/
+/dump/
+/envoirement/
+/game_Controller/
+/graphical_Interface/
+/linear/
+/objects/
+/utility/
+>>>>>>> branch 'master' of https://github.com/Projekt-IF/Tower_Defense.git

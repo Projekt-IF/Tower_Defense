@@ -9,12 +9,12 @@ public class GUI_Content {
 		
 		// Player login (ID +PW)
 		public static void login() {
-
+			
 		}
 
 		// Player logout (ID +PW)
 		public static void logout() {
-
+			
 		}
 
 }
