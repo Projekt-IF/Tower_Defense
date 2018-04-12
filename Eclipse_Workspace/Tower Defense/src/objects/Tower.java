@@ -44,7 +44,8 @@ public class Tower {
 	
 	public void startTimer() {
 		Timer timer = new Timer();
-		timer.schedule( new TowerCooldownTimer(this, timer), (long)(this.cooldownTime * 1000));
+		System.out.println(this.cooldownTime * 5000);
+		timer.schedule( new TowerCooldownTimer(this, timer), (long)(this.cooldownTime * 5000));
 	}
 
 	public Double shoot()

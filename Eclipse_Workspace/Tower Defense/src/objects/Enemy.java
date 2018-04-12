@@ -72,7 +72,8 @@ public class Enemy {
 	
 	public void startTimer() {
 		Timer timer = new Timer();
-		timer.schedule( new EnemyCooldownTimer(this, timer), (long)(this.speed * 1000));
+		System.out.println(this.speed*2500);
+		timer.schedule( new EnemyCooldownTimer(this, timer), (long)(this.speed * 2500));
 	}
 
 	public int getPosX() {

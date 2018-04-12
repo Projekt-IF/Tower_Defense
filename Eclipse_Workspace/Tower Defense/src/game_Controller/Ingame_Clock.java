@@ -5,8 +5,11 @@ import java.util.TimerTask;
 
 public class Ingame_Clock {
 	
+	@SuppressWarnings("unused")
 	private long start;
+	@SuppressWarnings("unused")
 	private long end;
+	@SuppressWarnings("unused")
 	private long elapsedTime;
 	
 	private String string;

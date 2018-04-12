@@ -65,8 +65,8 @@ public class Enemy_Controller {
 //				System.out.println(current.getPosX() != grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getxPos());
 //				System.out.println(current.getPosY() != grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getyPos());
 				if(grid.getGridLayer()[e.getPosY()][e.getPosX()].getHasNextTile()&& !e.isOnCooldown()) {
-					if(!(current.getPosX() == grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getxPos())&&
-						(current.getPosY() == grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getyPos())) {
+					if(!((current.getPosX() == grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getxPos())&&
+						(current.getPosY() == grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getyPos()))) {
 						return true;
 					}
 				}

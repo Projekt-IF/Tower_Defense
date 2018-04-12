@@ -20,13 +20,13 @@ public class EnemyCooldownTimer extends TimerTask{
 	}
 	@Override 
 	public void run() {
-		System.out.println(count);
 		count++;
-//		if(count == 2) {
-//			timer.cancel();
-//		}
+		if(count == 2) {
+			timer.cancel();
+			count = 0;
+		}
 		this.enemy.setOnCooldown(false);
-		timer.cancel();
+//		timer.cancel();
 	}
 
 }

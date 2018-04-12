@@ -20,10 +20,10 @@ public class TowerCooldownTimer extends TimerTask{
 	}
 	@Override 
 	public void run() {
-		System.out.println(count);
 		count++;
 		if(count == 2) {
 			timer.cancel();
+			count = 0;
 		}
 		this.tower.setOnCooldown(false);
 	}

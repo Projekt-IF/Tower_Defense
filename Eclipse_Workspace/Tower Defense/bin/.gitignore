@@ -1,19 +1,9 @@
-<<<<<<< HEAD
-/UML_Diagramm_Game_Controller.ucls
-/UML_diagram_TD.ucls
-=======
-<<<<<<< HEAD
-/server/
-/client/
-=======
->>>>>>> branch 'master' of https://github.com/Projekt-IF/Tower_Defense.git
 /Waves/
 /dump/
 /envoirement/
 /game_Controller/
 /graphical_Interface/
 /linear/
+/network/
 /objects/
 /utility/
->>>>>>> branch 'master' of https://github.com/Projekt-IF/Tower_Defense.git
-/network/
