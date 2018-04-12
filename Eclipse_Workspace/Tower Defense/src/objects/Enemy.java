@@ -1,5 +1,9 @@
 package objects;
 
+import java.util.Timer;
+
+import utility.EnemyCooldownTimer;
+
 /*
  * The Enemy Class is just apparent as the Enemy.
  * The movement is controlled by the Enemy_Controller.
@@ -21,11 +25,14 @@ public class Enemy {
 	private Double speed;
 	
 	private int cost;
+		
+	private boolean onCooldown;
 	
 	/*
 	 * 
 	 */
 	public Enemy(int pPosX, int pPosY, int pType, int pLevel) {
+		onCooldown = false;
 		this.posX = pPosX;
 		this.posY = pPosY;
 		this.life = this.calcLife(pType, pLevel);
@@ -61,6 +68,11 @@ public class Enemy {
 	private Double calcSpeed(int pType, int pLevel) {
 		Double tmpSpeed = pType * 0.5 + pLevel * 0.25;
 		return tmpSpeed;
+	}
+	
+	public void startTimer() {
+		Timer timer = new Timer();
+		timer.schedule( new EnemyCooldownTimer(this, timer), (long)(this.speed * 1000));
 	}
 
 	public int getPosX() {
@@ -117,6 +129,22 @@ public class Enemy {
 
 	public void setLevel(int level) {
 		this.level = level;
+	}
+
+
+	/**
+	 * @return the onCooldown
+	 */
+	public boolean isOnCooldown() {
+		return onCooldown;
+	}
+
+
+	/**
+	 * @param onCooldown the onCooldown to set
+	 */
+	public void setOnCooldown(boolean onCooldown) {
+		this.onCooldown = onCooldown;
 	}
 	
 }

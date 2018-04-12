@@ -1,5 +1,9 @@
 package objects;
 
+import java.util.Timer;
+
+import utility.TowerCooldownTimer;
+
 public class Tower {
 
 	private int posX;
@@ -10,8 +14,14 @@ public class Tower {
 	private int range;
 	
 	private Shot shot;
+		
+	private boolean onCooldown;
 	
-	public Tower(int pPosX, int pPosY, int pRange, Double pStrength, double pSpeed, double pVelocity) {
+	private double cooldownTime;
+	
+	public Tower(int pPosX, int pPosY, int pRange, Double pStrength, double pSpeed, double pVelocity, double pCooldownTime) {
+		this.onCooldown = false;
+		this.cooldownTime = pCooldownTime;
 		this.posX = pPosX;
 		this.posY = pPosY;
 		this.range = pRange;
@@ -31,9 +41,16 @@ public class Tower {
 		this.shot.setSpeed(speed);
 		this.shot.setVelocity(velocity);
 	}
+	
+	public void startTimer() {
+		Timer timer = new Timer();
+		timer.schedule( new TowerCooldownTimer(this, timer), (long)(this.cooldownTime * 1000));
+	}
 
 	public Double shoot()
 	{
+		this.onCooldown = true;
+		startTimer();
 		return this.shot.getStrength();
 	}
 
@@ -74,5 +91,19 @@ public class Tower {
 	 */
 	public void setRange(int range) {
 		this.range = range;
+	}
+
+	/**
+	 * @return the onCooldown
+	 */
+	public boolean isOnCooldown() {
+		return onCooldown;
+	}
+
+	/**
+	 * @param onCooldown the onCooldown to set
+	 */
+	public void setOnCooldown(boolean onCooldown) {
+		this.onCooldown = onCooldown;
 	}	
 }

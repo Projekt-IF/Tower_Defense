@@ -1,6 +1,8 @@
 package game_Controller;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import envoirement.Grid;
 import envoirement.Tile;
@@ -9,6 +11,8 @@ import objects.Tower;
 import utility.Wave;
 
 public class Game_Controller {
+	
+	private Timer timer;
 
 	private String currentLevel;
 
@@ -46,6 +50,7 @@ public class Game_Controller {
 		this.wC = new Wave_Controller(this.waveList);
 		this.eC = new Enemy_Controller(this.enemyList);
 		this.tC = new Tower_Controller(this.towerList);
+		this.timer = new Timer();
 //		iniciateGame();
 	}
 
@@ -233,6 +238,20 @@ public class Game_Controller {
 		this.tC = tC;
 	}
 
+	/**
+	 * @return the timer
+	 */
+	public Timer getTimer() {
+		return timer;
+	}
+
+	/**
+	 * @param timer the timer to set
+	 */
+	public void setTimer(Timer timer) {
+		this.timer = timer;
+	}
+
 	public static void main(String args[]) {
 //		Wave_Controller wC = new Wave_Controller();
 //		Enemy_Controller eC = new Enemy_Controller();
@@ -240,12 +259,13 @@ public class Game_Controller {
 //		Tower_Controller tC = new Tower_Controller();
 		Game_Controller gC = new Game_Controller();
 //		ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
-		String[] waves = new String[3];
+		String[] waves = new String[1];
 		waves[0] = "src/Waves/Wave_Test.txt";
-		waves[1] = "src/Waves/Wave_1.txt";
-		waves[2] = "src/Waves/Wave_2.txt";
+		//waves[1] = "src/Waves/Wave_1.txt";
+		//waves[2] = "src/Waves/Wave_2.txt";
 	//Setting the Grid
 		gC.iniciateGame();
+		gC.changeLevel("one");
 		for (int a = 0; a < waves.length; a++) {
 	//Setting up tower
 			System.out.println();
@@ -254,7 +274,7 @@ public class Game_Controller {
 			System.out.println();
 			System.out.println("Welle " + waves[a] + " Level: " + gC.getCurrentLevel());
 			gC.getTowerController().clearTowerList();
-			gC.getTowerList().add(gC.getTowerController().createTower(2, 1, 2, 5, 5, 5));
+			gC.getTowerList().add(gC.getTowerController().createTower(2, 1, 2, 5, 5, 5, 0.5));
 	//Loading Waves
 			System.out.println("TEst2");
 			System.out.println("The Length " + gC.getWaveList().size() + "  " + gC.getWaveController().getWaveList().size());
@@ -277,27 +297,37 @@ public class Game_Controller {
 									Tower tmpTower = null;
 									if((tmpTower = gC.getTowerController().checkTowers(current, t)) != null) {
 	//Damage the Enemy
-										System.out.println("Enemy Here");
+//										System.out.println("Enemy Here: " + gC.getEnemyList().indexOf(current));
 										current.setLife(current.getLife() - tmpTower.shoot());
-										System.out.println("Y: " + current.getPosY() + " X: " + current.getPosX() + " Life: " + current.getLife());
+//										System.out.println("Y: " + current.getPosY() + " X: " + current.getPosX() + " Life: " + current.getLife());
 									}
 								}
 	//Move The Enemy
 							}
+//							System.out.println(gC.getEnemyList().size());
 							gC.checkEnemiesLife();
+//							System.out.println(gC.getEnemyController().isMovable(current));
+//							System.out.println(current);
 							gC.getEnemyController().moveEnemy(current);
+							System.out.println("Enemy Here: " + gC.getEnemyList().indexOf(current));
+							System.out.println("Y: " + current.getPosY() + " X: " + current.getPosX() + " Life: " + current.getLife());
+//							System.out.println(gC.getEnemyController().isMovable(current));
 						} else {
-							gC.getEnemyList().remove(current);
+							if(gC.getGlobalGrid().getGridLayer()[current.getPosY()][current.getPosX()].getHasNextTile() == false) {
+								gC.getEnemyList().remove(current);
+							}
 						}
 					}
+					System.out.println("Elle gesetzt");
 				}
+				System.out.println("Elle Weg");
 				gC.getWaveController().setNextWave();
 			}
-			if (waves[a].toString().contains("Test")) {
-				gC.changeLevel("one");
-			} else if (waves[a].toString().contains("1")) {
-				gC.changeLevel("two");
-			}
+			//if (waves[a].toString().contains("Test")) {
+			//	gC.changeLevel("one");
+			//} else if (waves[a].toString().contains("1")) {
+			//	gC.changeLevel("two");
+			//}
 			
 			
 	//Set new Level
@@ -372,5 +402,6 @@ public class Game_Controller {
 //				eC.getGrid().printGrid();
 //			}
 		}
+		System.out.println("End");
 	}
 }

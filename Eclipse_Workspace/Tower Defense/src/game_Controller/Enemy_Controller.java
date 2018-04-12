@@ -44,6 +44,8 @@ public class Enemy_Controller {
 		int currentYPos = e.getPosY();
 		e.setPosX(grid.getGridLayer()[currentYPos][currentXPos].getNextTile().getxPos());
 		e.setPosY(grid.getGridLayer()[currentYPos][currentXPos].getNextTile().getyPos());
+		e.setOnCooldown(true);
+		e.startTimer();
 	}
 	
 	/**
@@ -52,7 +54,25 @@ public class Enemy_Controller {
 	 * @return
 	 */
 	public Boolean isMovable(Enemy e) {
-		return grid.getGridLayer()[e.getPosY()][e.getPosX()].getHasNextTile();
+		if(!enemyList.isEmpty()) {
+			for(int i = 0; i < enemyList.size(); i++) {
+				Enemy current = enemyList.get(i);
+//				System.out.println(current + "  " + e);
+//				System.out.print("C " + current.getPosX() + "  N: ");
+//				System.out.println(grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getxPos());
+//				System.out.print("C " + current.getPosY() + "  N: ");
+//				System.out.println(grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getyPos());
+//				System.out.println(current.getPosX() != grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getxPos());
+//				System.out.println(current.getPosY() != grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getyPos());
+				if(grid.getGridLayer()[e.getPosY()][e.getPosX()].getHasNextTile()&& !e.isOnCooldown()) {
+					if(!(current.getPosX() == grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getxPos())&&
+						(current.getPosY() == grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getyPos())) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;	
 	}
 	
 	public void clearEnemyList() {

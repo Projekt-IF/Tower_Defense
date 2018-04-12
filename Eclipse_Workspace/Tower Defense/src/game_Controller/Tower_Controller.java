@@ -30,10 +30,10 @@ public class Tower_Controller {
 		// TODO:
 	}
 
-	public Tower createTower(int pPosX, int pPosY, int pRange, double pStrength, double pSpeed, double pVelocity) {
+	public Tower createTower(int pPosX, int pPosY, int pRange, double pStrength, double pSpeed, double pVelocity, double pCooldownTime) {
 		// TODO:
 		grid.getGridLayer()[pPosY][pPosX].setType(Tile.TYPE_TOWER);
-		return new Tower(pPosX, pPosY, pRange, pStrength, pSpeed, pVelocity);
+		return new Tower(pPosX, pPosY, pRange, pStrength, pSpeed, pVelocity, pCooldownTime);
 	}
 
 	public void shootTower() {
@@ -44,7 +44,6 @@ public class Tower_Controller {
 		// TODO: Gegebenen Falls kann auch hier schon das Leben abgezogen werden
 		// Check Tiles In Range if Enemy on them
 		Tower current = towerList.get(pTowerListPosition);
-		System.out.println(towerList.size() + "  " + pTowerListPosition);
 		for (int y = -current.getRange(); y <= current.getRange(); y++) {
 			for (int x = -current.getRange(); x <= current.getRange(); x++) {
 				int currentY = y + current.getPosY();
@@ -52,10 +51,16 @@ public class Tower_Controller {
 				if ((currentY >= 0) && (currentY < grid.getLength())) {
 					if ((currentX >= 0) && (currentX < grid.getLength())) {
 						if ((pEnemy.getPosY() == currentY) && (pEnemy.getPosX() == currentX)) {
-							return current;
+							if(!current.isOnCooldown()) {
+								return current;
+							}
+					
 						}
+				
 					}
+			
 				}
+		
 			}
 		}
 		return null;
