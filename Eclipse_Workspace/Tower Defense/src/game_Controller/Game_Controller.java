@@ -260,16 +260,11 @@ public class Game_Controller {
 	}
 
 	public static void main(String args[]) {
-		// Wave_Controller wC = new Wave_Controller();
-		// Enemy_Controller eC = new Enemy_Controller();
-		// Level_Controller lC = new Level_Controller();
-		// Tower_Controller tC = new Tower_Controller();
 		Game_Controller gC = new Game_Controller();
-		// ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
-		String[] waves = new String[1];
+		String[] waves = new String[3];
 		waves[0] = "src/Waves/Wave_Test.txt";
-		// waves[1] = "src/Waves/Wave_1.txt";
-		// waves[2] = "src/Waves/Wave_2.txt";
+		waves[1] = "src/Waves/Wave_1.txt";
+		waves[2] = "src/Waves/Wave_2.txt";
 		// Setting the Grid
 		gC.iniciateGame();
 		gC.changeLevel("one");
@@ -307,25 +302,17 @@ public class Game_Controller {
 							for (int t = 0; t < gC.getTowerController().getTowerList().size(); t++) {
 								Tower tmpTower = null;
 								if ((tmpTower = gC.getTowerController().checkTowers(current, t)) != null) {
-									// Damage the Enemy
-									// System.out.println("Enemy Here: " + gC.getEnemyList().indexOf(current));
 									current.setLife(current.getLife() - tmpTower.shoot());
-									// System.out.println("Y: " + current.getPosY() + " X: " + current.getPosX() + "
-									// Life: " + current.getLife());
 								}
 							}
 							// Move The Enemy
 						}
 						if (gC.getEnemyController().isMovable(current)) {
-							// System.out.println(gC.getEnemyList().size());
 							gC.checkEnemiesLife();
-							// System.out.println(gC.getEnemyController().isMovable(current));
-							// System.out.println(current);
 							gC.getEnemyController().moveEnemy(current);
 							System.out.println("Enemy Here: " + gC.getEnemyList().indexOf(current));
 							System.out.println("Y: " + current.getPosY() + " X: " + current.getPosX() + " Life: "
 									+ current.getLife());
-							// System.out.println(gC.getEnemyController().isMovable(current));
 						} else {
 							if (gC.getGlobalGrid().getGridLayer()[current.getPosY()][current.getPosX()]
 									.getHasNextTile() == false) {
@@ -333,90 +320,15 @@ public class Game_Controller {
 							}
 						}
 					}
-					// System.out.println("Elle gesetzt");
 				}
 				System.out.println("Elle Weg");
 				gC.getWaveController().setNextWave();
 			}
-			// if (waves[a].toString().contains("Test")) {
-			// gC.changeLevel("one");
-			// } else if (waves[a].toString().contains("1")) {
-			// gC.changeLevel("two");
-			// }
-
-			// Set new Level
-
-			// tC.setTower( 0, 1, 1, 5, 5, 5);;
-			//// eC.getGrid().printGrid();
-			// System.out.println("Changed Level to: " + gC.currentLevel);
-			// wC.loadWaves(waves[a]);
-			// wC.readWaves();
-			// while (!wC.getWaveList().isEmpty()) {
-			// gC.createWave(wC.getCurrentWave().getEnemyNumber() - 1,
-			// wC.getCurrentWave().getEnemyType(),
-			// wC.getCurrentWave().getEnemyLevel());
-			// enemyList = gC.getEnemyList();
-			// for (int o = 0; o < enemyList.size(); o++) {
-			// Enemy current = enemyList.get(o);
-			// System.out.println("test " + enemyList.size() + " " + eC.isMovable(current) +
-			// " " + o);
-			// if (eC.isMovable(current)) {
-			// System.out.println("Num: " + enemyList.indexOf(current) + " PosX: " +
-			// current.getPosX()
-			// + " ; PosY: " + current.getPosY() + " Life: " + current.getLife());
-			// if(current.getLife() >= 2) {
-			// for(int h = 0; h <=gC.getGlobalGrid().getGridLayer().length; h++) {
-			// if(true) {
-			//
-			// }
-			//// c
-			// }
-			//// current.setLife(current.getLife() - 1);
-			// }
-			// gC.checkEnemiesLife();
-			// eC.moveEnemy(current);
-			// } else {
-			// System.out.println("Enemy " + enemyList.size() + " reached the Base!" + " On
-			// Map: "
-			// + waves[a].toString());
-			// enemyList.remove(current);
-			// }
-			// }
-			// while (!enemyList.isEmpty()) {
-			// for (int o = 0; o < enemyList.size(); o++) {
-			// Enemy current = enemyList.get(o);
-			// System.out.println("move " + enemyList.size() + " " + eC.isMovable(current) +
-			// " " + o);
-			// if (eC.isMovable(current)) {
-			// System.out.println("Num: " + enemyList.indexOf(current) + " PosX: " +
-			// current.getPosX()
-			// + " ; PosY: " + current.getPosY() + " Life: " + current.getLife());
-			// if(current.getLife() >= 2) {
-			//// current.setLife(current.getLife() - 1);
-			// }
-			// gC.checkEnemiesLife();
-			// eC.moveEnemy(current);
-			// } else {
-			// System.out.println("Enemy " + enemyList.size() + " reached the Base!" + " On
-			// Map: "
-			// + waves[a].toString());
-			// enemyList.remove(current);
-			// }
-			// }
-			// }
-			// if (!wC.getWaveList().isEmpty()) {
-			// wC.setNextWave();
-			// }
-			// }
-			// if (waves[a].toString().contains("1")) {
-			// eC.setGrid(gC.changeLevel("test"));
-			// tC.setGrid(gC.changeLevel("test"));
-			// eC.getGrid().printGrid();
-			// } else if (waves[a].toString().contains("Test")) {
-			// eC.setGrid(gC.changeLevel("two"));
-			// tC.setGrid(gC.changeLevel("two"));
-			// eC.getGrid().printGrid();
-			// }
+			if (waves[a].toString().contains("Test")) {
+				gC.changeLevel("one");
+			} else if (waves[a].toString().contains("1")) {
+				gC.changeLevel("two");
+			}
 		}
 		System.out.println("End");
 	}
