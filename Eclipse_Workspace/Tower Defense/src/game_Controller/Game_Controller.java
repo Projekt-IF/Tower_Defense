@@ -46,10 +46,10 @@ public class Game_Controller {
 		this.enemyList = new ArrayList<Enemy>();
 		this.towerList = new ArrayList<Tower>();
 		this.waveList = new ArrayList<Wave>();
-		this.lC = new Level_Controller(this.currentLevel);
-		this.wC = new Wave_Controller(this.waveList);
-		this.eC = new Enemy_Controller(this.enemyList);
-		this.tC = new Tower_Controller(this.towerList);
+		this.lC = new Level_Controller(this.currentLevel, this);
+		this.wC = new Wave_Controller(this.waveList, this);
+		this.eC = new Enemy_Controller(this.enemyList, this);
+		this.tC = new Tower_Controller(this.towerList, this);
 		this.timer = new Timer();
 		// iniciateGame();
 	}
@@ -68,12 +68,14 @@ public class Game_Controller {
 
 	public void createWave(int pNumber, int pType, int pLevel) {
 		this.enemyList.clear();
-		for (int i = 0; i <= pNumber; i++) {
+		for (int i = 0; i < pNumber; i++) {
+			System.out.println(i);
 			Enemy e = eC.spawnEnemy(pType, pLevel);
 			System.out.println(e.getPosX() + " " + e.getPosY());
 			this.enemyList.add(e);
+			System.out.println(enemyList.size());
 		}
-		updateGame();
+		// updateGame();
 	}
 
 	public void changeLevel(String pLevelName) {
@@ -259,77 +261,63 @@ public class Game_Controller {
 		this.timer = timer;
 	}
 
-	public static void main(String args[]) {
+	public void test() {
 		Game_Controller gC = new Game_Controller();
 		String[] waves = new String[3];
 		waves[0] = "src/Waves/Wave_Test.txt";
-		waves[1] = "src/Waves/Wave_1.txt";
-		waves[2] = "src/Waves/Wave_2.txt";
+		waves[1] = "src/Waves/Wave_One.txt";
+		waves[2] = "src/Waves/Wave_Two.txt";
 		// Setting the Grid
 		gC.iniciateGame();
-		gC.changeLevel("one");
+		int co = 0;
 		for (int a = 0; a < waves.length; a++) {
 			// Setting up tower
-			System.out.println();
-			System.out.println();
-			System.out.println();
-			System.out.println();
+			// System.out.println();
+			// System.out.println();
+			// System.out.println();
+			// System.out.println();
 			System.out.println("Welle " + waves[a] + " Level: " + gC.getCurrentLevel());
 			gC.getTowerController().clearTowerList();
 			gC.getTowerList().add(gC.getTowerController().createTower(2, 1, 2, 5, 5, 5, 0.5));
 			// Loading Waves
-			System.out.println("TEst2");
-			System.out.println(
-					"The Length " + gC.getWaveList().size() + "  " + gC.getWaveController().getWaveList().size());
+			// System.out.println("TEst2");
+			// System.out.println(
+			// "The Length " + gC.getWaveList().size() + " " +
+			// gC.getWaveController().getWaveList().size());
 			gC.getWaveController().loadWaves(waves[a]);
-			System.out.println(
-					"The Length " + gC.getWaveList().size() + "  " + gC.getWaveController().getWaveList().size());
-			System.out.println("TEst3");
+			// System.out.println(
+			// "The Length " + gC.getWaveList().size() + " " +
+			// gC.getWaveController().getWaveList().size());
+			// System.out.println("TEst3");
 			// Go Through Wave List
 			while (!gC.getWaveController().getWaveList().isEmpty()) {
 				// Create Wave
-				gC.createWave(gC.getWaveController().getCurrentWave().getEnemyNumber() - 1,
+				gC.createWave(gC.getWaveController().getCurrentWave().getEnemyNumber(),
 						gC.getWaveController().getCurrentWave().getEnemyType(),
 						gC.getWaveController().getCurrentWave().getEnemyLevel());
-				// Go Though Enemies
+				gC.checkEnemiesLife();
 				while (!gC.getEnemyList().isEmpty()) {
-					for (int o = 0; o < gC.getEnemyList().size(); o++) {
-						Enemy current = gC.getEnemyList().get(o);
-						if (current.checkAlife()) {
-							// If Tower in Range
-							// TODO: Gegebenen Falls kann im überprüfen auf die Range der enemy gedamaged
-							// werden
-							for (int t = 0; t < gC.getTowerController().getTowerList().size(); t++) {
-								Tower tmpTower = null;
-								if ((tmpTower = gC.getTowerController().checkTowers(current, t)) != null) {
-									current.setLife(current.getLife() - tmpTower.shoot());
-								}
-							}
-							// Move The Enemy
-						}
-						if (gC.getEnemyController().isMovable(current)) {
-							gC.checkEnemiesLife();
-							gC.getEnemyController().moveEnemy(current);
-							System.out.println("Enemy Here: " + gC.getEnemyList().indexOf(current));
-							System.out.println("Y: " + current.getPosY() + " X: " + current.getPosX() + " Life: "
-									+ current.getLife());
-						} else {
-							if (gC.getGlobalGrid().getGridLayer()[current.getPosY()][current.getPosX()]
-									.getHasNextTile() == false) {
-								gC.getEnemyList().remove(current);
-							}
-						}
-					}
+					// System.out.println(enemyList.get(enemyList.size()-1));
+					// If Tower in Range
+					// TODO: Gegebenen Falls kann im überprüfen auf die Range der enemy gedamaged
+					// werden
+					// Check Towers
+					gC.getTowerController().checkTowers();
+					// Move The Enemies
+					gC.getEnemyController().checkMoveEnemies();
+					gC.checkEnemiesLife();
 				}
-				System.out.println("Elle Weg");
 				gC.getWaveController().setNextWave();
+				System.out.println(gC.getWaveController().getWaveList().size());
 			}
+			// System.out.println("Elle Weg");
+			gC.getWaveController().setNextWave();
 			if (waves[a].toString().contains("Test")) {
 				gC.changeLevel("one");
-			} else if (waves[a].toString().contains("1")) {
+			} else if (waves[a].toString().contains("One")) {
 				gC.changeLevel("two");
 			}
 		}
-		System.out.println("End");
 	}
 }
+// System.out.println("End");

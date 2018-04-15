@@ -9,12 +9,15 @@ import objects.Tower;
 
 public class Tower_Controller {
 
+	private Game_Controller game_Controller;
+
 	private Grid grid;
 
 	private ArrayList<Tower> towerList;
 
-	public Tower_Controller(ArrayList<Tower> pTowerList) {
+	public Tower_Controller(ArrayList<Tower> pTowerList, Game_Controller pGame_Controller) {
 		// TODO:
+		this.game_Controller = pGame_Controller;
 		this.towerList = pTowerList;
 	}
 
@@ -30,7 +33,8 @@ public class Tower_Controller {
 		// TODO:
 	}
 
-	public Tower createTower(int pPosX, int pPosY, int pRange, double pStrength, double pSpeed, double pVelocity, double pCooldownTime) {
+	public Tower createTower(int pPosX, int pPosY, int pRange, double pStrength, double pSpeed, double pVelocity,
+			double pCooldownTime) {
 		// TODO:
 		grid.getGridLayer()[pPosY][pPosX].setType(Tile.TYPE_TOWER);
 		return new Tower(pPosX, pPosY, pRange, pStrength, pSpeed, pVelocity, pCooldownTime);
@@ -40,30 +44,36 @@ public class Tower_Controller {
 		// TODO:
 	}
 
-	public Tower checkTowers(Enemy pEnemy, int pTowerListPosition) {
+	public void checkTowers() {
 		// TODO: Gegebenen Falls kann auch hier schon das Leben abgezogen werden
 		// Check Tiles In Range if Enemy on them
-		Tower current = towerList.get(pTowerListPosition);
-		for (int y = -current.getRange(); y <= current.getRange(); y++) {
-			for (int x = -current.getRange(); x <= current.getRange(); x++) {
-				int currentY = y + current.getPosY();
-				int currentX = x + current.getPosX();
-				if ((currentY >= 0) && (currentY < grid.getLength())) {
-					if ((currentX >= 0) && (currentX < grid.getLength())) {
-						if ((pEnemy.getPosY() == currentY) && (pEnemy.getPosX() == currentX)) {
-							if(!current.isOnCooldown()) {
-								return current;
+		if (!game_Controller.getEnemyController().getEnemyList().isEmpty()) {
+			for (int w = 0; w < towerList.size(); w++) {
+				Tower current = towerList.get(w);
+				if (!current.isOnCooldown()) {
+					for (int y = -current.getRange(); y <= current.getRange(); y++) {
+						for (int x = -current.getRange(); x <= current.getRange(); x++) {
+							int currentY = y + current.getPosY();
+							int currentX = x + current.getPosX();
+							if ((currentY >= 0) && (currentY < grid.getLength())) {
+								if ((currentX >= 0) && (currentX < grid.getLength())) {
+									for (int z = 0; z < this.game_Controller.getEnemyList().size(); z++) {
+										Enemy tmpEnemy = game_Controller.getEnemyList().get(z);
+										if ((tmpEnemy.getPosY() == currentY) && (tmpEnemy.getPosX() == currentX)) {
+											tmpEnemy.setLife(tmpEnemy.getLife() - current.shoot());
+										}
+									}
+
+								}
+
 							}
-					
 						}
-				
+
 					}
-			
+
 				}
-		
 			}
 		}
-		return null;
 	}
 
 	public void checkRange() {

@@ -1,7 +1,7 @@
 package utility;
 
 public class Wave {
-	
+
 	private int enemyNumber;
 	private int enemyLevel;
 	private int enemyType;

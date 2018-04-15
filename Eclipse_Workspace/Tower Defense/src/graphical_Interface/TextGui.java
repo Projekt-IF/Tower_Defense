@@ -22,13 +22,13 @@ public class TextGui extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main (String [] args) {
+	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					TextGui frame = new TextGui();
 					frame.setVisible(true);
-					TD_Client tdc = new TD_Client (args [0], Integer.parseInt(args [1]), frame);
+					TD_Client tdc = new TD_Client(args[0], Integer.parseInt(args[1]), frame);
 					frame.setClient(tdc);
 
 				} catch (Exception e) {
@@ -37,51 +37,49 @@ public class TextGui extends JFrame {
 			}
 		});
 	}
-	
-	public void setClient (TD_Client pClient) {
+
+	public void setClient(TD_Client pClient) {
 		this.myClient = pClient;
 	}
-
 
 	/**
 	 * Create the frame.
 	 */
 	public TextGui() {
-		
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		
+
 		JButton ServerBtn = new JButton("Server");
 		contentPane.add(ServerBtn, BorderLayout.WEST);
-		
+
 		JButton ClientBtn = new JButton("SendMessage");
 		ClientBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				schicken ();
+				schicken();
 			}
 		});
 		contentPane.add(ClientBtn, BorderLayout.EAST);
-		
+
 		textField = new JTextField();
 		contentPane.add(textField, BorderLayout.NORTH);
 		textField.setColumns(10);
-		
+
 		lblContent = new JLabel("Content");
 		contentPane.add(lblContent, BorderLayout.SOUTH);
 	}
-	
+
 	public void ausgeben(String message) {
 		this.lblContent.setText(message);
 	}
-	
-	public void schicken () {
+
+	public void schicken() {
 		String message = this.textField.getText();
 		this.myClient.send(message);
 	}
-
 
 }

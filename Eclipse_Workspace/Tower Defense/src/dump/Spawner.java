@@ -1,12 +1,12 @@
 package dump;
 
 public class Spawner {
-	
+
 	private int yPos;
 	private int xPos;
-	
+
 	private Path nextPathTile;
-	
+
 	public Spawner(int pYPos, int pXPos) {
 		this.setyPos(pYPos);
 		this.setxPos(pXPos);

@@ -1,32 +1,33 @@
 package envoirement;
 
 /**
- * The Tile Class represents the content of the specific point on the level's map.
- * It also saves the path's, or spawner's connected path Tile.
+ * The Tile Class represents the content of the specific point on the level's
+ * map. It also saves the path's, or spawner's connected path Tile.
  */
 public class Tile {
-	
-	//The viable types of Tiles
+
+	// The viable types of Tiles
 	public static final int TYPE_UNOC = 0;
 	public static final int TYPE_BASE = 1;
 	public static final int TYPE_PATH = 2;
 	public static final int TYPE_SPAWN = 3;
 	public static final int TYPE_TOWER = 4;
-	
+
 	private int type;
-	
+
 	private boolean statusOccupied;
-	
+
 	private Tile nextTile;
-	
+
 	private Boolean hasNextTile;
-	
-	//The Tiles position in the level
+
+	// The Tiles position in the level
 	private int yPos;
 	private int xPos;
-	
+
 	/**
 	 * The Constructor initializes the Tile and gives the position in the level.
+	 * 
 	 * @param pYPos
 	 * @param pXPos
 	 */
@@ -86,5 +87,5 @@ public class Tile {
 	public void setHasNextTile(Boolean hasNextTile) {
 		this.hasNextTile = hasNextTile;
 	}
-	
+
 }

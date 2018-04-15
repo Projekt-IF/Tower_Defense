@@ -1,4 +1,5 @@
 package network;
+
 ///Server
 /**
  * <p>
@@ -68,10 +69,9 @@ public class Connection {
 				socket.close();
 			} catch (IOException e) {
 				/*
-				 * Falls eine Verbindung geschlossen werden soll, deren Endpunkt
-				 * nicht mehr existiert bzw. seinerseits bereits geschlossen
-				 * worden ist oder die nicht korrekt instanziiert werden konnte
-				 * (socket == null), geschieht nichts.
+				 * Falls eine Verbindung geschlossen werden soll, deren Endpunkt nicht mehr
+				 * existiert bzw. seinerseits bereits geschlossen worden ist oder die nicht
+				 * korrekt instanziiert werden konnte (socket == null), geschieht nichts.
 				 */
 			}
 	}

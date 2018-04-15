@@ -3,10 +3,13 @@ package game_Controller;
 import envoirement.Grid;
 
 public class Level_Controller {
-	
+
+	private Game_Controller game_Controller;
+
 	private String currentLevel;
-	
-	public Level_Controller(String pCurrentLevel) {
+
+	public Level_Controller(String pCurrentLevel, Game_Controller pGame_Controller) {
+		this.game_Controller = pGame_Controller;
 		this.currentLevel = pCurrentLevel;
 	}
 
@@ -24,10 +27,11 @@ public class Level_Controller {
 	}
 
 	/**
-	 * @param currentLevel the currentLevel to set
+	 * @param currentLevel
+	 *            the currentLevel to set
 	 */
 	public void setCurrentLevel(String currentLevel) {
 		this.currentLevel = currentLevel;
 	}
-	
+
 }

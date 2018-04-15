@@ -9,25 +9,25 @@ import utility.EnemyCooldownTimer;
  * The movement is controlled by the Enemy_Controller.
  */
 public class Enemy {
-	
+
 	/**
 	 * 
 	 */
 	public static final int TYPE_NORMAL = 1;
-	
+
 	private int posX;
 	private int posY;
-	
+
 	private int type;
 	private int level;
-	
+
 	private Double life;
 	private Double speed;
-	
+
 	private int cost;
-		
+
 	private boolean onCooldown;
-	
+
 	/*
 	 * 
 	 */
@@ -38,10 +38,9 @@ public class Enemy {
 		this.life = this.calcLife(pType, pLevel);
 		this.speed = this.calcSpeed(pType, pLevel);
 	}
-	
-	
+
 	public Boolean checkAlife() {
-		if(life <= 0) {
+		if (life <= 0) {
 			return false;
 		} else {
 			return true;
@@ -58,7 +57,7 @@ public class Enemy {
 		Double tmpLife = (pType * 5.0) + (pLevel * 10);
 		return tmpLife;
 	}
-	
+
 	/**
 	 * 
 	 * @param pType
@@ -69,11 +68,11 @@ public class Enemy {
 		Double tmpSpeed = pType * 0.5 + pLevel * 0.25;
 		return tmpSpeed;
 	}
-	
+
 	public void startTimer() {
 		Timer timer = new Timer();
-		System.out.println(this.speed*2500);
-		timer.schedule( new EnemyCooldownTimer(this, timer), (long)(this.speed * 2500));
+		System.out.println(this.speed * 2500);
+		timer.schedule(new EnemyCooldownTimer(this, timer), (long) (this.speed * 2500));
 	}
 
 	public int getPosX() {
@@ -132,7 +131,6 @@ public class Enemy {
 		this.level = level;
 	}
 
-
 	/**
 	 * @return the onCooldown
 	 */
@@ -140,12 +138,12 @@ public class Enemy {
 		return onCooldown;
 	}
 
-
 	/**
-	 * @param onCooldown the onCooldown to set
+	 * @param onCooldown
+	 *            the onCooldown to set
 	 */
 	public void setOnCooldown(boolean onCooldown) {
 		this.onCooldown = onCooldown;
 	}
-	
+
 }

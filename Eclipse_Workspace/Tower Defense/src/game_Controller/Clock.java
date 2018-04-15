@@ -54,12 +54,12 @@ public class Clock {
 
 	// Update game mechanics
 	public void update() {
-		
-		System.out.println("Update" + " " +counter);
-		counter = counter +1;
-		if(counter > 59){
-			
-			System.out.println("Update complete" + " " +counter);
+
+		System.out.println("Update" + " " + counter);
+		counter = counter + 1;
+		if (counter > 59) {
+
+			System.out.println("Update complete" + " " + counter);
 			counter = counter - 60;
 		}
 	}

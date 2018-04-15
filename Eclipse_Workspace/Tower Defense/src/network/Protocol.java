@@ -9,35 +9,49 @@ public class Protocol {
 			SC_HELLO_WORLD = "hllwrld",
 	
 			//Not game important communication
-			SC_LOGIN_CONFIRMED = "liconf",
-			SC_LOGOUT_CONFIRMED = "locnfrmd",
-			SC_PING_BACK = "pback",
-			SC_KICK_PLAYER = "kplayer",
-			SC_RECONNECT_PLAYER = "rcplayer",
+			SC_LOGIN_CONFIRMED = "lgncnfrmd",
+			SC_LOGOUT_CONFIRMED = "lgtcnfrmd",
+			SC_PING_BACK = "pngbck",
+			SC_KICK_PLAYER = "kckplyr",
+			SC_RECONNECT_PLAYER = "rcnnctplyr",
+			
+			SC_GAME_STARTING = "gmstrtng",
 			
 			//In-Game communication
 			SC_LOAD_MAP = "ldmp",
 			SC_LOAD_ENEMIES = "ldnms",
 			SC_LOAD_TOWER = "ldtwr",
 			
-			SC_CHANGE_POSITION_ENEMIE = "chngpstnnm",
-			SC_CHANGE_POSITION_TOWER = "chngpstntwr",
+			//Graphical Changes to be made by the Client
+			SC_UPDATE_PLAYER_MONEY = "pdtplyrmny",
+			SC_UPDATE_POSITION_ENEMY = "pdtpstnnmy",
+			SC_UPDATE_POSITION_TOWER = "pdtpstntwr",
 			SC_CHANGE_MAP = "chngmp",
 			
 			SC_REMOVE_ENEMY = "rmvnmy",
 			SC_REMOVE_TOWER = "rmvtwr",
 			
-			SC_SENDERRORMESSAGE = "sndmssg"
+			//End of game messages
+			SC_VICTORY = "vctry",
+			SC_LOSS = "lss",
+			
+			//Universal
+			SC_SENDERRORMESSAGE = "sndmssg",
+			SC_SURRENDER_SUCCESSFUL = "srrndrsccfl",
+			SC_SURRENDER_UNSUCCESSFUL = "nsrrndrsccfl"
 			;
 	
 	
-	public static final String
+	public static final String //Client-Server communication
 			CS_HELLO_WORLD = "hllwrld",
 			
-			CS_LOGIN = "li",
-			CS_LOGOUT = "lo",
-			CS_GO = "go",
-			CS_PURCHASE_TOWER = "prchstower",
+			//Not game important communication
+			CS_LOGIN = "lgn",
+			CS_LOGOUT = "lgt",
+			CS_GO = "g",
+			
+			//In-Game communication
+			CS_PURCHASE_TOWER = "prchstwr",
 			CS_PURCHASE_ENEMY = "prchsnmy",
 			CS_SURRENDER = "srrndr"
 			;

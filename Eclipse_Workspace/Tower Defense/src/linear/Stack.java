@@ -28,8 +28,7 @@ public class Stack<ContentType> {
 		private StackNode nextNode = null;
 
 		/**
-		 * Ein neues Objekt vom Typ StackNode<ContentType> wird erschaffen.
-		 * <br />
+		 * Ein neues Objekt vom Typ StackNode<ContentType> wird erschaffen. <br />
 		 * Der Inhalt wird per Parameter gesetzt. Der Verweis ist leer.
 		 * 
 		 * @param pContent
@@ -41,8 +40,7 @@ public class Stack<ContentType> {
 		}
 
 		/**
-		 * Der Verweis wird auf das Objekt, das als Parameter uebergeben wird,
-		 * gesetzt.
+		 * Der Verweis wird auf das Objekt, das als Parameter uebergeben wird, gesetzt.
 		 * 
 		 * @param pNext
 		 *            der Nachfolger des Knotens
@@ -80,8 +78,8 @@ public class Stack<ContentType> {
 	}
 
 	/**
-	 * Die Anfrage liefert den Wert true, wenn der Stapel keine Objekte
-	 * enthaelt, sonst liefert sie den Wert false.
+	 * Die Anfrage liefert den Wert true, wenn der Stapel keine Objekte enthaelt,
+	 * sonst liefert sie den Wert false.
 	 * 
 	 * @return true, falls der Stapel leer ist, sonst false
 	 */
@@ -90,8 +88,8 @@ public class Stack<ContentType> {
 	}
 
 	/**
-	 * Das Objekt pContentType wird oben auf den Stapel gelegt. Falls
-	 * pContentType gleich null ist, bleibt der Stapel unveraendert.
+	 * Das Objekt pContentType wird oben auf den Stapel gelegt. Falls pContentType
+	 * gleich null ist, bleibt der Stapel unveraendert.
 	 * 
 	 * @param pContent
 	 *            das einzufuegende Objekt vom Typ ContentType
@@ -105,8 +103,8 @@ public class Stack<ContentType> {
 	}
 
 	/**
-	 * Das zuletzt eingefuegte Objekt wird von dem Stapel entfernt. Falls der
-	 * Stapel leer ist, bleibt er unveraendert.
+	 * Das zuletzt eingefuegte Objekt wird von dem Stapel entfernt. Falls der Stapel
+	 * leer ist, bleibt er unveraendert.
 	 */
 	public void pop() {
 		if (!isEmpty()) {
@@ -115,8 +113,8 @@ public class Stack<ContentType> {
 	}
 
 	/**
-	 * Die Anfrage liefert das oberste Stapelobjekt. Der Stapel bleibt
-	 * unveraendert. Falls der Stapel leer ist, wird null zurueckgegeben.
+	 * Die Anfrage liefert das oberste Stapelobjekt. Der Stapel bleibt unveraendert.
+	 * Falls der Stapel leer ist, wird null zurueckgegeben.
 	 * 
 	 * @return das oberste Stackelement vom Typ ContentType oder null, falls der
 	 *         Stack leer ist

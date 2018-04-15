@@ -112,9 +112,9 @@ public class GUI extends GUI_Content {
 		try {
 			content.add(new JLabel(new ImageIcon(ImageIO
 					.read(new File("H:\\git\\Tower_Defense\\TestFile\\Eclipse_Workspace\\Tower Defense\\Images\\1.png"))
-					.getScaledInstance(Toolkit.getDefaultToolkit()
-				            .getScreenSize().width, Toolkit.getDefaultToolkit()
-				            .getScreenSize().height, Image.SCALE_FAST))), BorderLayout.CENTER);
+					.getScaledInstance(Toolkit.getDefaultToolkit().getScreenSize().width,
+							Toolkit.getDefaultToolkit().getScreenSize().height, Image.SCALE_FAST))),
+					BorderLayout.CENTER);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

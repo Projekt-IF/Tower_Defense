@@ -5,23 +5,24 @@ import java.util.TimerTask;
 
 import objects.Tower;
 
-public class TowerCooldownTimer extends TimerTask{
-	
+public class TowerCooldownTimer extends TimerTask {
+
 	private Tower tower;
-	
+
 	private Timer timer;
-	
+
 	private static int count = 0;
-	
+
 	public TowerCooldownTimer(Tower pTower, Timer pTimer) {
 		super();
 		this.timer = pTimer;
 		this.tower = pTower;
 	}
-	@Override 
+
+	@Override
 	public void run() {
 		count++;
-		if(count == 2) {
+		if (count == 2) {
 			timer.cancel();
 			count = 0;
 		}
