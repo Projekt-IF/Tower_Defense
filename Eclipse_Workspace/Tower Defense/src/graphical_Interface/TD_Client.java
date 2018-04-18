@@ -1,5 +1,7 @@
 package graphical_Interface;
 
+import network.Protocol;
+
 public class TD_Client extends Client {
 
 	private TextGui myGui;
@@ -11,6 +13,10 @@ public class TD_Client extends Client {
 	}
 
 	public void processMessage(String pMessage) {
-		this.myGui.ausgeben(pMessage);
+		String[] tags = pMessage.split(Protocol.SEPARATOR);
+		String prefix = tags[0];
+		if(tags[1] != null) {
+		this.myGui.ausgeben(tags[1]);
+		}
 	}
 }
