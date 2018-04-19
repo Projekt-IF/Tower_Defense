@@ -19,8 +19,8 @@ public class Tower {
 
 	private double cooldownTime;
 
-	public Tower(int pPosX, int pPosY, int pRange, Double pStrength, double pSpeed, double pVelocity,
-			double pCooldownTime) {
+	public Tower(int pPosX, int pPosY, int pRange, int pStrength, int pSpeed, int pVelocity,
+			int pCooldownTime) {
 		this.onCooldown = false;
 		this.cooldownTime = pCooldownTime;
 		this.posX = pPosX;
@@ -29,13 +29,13 @@ public class Tower {
 		this.shot = new Shot(pStrength, pSpeed, pVelocity);
 	}
 
-	public void upgradeShot(double strength, double speed, double velocity) {
+	public void upgradeShot(int strength, int speed, int velocity) {
 		this.shot.setStrength(strength);
 		this.shot.setSpeed(speed);
 		this.shot.setVelocity(velocity);
 	}
 
-	public void degradeShot(double strength, double speed, double velocity) {
+	public void degradeShot(int strength, int speed, int velocity) {
 		this.shot.setStrength(strength);
 		this.shot.setSpeed(speed);
 		this.shot.setVelocity(velocity);

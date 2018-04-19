@@ -18,11 +18,11 @@ public class Enemy {
 	private int posX;
 	private int posY;
 
-	private int type;
+	private EnemyTypes type;
 	private int level;
 
-	private Double life;
-	private Double speed;
+	private int life;
+	private int speed;
 
 	private int cost;
 
@@ -33,10 +33,11 @@ public class Enemy {
 	 */
 	public Enemy(int pPosX, int pPosY, int pType, int pLevel) {
 		onCooldown = false;
+		this.type = new EnemyTypes(pType);
 		this.posX = pPosX;
 		this.posY = pPosY;
-		this.life = this.calcLife(pType, pLevel);
-		this.speed = this.calcSpeed(pType, pLevel);
+		this.life = type.getLife();
+		this.speed = type.getSpeed();
 	}
 
 	public Boolean checkAlife() {
@@ -45,28 +46,6 @@ public class Enemy {
 		} else {
 			return true;
 		}
-	}
-
-	/**
-	 * 
-	 * @param pType
-	 * @param pLevel
-	 * @return
-	 */
-	private Double calcLife(int pType, int pLevel) {
-		Double tmpLife = (pType * 5.0) + (pLevel * 10);
-		return tmpLife;
-	}
-
-	/**
-	 * 
-	 * @param pType
-	 * @param pLevel
-	 * @return
-	 */
-	private Double calcSpeed(int pType, int pLevel) {
-		Double tmpSpeed = pType * 0.5 + pLevel * 0.25;
-		return tmpSpeed;
 	}
 
 	public void startTimer() {
@@ -91,19 +70,19 @@ public class Enemy {
 		this.posY = posY;
 	}
 
-	public Double getLife() {
+	public int getLife() {
 		return life;
 	}
 
-	public void setLife(Double life) {
+	public void setLife(int life) {
 		this.life = life;
 	}
 
-	public Double getSpeed() {
+	public int getSpeed() {
 		return speed;
 	}
 
-	public void setSpeed(Double speed) {
+	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
 
@@ -113,14 +92,6 @@ public class Enemy {
 
 	public void setCost(int cost) {
 		this.cost = cost;
-	}
-
-	public int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
 	}
 
 	public int getLevel() {
