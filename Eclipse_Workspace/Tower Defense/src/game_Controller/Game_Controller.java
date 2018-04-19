@@ -278,7 +278,7 @@ public class Game_Controller {
 			// System.out.println();
 			System.out.println("Welle " + waves[a] + " Level: " + gC.getCurrentLevel());
 			gC.getTowerController().clearTowerList();
-			gC.getTowerList().add(gC.getTowerController().createTower(2, 1, 2, 5, 5, 5, 0.5));
+			gC.getTowerList().add(gC.getTowerController().createTower(2, 1, 2));
 			// Loading Waves
 			// System.out.println("TEst2");
 			// System.out.println(

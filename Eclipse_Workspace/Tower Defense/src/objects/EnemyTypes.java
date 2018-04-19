@@ -53,11 +53,11 @@ public class EnemyTypes {
 		switch(type)
 		{
 		case '0':
-			calcedLife = 1;
+			calcedLife = 10;
 		case '1':
-			calcedLife = 3;
+			calcedLife = 30;
 		case '2':
-			calcedLife = 5;
+			calcedLife = 50;
 		default:
 			calcedLife = 0;
 		}

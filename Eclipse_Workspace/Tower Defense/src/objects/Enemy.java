@@ -74,10 +74,6 @@ public class Enemy {
 		return life;
 	}
 
-	public void setLife(int life) {
-		this.life = life;
-	}
-
 	public int getSpeed() {
 		return speed;
 	}
@@ -115,6 +111,10 @@ public class Enemy {
 	 */
 	public void setOnCooldown(boolean onCooldown) {
 		this.onCooldown = onCooldown;
+	}
+
+	public void setLife(int pLife) {
+		this.life = pLife;
 	}
 
 }

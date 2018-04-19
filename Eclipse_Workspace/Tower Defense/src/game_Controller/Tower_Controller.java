@@ -33,11 +33,10 @@ public class Tower_Controller {
 		// TODO:
 	}
 
-	public Tower createTower(int pPosX, int pPosY, int pRange, double pStrength, double pSpeed, double pVelocity,
-			double pCooldownTime) {
+	public Tower createTower(int pPosX, int pPosY, int pType) {
 		// TODO:
 		grid.getGridLayer()[pPosY][pPosX].setType(Tile.TYPE_TOWER);
-		return new Tower(pPosX, pPosY, pRange, pStrength, pSpeed, pVelocity, pCooldownTime);
+		return new Tower(pPosX, pPosY, pType);
 	}
 
 	public void shootTower() {

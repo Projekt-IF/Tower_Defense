@@ -3,13 +3,11 @@ package objects;
 public class Shot {
 
 	private int strength; // strength of shots
-	private int speed; // number of shots in 'time'
-	private int velocity; // velocity of shots
+	private int speed; // speed of shots
 
-	public Shot(int pStrength, int pSpeed, int pVelocity) {
+	public Shot(int pStrength, int pSpeed) {
 		this.strength = pStrength;
 		this.speed = pSpeed;
-		this.velocity = pVelocity;
 	}
 
 	public int getStrength() // returns value of 'strength'
@@ -30,12 +28,4 @@ public class Shot {
 		this.speed = speed;
 	}
 
-	public int getVelocity() // returns value of 'velocity'
-	{
-		return velocity;
-	}
-
-	public void setVelocity(int velocity) {
-		this.velocity = velocity;
-	}
 }
