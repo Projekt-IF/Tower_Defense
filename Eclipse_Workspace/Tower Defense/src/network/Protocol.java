@@ -15,10 +15,10 @@ public class Protocol {
 			SC_KICK_PLAYER = "kckplyr",
 			SC_RECONNECT_PLAYER = "rcnnctplyr",
 			
-			SC_LOBY_USERS = "",
-			SC_PLAYER_JOINED = "",
-			SC_LOBBY_FULL = "",
-			SC_ALL_PLAYER_READY = "",
+			SC_LOBBY_USERS = "lbbyser",
+			SC_PLAYER_JOINED = "plyrjind",
+			SC_LOBBY_FULL = "lbbyfll",
+			SC_ALL_PLAYER_READY = "llplyrrdy",
 			
 			SC_GAME_STARTING = "gmstrtng",
 			
@@ -39,7 +39,7 @@ public class Protocol {
 			//End of game messages
 			SC_VICTORY = "vctry",
 			SC_LOSS = "lss",
-			SC_ENDOFGAMESTATS = "",
+			SC_ENDOFGAMESTATS = "ndfgmstts",
 			
 			
 			//Universal
@@ -62,9 +62,9 @@ public class Protocol {
 			//In-Game communication
 			CS_PURCHASE_TOWER = "prchstwr",
 			CS_PURCHASE_ENEMY = "prchsnmy",
-			CS_READY_TOWERPLACING = "",
-			CS_READY_ENEMIESPURCHASED = "",
-			CS_ROUND_OVER = "",
+			CS_READY_TOWERPLACING = "rdytwrplcng",
+			CS_READY_ENEMIESPURCHASED = "rdynmsprchsd",
+			CS_ROUND_OVER = "rndvr",
 			CS_SURRENDER = "srrndr"
 			;
 
