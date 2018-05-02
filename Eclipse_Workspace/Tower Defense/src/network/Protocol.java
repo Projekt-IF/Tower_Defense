@@ -15,6 +15,11 @@ public class Protocol {
 			SC_KICK_PLAYER = "kckplyr",
 			SC_RECONNECT_PLAYER = "rcnnctplyr",
 			
+			SC_LOBY_USERS = "",
+			SC_PLAYER_JOINED = "",
+			SC_LOBBY_FULL = "",
+			SC_ALL_PLAYER_READY = "",
+			
 			SC_GAME_STARTING = "gmstrtng",
 			
 			//In-Game communication
@@ -34,6 +39,8 @@ public class Protocol {
 			//End of game messages
 			SC_VICTORY = "vctry",
 			SC_LOSS = "lss",
+			SC_ENDOFGAMESTATS = "",
+			
 			
 			//Universal
 			SC_SENDERRORMESSAGE = "sndmssg",
@@ -43,17 +50,23 @@ public class Protocol {
 	
 	
 	public static final String //Client-Server communication
+	
 			CS_HELLO_WORLD = "hllwrld",
 			
 			//Not game important communication
 			CS_LOGIN = "lgn",
 			CS_LOGOUT = "lgt",
+			CS_PLAY = "ply",
 			CS_GO = "g",
 			
 			//In-Game communication
 			CS_PURCHASE_TOWER = "prchstwr",
 			CS_PURCHASE_ENEMY = "prchsnmy",
+			CS_READY_TOWERPLACING = "",
+			CS_READY_ENEMIESPURCHASED = "",
+			CS_ROUND_OVER = "",
 			CS_SURRENDER = "srrndr"
 			;
 
 }
+
