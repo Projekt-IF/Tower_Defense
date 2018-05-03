@@ -261,6 +261,17 @@ public class Game_Controller {
 		this.timer = timer;
 	}
 
+	public void addPurchasedTower(int pPosX, int pPosY, int pType) {
+		getTowerList().add(getTowerController().createTower(pPosX, pPosY, pType));
+	}
+	
+	public void addPurchasedEnemies(ArrayList<Enemy> pAddedEnemies) {
+		for(int i = 0; i < pAddedEnemies.size(); i++) {
+			getEnemyList().add(pAddedEnemies.get(i));
+		}
+		pAddedEnemies.clear();
+	}
+
 	public void test() {
 		Game_Controller gC = new Game_Controller();
 		String[] waves = new String[3];
