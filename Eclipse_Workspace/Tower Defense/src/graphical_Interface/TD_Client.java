@@ -29,14 +29,23 @@ public class TD_Client extends Client {
 			
 		case Protocol.SC_LOGOUT_CONFIRMED:
 			break;
-			
-		case Protocol.SC_PING_BACK:
-			break;
-			
+
 		case Protocol.SC_RECONNECT_PLAYER:
 			break;
 			
 		case Protocol.SC_KICK_PLAYER:
+			break;
+			
+		case Protocol.SC_LOBBY_USERS:
+			break;
+			
+		case Protocol.SC_PLAYER_JOINED:
+			break;
+			
+		case Protocol.SC_LOBBY_FULL:
+			break;
+			
+		case Protocol.SC_ALL_PLAYER_READY:
 			break;
 			
 		//In-Game communication
@@ -82,6 +91,9 @@ public class TD_Client extends Client {
 		case Protocol.SC_LOSS:
 			break;
 			
+		case Protocol.SC_ENDOFGAMESTATS:
+			break;
+			
 		//Universal
 			
 		case Protocol.SC_SENDERRORMESSAGE:
@@ -96,6 +108,9 @@ public class TD_Client extends Client {
 		case Protocol.SEPARATOR:
 			break;
 		
+			default:
+				this.myGui.ausgeben("Error!");
+				break;
 		
 		}
 	}
