@@ -7,7 +7,7 @@ import utility.WaveReader;
 
 public class Wave_Controller {
 
-	private Game_Controller game_Controller;
+//	private Game_Controller game_Controller;
 
 	private WaveReader wR;
 
@@ -15,8 +15,8 @@ public class Wave_Controller {
 
 	private ArrayList<Wave> waveList;
 
-	public Wave_Controller(ArrayList<Wave> pWaveList, Game_Controller pGame_Controller) {
-		this.game_Controller = pGame_Controller;
+	public Wave_Controller(ArrayList<Wave> pWaveList/*, Game_Controller pGame_Controller*/) {
+//		this.game_Controller = pGame_Controller;
 		wR = new WaveReader();
 		this.waveList = pWaveList;
 	}

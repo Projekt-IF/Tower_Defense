@@ -11,7 +11,7 @@ import objects.Enemy;
  */
 public class Enemy_Controller {
 
-	private Game_Controller game_Controller;
+//	private Game_Controller game_Controller;
 
 	private Grid grid;
 
@@ -22,8 +22,8 @@ public class Enemy_Controller {
 	/**
 	 * 
 	 */
-	public Enemy_Controller(ArrayList<Enemy> pEnemyList, Game_Controller pGame_Controller) {
-		this.game_Controller = pGame_Controller;
+	public Enemy_Controller(ArrayList<Enemy> pEnemyList/*, Game_Controller pGame_Controller*/) {
+//		this.game_Controller = pGame_Controller;
 		this.enemyList = pEnemyList;
 	}
 

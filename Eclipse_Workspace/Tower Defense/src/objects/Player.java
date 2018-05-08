@@ -8,11 +8,21 @@ public class Player {
 	private long playerMoney;
 
 	private boolean isConnected;
+	private boolean isInLobby;
 	private boolean isInGame;
 
 	public Player(String pPlayerIP, Integer pPlayerPort) {
 		this.setPlayerIP(pPlayerIP);
 		this.setPlayerPort(pPlayerPort);
+	}
+	
+	public boolean haveSameStats(Player testPlayer, Player listPlayer) {
+		if ((testPlayer.getPlayerIP().equals(listPlayer.getPlayerIP()))
+				&& ((int) testPlayer.getPlayerPort() == (int) listPlayer.getPlayerPort())) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -73,6 +83,20 @@ public class Player {
 	 */
 	public void setConnected(boolean isConnected) {
 		this.isConnected = isConnected;
+	}
+
+	/**
+	 * @return the isInLobby
+	 */
+	public boolean isInLobby() {
+		return isInLobby;
+	}
+
+	/**
+	 * @param isInLobby the isInLobby to set
+	 */
+	public void setInLobby(boolean isInLobby) {
+		this.isInLobby = isInLobby;
 	}
 
 	/**

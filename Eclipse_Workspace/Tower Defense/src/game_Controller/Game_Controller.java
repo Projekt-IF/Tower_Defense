@@ -46,9 +46,9 @@ public class Game_Controller {
 		this.enemyList = new ArrayList<Enemy>();
 		this.towerList = new ArrayList<Tower>();
 		this.waveList = new ArrayList<Wave>();
-		this.lC = new Level_Controller(this.currentLevel, this);
-		this.wC = new Wave_Controller(this.waveList, this);
-		this.eC = new Enemy_Controller(this.enemyList, this);
+		this.lC = new Level_Controller(this.currentLevel/*, this*/);
+		this.wC = new Wave_Controller(this.waveList/*, this*/);
+		this.eC = new Enemy_Controller(this.enemyList/*, this*/);
 		this.tC = new Tower_Controller(this.towerList, this);
 		this.timer = new Timer();
 		// iniciateGame();
@@ -280,7 +280,6 @@ public class Game_Controller {
 		waves[2] = "src/Waves/Wave_Two.txt";
 		// Setting the Grid
 		gC.iniciateGame();
-		int co = 0;
 		for (int a = 0; a < waves.length; a++) {
 			// Setting up tower
 			// System.out.println();
