@@ -8,11 +8,13 @@ public class Lobby {
 	private Player player_2;
 
 	private boolean isFull;
+	private boolean inGame;
 
 	public Lobby() {
 		player_1 = null;
 		player_2 = null;
 		isFull = false;
+		inGame = false;
 	}
 
 	public boolean haveSameStats(Player testPlayer, Player lobbyPlayer) {
@@ -67,6 +69,20 @@ public class Lobby {
 	 */
 	public void setIsFull(Boolean isFull) {
 		this.isFull = isFull;
+	}
+
+	/**
+	 * @return the inGame
+	 */
+	public boolean isInGame() {
+		return inGame;
+	}
+
+	/**
+	 * @param inGame the inGame to set
+	 */
+	public void setInGame(boolean inGame) {
+		this.inGame = inGame;
 	}
 
 }
