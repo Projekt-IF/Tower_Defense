@@ -2,15 +2,15 @@ package network;
 
 import java.util.ArrayList;
 
-import game_Controller.Game_Controller;
 import network.Protocol;
 import objects.Player;
+import utility.GameFrameWork;
 import utility.Lobby;
 
 ///Server
 public class Server_TD extends Server {
 
-	private Game_Controller gameController;
+	private GameFrameWork gameFrameWork;
 
 	private ArrayList<Player> playerList;
 	private ArrayList<Lobby> lobbyList;
@@ -20,7 +20,6 @@ public class Server_TD extends Server {
 		playerList = new ArrayList<Player>();
 		lobbyList = new ArrayList<Lobby>();
 		lobbyList.add(new Lobby());
-		gameController = new Game_Controller();
 		System.out.println("Server auf Port: " + pPort + " geöffnet!");
 		showLobbys();
 		showPlayer();
@@ -66,7 +65,6 @@ public class Server_TD extends Server {
 
 		case Protocol.CS_GO:
 			backMessage = Protocol.SC_GAME_STARTING + Protocol.SEPARATOR + "Game Starting";
-			gameController.test();
 			break;
 
 		default:
@@ -158,6 +156,12 @@ public class Server_TD extends Server {
 		}
 		mPlayer = null;
 		showPlayer();
+	}
+
+	public void startGame(int lobbyIndex) {
+		if (lobbyList.get(lobbyIndex).getGameFrameWork().playerReadyCheck()) {
+			lobbyList.get(lobbyIndex).setInGame(true);
+		}
 	}
 
 	public void showLobbys() {

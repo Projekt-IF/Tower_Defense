@@ -7,6 +7,8 @@ public class Player {
 
 	private long playerMoney;
 
+	private boolean isReady;
+	
 	private boolean isConnected;
 	private boolean isInLobby;
 	private boolean isInGame;
@@ -112,6 +114,20 @@ public class Player {
 	 */
 	public void setInGame(boolean isInGame) {
 		this.isInGame = isInGame;
+	}
+
+	/**
+	 * @return the isReady
+	 */
+	public boolean isReady() {
+		return isReady;
+	}
+
+	/**
+	 * @param isReady the isReady to set
+	 */
+	public void setReady(boolean isReady) {
+		this.isReady = isReady;
 	}
 
 }

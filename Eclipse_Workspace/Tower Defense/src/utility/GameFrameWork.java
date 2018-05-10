@@ -1,28 +1,79 @@
 package utility;
 
+import java.util.ArrayList;
+
 import game_Controller.Game_Controller;
+import objects.Enemy;
 import objects.Player;
 
 public class GameFrameWork {
+	
+	public static final int startMoney = 500;
 	
 	private Player player_1;
 	private Player player_2;
 	
 	private Game_Controller player_1_Game_Controller;
-	private Game_Controller player_2_Game_COntroller;
+	private Game_Controller player_2_Game_Controller;
 	
-	public GameFrameWork() {
-		
+	private ArrayList<Enemy> baughtEnemies_Player_1;
+	private ArrayList<Enemy> baughtEnemies_Player_2;
+	
+	public GameFrameWork(Player pPlayer_1, Player pPlayer_2) {
+		this.player_1 = pPlayer_1;
+		this.player_2 = pPlayer_2;
 	}
 	
 	public void setLevel(String pLevel) {
 		player_1_Game_Controller.setCurrentLevel(pLevel);
-		player_2_Game_COntroller.setCurrentLevel(pLevel);
+		player_2_Game_Controller.setCurrentLevel(pLevel);
 	}
 	
-	public void startGame() {
+	/**
+	 * The Game is engaged for both players. The grid gets set. Then the possibility to buy towers and enemies.
+	 */
+	public void startGame(String pLevel) {
+		prepareGame(pLevel);
+		startLoop();
+	}
+	
+	private void startLoop() {
+		// TODO Auto-generated method stub
+		
 	}
 
+	private void prepareGame(String pLevel) {
+		// TODO 
+		setLevel(pLevel);
+		player_1.setPlayerMoney(startMoney);
+		player_2.setPlayerMoney(startMoney);
+	}
+
+	public void assembleWaves() {
+		player_1_Game_Controller.addPurchasedEnemies(baughtEnemies_Player_1);
+		player_2_Game_Controller.addPurchasedEnemies(baughtEnemies_Player_2);
+	}
+	
+	public boolean playerReadyCheck() {
+		if (player_1.isReady()) {
+			if (player_2.isReady()) {
+				// Both Players Ready
+				return true;
+			} else {
+				// Player_1 Ready, Player_2 Not
+				return false;
+			}
+		} else {
+			if (player_2.isReady()) {
+				// Player_1 Not, Player_2 Ready
+				return false;
+			} else {
+				// Player_1 Not, Player_2 Not
+				return false;
+			}
+		}
+	}
+	
 	/**
 	 * @return the player_1
 	 */
@@ -68,15 +119,15 @@ public class GameFrameWork {
 	/**
 	 * @return the player_2_Game_COntroller
 	 */
-	public Game_Controller getPlayer_2_Game_COntroller() {
-		return player_2_Game_COntroller;
+	public Game_Controller getPlayer_2_Game_Controller() {
+		return player_2_Game_Controller;
 	}
 
 	/**
 	 * @param player_2_Game_COntroller the player_2_Game_COntroller to set
 	 */
 	public void setPlayer_2_Game_COntroller(Game_Controller player_2_Game_COntroller) {
-		this.player_2_Game_COntroller = player_2_Game_COntroller;
+		this.player_2_Game_Controller = player_2_Game_COntroller;
 	}
 
 }

@@ -4,6 +4,8 @@ import objects.Player;
 
 public class Lobby {
 
+	private GameFrameWork gameFrameWork;
+
 	private Player player_1;
 	private Player player_2;
 
@@ -79,10 +81,28 @@ public class Lobby {
 	}
 
 	/**
-	 * @param inGame the inGame to set
+	 * @param inGame
+	 *            the inGame to set
 	 */
 	public void setInGame(boolean inGame) {
+		player_1.setInGame(inGame);
+		player_2.setInGame(inGame);
 		this.inGame = inGame;
+	}
+
+	/**
+	 * @return the gameFrameWork
+	 */
+	public GameFrameWork getGameFrameWork() {
+		return gameFrameWork;
+	}
+
+	/**
+	 * @param gameFrameWork
+	 *            the gameFrameWork to set
+	 */
+	public void setGameFrameWork(GameFrameWork gameFrameWork) {
+		this.gameFrameWork = gameFrameWork;
 	}
 
 }

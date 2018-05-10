@@ -14,19 +14,15 @@ public class Game_Controller {
 	private Timer timer;
 
 	private String currentLevel;
+	private int currentWave;
 
 	private ArrayList<Enemy> enemyList;
-
 	private ArrayList<Tower> towerList;
-
 	private ArrayList<Wave> waveList;
 
 	private Enemy_Controller eC;
-
 	private Wave_Controller wC;
-
 	private Level_Controller lC;
-
 	private Tower_Controller tC;
 
 	private Grid globalGrid;
@@ -261,12 +257,26 @@ public class Game_Controller {
 		this.timer = timer;
 	}
 
+	/**
+	 * @return the currentWave
+	 */
+	public int getCurrentWave() {
+		return currentWave;
+	}
+
+	/**
+	 * @param currentWave the currentWave to set
+	 */
+	public void setCurrentWave(int currentWave) {
+		this.currentWave = currentWave;
+	}
+
 	public void addPurchasedTower(int pPosX, int pPosY, int pType) {
 		getTowerList().add(getTowerController().createTower(pPosX, pPosY, pType));
 	}
 	
 	public void addPurchasedEnemies(ArrayList<Enemy> pAddedEnemies) {
-		for(int i = 0; i < pAddedEnemies.size(); i++) {
+		for (int i = 0; i < pAddedEnemies.size(); i++) {
 			getEnemyList().add(pAddedEnemies.get(i));
 		}
 		pAddedEnemies.clear();
@@ -301,6 +311,7 @@ public class Game_Controller {
 			// System.out.println("TEst3");
 			// Go Through Wave List
 			while (!gC.getWaveController().getWaveList().isEmpty()) {
+				gC.setCurrentWave(gC.getCurrentWave() + 1);
 				// Create Wave
 				gC.createWave(gC.getWaveController().getCurrentWave().getEnemyNumber(),
 						gC.getWaveController().getCurrentWave().getEnemyType(),
