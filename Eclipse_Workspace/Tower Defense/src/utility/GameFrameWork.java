@@ -10,6 +10,8 @@ public class GameFrameWork {
 	
 	public static final int startMoney = 500;
 	
+	public static final int startHealth = 100;
+	
 	private Player player_1;
 	private Player player_2;
 	
@@ -22,6 +24,8 @@ public class GameFrameWork {
 	public GameFrameWork(Player pPlayer_1, Player pPlayer_2) {
 		this.player_1 = pPlayer_1;
 		this.player_2 = pPlayer_2;
+		this.player_1_Game_Controller = new Game_Controller(player_1);
+		this.player_2_Game_Controller = new Game_Controller(player_2);
 	}
 	
 	public void setLevel(String pLevel) {
@@ -47,6 +51,8 @@ public class GameFrameWork {
 		setLevel(pLevel);
 		player_1.setPlayerMoney(startMoney);
 		player_2.setPlayerMoney(startMoney);
+		player_1.setHealth(startHealth);
+		player_2.setHealth(startHealth);
 	}
 
 	public void assembleWaves() {

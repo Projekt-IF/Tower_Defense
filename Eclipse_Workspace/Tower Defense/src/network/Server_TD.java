@@ -10,8 +10,6 @@ import utility.Lobby;
 ///Server
 public class Server_TD extends Server {
 
-	private GameFrameWork gameFrameWork;
-
 	private ArrayList<Player> playerList;
 	private ArrayList<Lobby> lobbyList;
 
@@ -29,6 +27,7 @@ public class Server_TD extends Server {
 	@Override
 	public void processNewConnection(String pClientIP, int pClientPort) {
 		Player newPlayer = new Player(pClientIP, pClientPort);
+		newPlayer.setConnected(true);
 		playerList.add(newPlayer);
 		System.out.println("Connected new Player! \n IP: " + pClientIP + " Port: " + pClientPort + " !");
 		sortInLobby(newPlayer);
@@ -38,6 +37,8 @@ public class Server_TD extends Server {
 
 	@Override
 	public void processMessage(String pClientIP, int pClientPort, String pMessage) {
+
+		Player player = getPlayer(pClientIP, pClientPort);
 
 		System.out.println("Server: Empfangen <" + pMessage + "> von " + pClientIP + "/" + pClientPort);
 		String[] token = pMessage.split(Protocol.SEPARATOR);
@@ -67,6 +68,18 @@ public class Server_TD extends Server {
 			backMessage = Protocol.SC_GAME_STARTING + Protocol.SEPARATOR + "Game Starting";
 			break;
 
+		case Protocol.CS_READY_LOBBY:
+			//TODO: Fix so it can change the actual state of ready!
+			if (token[1] == "true") {
+				player.setReady(true);
+			} else {
+				player.setReady(false);
+			}
+			showLobbys();
+			showPlayer();
+			backMessage = Protocol.SC_PLAYER_READY + Protocol.SEPARATOR + player.getPositionIndex() + Protocol.SEPARATOR
+					+ token[1];
+			break;
 		default:
 			backMessage = Protocol.SC_SENDERRORMESSAGE + Protocol.SEPARATOR + "Error!";
 			break;
@@ -86,8 +99,20 @@ public class Server_TD extends Server {
 		Player removePlayer = new Player(pClientIP, pClientPort);
 		removeFromLobby(removePlayer);
 		removeFromPlayers(removePlayer);
+		removePlayer.setConnected(false);
 		this.closeConnection(pClientIP, pClientPort);
 
+	}
+
+	private Player getPlayer(String pClientIP, int pClientPort) {
+		Player testPlayer = new Player(pClientIP, pClientPort);
+		Player player = null;
+		for (int i = 0; i < playerList.size(); i++) {
+			if (playerList.get(i).haveSameStats(testPlayer, playerList.get(i))) {
+				player = playerList.get(i);
+			}
+		}
+		return player;
 	}
 
 	public void sortInLobby(Player player) {
@@ -95,27 +120,37 @@ public class Server_TD extends Server {
 			System.out.println(lobbyList.get(i).getIsFull());
 			if (!lobbyList.get(i).getIsFull()) {
 				if ((lobbyList.get(i).getPlayer_1() != null) && (lobbyList.get(i).getPlayer_2() == null)) {
-					lobbyList.get(i).setPlayer_2(player);
+					lobbyList.get(i).setPlayer_2(player, playerList.indexOf(player));
+					player.setLobbyIndex(i);
+					player.setPositionIndex(2);
 					lobbyList.get(i).setIsFull(true);
 					break;
 				} else if ((lobbyList.get(i).getPlayer_1() == null) && (lobbyList.get(i).getPlayer_2() != null)) {
-					lobbyList.get(i).setPlayer_1(player);
+					lobbyList.get(i).setPlayer_1(player, playerList.indexOf(player));
+					player.setLobbyIndex(i);
+					player.setPositionIndex(1);
 					lobbyList.get(i).setIsFull(true);
 					break;
 				} else if ((lobbyList.get(i).getPlayer_1() == null) && (lobbyList.get(i).getPlayer_2() == null)) {
-					lobbyList.get(i).setPlayer_1(player);
+					lobbyList.get(i).setPlayer_1(player, playerList.indexOf(player));
+					player.setLobbyIndex(i);
+					player.setPositionIndex(1);
 					lobbyList.get(i).setIsFull(false);
 					break;
 				}
+
 			} else {
 				if (i == (lobbyList.size() - 1)) {
 					Lobby newLobby = new Lobby();
-					newLobby.setPlayer_1(player);
+					newLobby.setPlayer_1(player, playerList.indexOf(player));
+					player.setLobbyIndex(i);
+					player.setPositionIndex(1);
 					lobbyList.add(newLobby);
 					break;
 				}
 			}
 		}
+		player.setInLobby(true);
 		showLobbys();
 		showPlayer();
 	}
@@ -125,24 +160,25 @@ public class Server_TD extends Server {
 			if ((lobbyList.get(i).getPlayer_1() == null) && (lobbyList.get(i).getPlayer_2() == null)) {
 			} else if ((lobbyList.get(i).getPlayer_1() != null) && (lobbyList.get(i).getPlayer_2() == null)) {
 				if (lobbyList.get(i).haveSameStats(mPlayer, lobbyList.get(i).getPlayer_1())) {
-					lobbyList.get(i).setPlayer_1(null);
+					lobbyList.get(i).setPlayer_1(null, (Integer) null);
 					lobbyList.get(i).setIsFull(false);
 				}
 			} else if ((lobbyList.get(i).getPlayer_1() == null) && (lobbyList.get(i).getPlayer_2() != null)) {
 				if (lobbyList.get(i).haveSameStats(mPlayer, lobbyList.get(i).getPlayer_2())) {
-					lobbyList.get(i).setPlayer_2(null);
+					lobbyList.get(i).setPlayer_2(null, (Integer) null);
 					lobbyList.get(i).setIsFull(false);
 				}
 			} else if ((lobbyList.get(i).getPlayer_1() != null) && (lobbyList.get(i).getPlayer_2() != null)) {
 				if (lobbyList.get(i).haveSameStats(mPlayer, lobbyList.get(i).getPlayer_1())) {
-					lobbyList.get(i).setPlayer_1(null);
+					lobbyList.get(i).setPlayer_1(null, (Integer) null);
 					lobbyList.get(i).setIsFull(false);
 				} else if (lobbyList.get(i).haveSameStats(mPlayer, lobbyList.get(i).getPlayer_2())) {
-					lobbyList.get(i).setPlayer_2(null);
+					lobbyList.get(i).setPlayer_2(null, (Integer) null);
 					lobbyList.get(i).setIsFull(false);
 				}
 			}
 		}
+		mPlayer.setInLobby(false);
 		showLobbys();
 	}
 
@@ -169,17 +205,21 @@ public class Server_TD extends Server {
 			if ((lobbyList.get(i).getPlayer_1() == null) && (lobbyList.get(i).getPlayer_2() == null)) {
 				System.out.println("Lobby " + (i + 1) + " is Empty!");
 			} else if ((lobbyList.get(i).getPlayer_1() != null) && (lobbyList.get(i).getPlayer_2() == null)) {
-				System.out.println("In Lobby " + (i + 1) + " are Player_1: "
-						+ lobbyList.get(i).getPlayer_1().getPlayerIP() + " and Player_2: EMPTY");
+				System.out.println(
+						"In Lobby " + (i + 1) + " are Player_1: " + lobbyList.get(i).getPlayer_1().getPlayerIP()
+								+ " ISREADY: " + lobbyList.get(i).getPlayer_1().isReady() + " and Player_2: EMPTY");
 				System.out.println();
 			} else if ((lobbyList.get(i).getPlayer_1() == null) && (lobbyList.get(i).getPlayer_2() != null)) {
 				System.out.println("In Lobby " + (i + 1) + " are Player_1: EMPTY " + " and Player_2: "
-						+ lobbyList.get(i).getPlayer_2().getPlayerIP());
+						+ lobbyList.get(i).getPlayer_2().getPlayerIP() + " ISREADY: "
+						+ lobbyList.get(i).getPlayer_2().isReady());
 				System.out.println();
 			} else if ((lobbyList.get(i).getPlayer_1() != null) && (lobbyList.get(i).getPlayer_2() != null)) {
 				System.out.println(
 						"In Lobby " + (i + 1) + " are Player_1: " + lobbyList.get(i).getPlayer_1().getPlayerIP()
-								+ " and Player_2: " + lobbyList.get(i).getPlayer_2().getPlayerIP());
+								+ " ISREADY: " + lobbyList.get(i).getPlayer_1().isReady() + " and Player_2: "
+								+ lobbyList.get(i).getPlayer_2().getPlayerIP() + " ISREADY: "
+								+ lobbyList.get(i).getPlayer_2().isReady());
 				System.out.println();
 			}
 		}

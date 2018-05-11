@@ -25,6 +25,8 @@ public class Protocol {
 			SC_PLAYER_JOINED = "plyrjind",
 			/*SC_LOBBY_FULL:<String>*/
 			SC_LOBBY_FULL = "lbbyfll",
+			/*SC_PLAYER_READY:<Integer>:<boolean>*/
+			SC_PLAYER_READY = "plyrrdy",
 			/*SC_ALL_PLAYER_READY:<String>*/
 			SC_ALL_PLAYER_READY = "llplyrrdy",
 			
@@ -89,6 +91,8 @@ public class Protocol {
 			CS_PLAY = "ply",
 			/*CS_GO*/
 			CS_GO = "g",
+			/*CS_READY_LOBBY:<Boolean>*/
+			CS_READY_LOBBY = "rdylbby",
 			
 			//In-Game communication
 			/*CS_PURCHASE_TOWER:<ArrayList<Tower>>*/

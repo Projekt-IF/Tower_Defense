@@ -6,10 +6,13 @@ import java.util.Timer;
 import envoirement.Grid;
 import envoirement.Tile;
 import objects.Enemy;
+import objects.Player;
 import objects.Tower;
 import utility.Wave;
 
 public class Game_Controller {
+	
+	private Player player;
 
 	private Timer timer;
 
@@ -33,11 +36,12 @@ public class Game_Controller {
 
 	// public Game_Controller(Wave_Controller pWC, Enemy_Controller pEC,
 	// Level_Controller pLC, Tower_Controller pTC) {
-	public Game_Controller() {
+	public Game_Controller(Player pPlayer) {
 		// this.wC = pWC;
 		// this.eC = pEC;
 		// this.lC = pLC;
 		// this.tC = pTC;
+		this.player = pPlayer;
 		this.currentLevel = "";
 		this.enemyList = new ArrayList<Enemy>();
 		this.towerList = new ArrayList<Tower>();
@@ -271,6 +275,20 @@ public class Game_Controller {
 		this.currentWave = currentWave;
 	}
 
+	/**
+	 * @return the player
+	 */
+	public Player getPlayer() {
+		return player;
+	}
+
+	/**
+	 * @param player the player to set
+	 */
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
 	public void addPurchasedTower(int pPosX, int pPosY, int pType) {
 		getTowerList().add(getTowerController().createTower(pPosX, pPosY, pType));
 	}
@@ -282,8 +300,8 @@ public class Game_Controller {
 		pAddedEnemies.clear();
 	}
 
-	public void test() {
-		Game_Controller gC = new Game_Controller();
+	public void test(Player pPlayer) {
+		Game_Controller gC = new Game_Controller(pPlayer);
 		String[] waves = new String[3];
 		waves[0] = "src/Waves/Wave_Test.txt";
 		waves[1] = "src/Waves/Wave_One.txt";

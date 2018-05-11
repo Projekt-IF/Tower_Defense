@@ -7,7 +7,9 @@ public class Lobby {
 	private GameFrameWork gameFrameWork;
 
 	private Player player_1;
+	private int player_1_Index;
 	private Player player_2;
+	private int player_2_Index;
 
 	private boolean isFull;
 	private boolean inGame;
@@ -39,7 +41,8 @@ public class Lobby {
 	 * @param player_1
 	 *            the player_1 to set
 	 */
-	public void setPlayer_1(Player player_1) {
+	public void setPlayer_1(Player player_1, int player_1_Index) {
+		this.player_1_Index = player_1_Index;
 		this.player_1 = player_1;
 	}
 
@@ -54,7 +57,8 @@ public class Lobby {
 	 * @param player_2
 	 *            the player_2 to set
 	 */
-	public void setPlayer_2(Player player_2) {
+	public void setPlayer_2(Player player_2, int player_2_Index) {
+		this.player_2_Index = player_2_Index;
 		this.player_2 = player_2;
 	}
 
@@ -103,6 +107,34 @@ public class Lobby {
 	 */
 	public void setGameFrameWork(GameFrameWork gameFrameWork) {
 		this.gameFrameWork = gameFrameWork;
+	}
+
+	/**
+	 * @return the player_1_Index
+	 */
+	public int getPlayer_1_Index() {
+		return player_1_Index;
+	}
+
+	/**
+	 * @param player_1_Index the player_1_Index to set
+	 */
+	public void setPlayer_1_Index(int player_1_Index) {
+		this.player_1_Index = player_1_Index;
+	}
+
+	/**
+	 * @return the player_2_Index
+	 */
+	public int getPlayer_2_Index() {
+		return player_2_Index;
+	}
+
+	/**
+	 * @param player_2_Index the player_2_Index to set
+	 */
+	public void setPlayer_2_Index(int player_2_Index) {
+		this.player_2_Index = player_2_Index;
 	}
 
 }

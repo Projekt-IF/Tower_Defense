@@ -4,8 +4,12 @@ public class Player {
 
 	private String playerIP;
 	private Integer playerPort;
+	
+	private int lobbyIndex;
+	private int positionIndex;
 
 	private long playerMoney;
+	private long health;
 
 	private boolean isReady;
 	
@@ -128,6 +132,48 @@ public class Player {
 	 */
 	public void setReady(boolean isReady) {
 		this.isReady = isReady;
+	}
+
+	/**
+	 * @return the health
+	 */
+	public long getHealth() {
+		return health;
+	}
+
+	/**
+	 * @param health the health to set
+	 */
+	public void setHealth(long health) {
+		this.health = health;
+	}
+
+	/**
+	 * @return the lobbyIndex
+	 */
+	public int getLobbyIndex() {
+		return lobbyIndex;
+	}
+
+	/**
+	 * @param lobbyIndex the lobbyIndex to set
+	 */
+	public void setLobbyIndex(int lobbyIndex) {
+		this.lobbyIndex = lobbyIndex;
+	}
+
+	/**
+	 * @return the positionIndex
+	 */
+	public int getPositionIndex() {
+		return positionIndex;
+	}
+
+	/**
+	 * @param positionIndex the positionIndex to set
+	 */
+	public void setPositionIndex(int positionIndex) {
+		this.positionIndex = positionIndex;
 	}
 
 }
