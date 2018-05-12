@@ -5,20 +5,18 @@ import javax.swing.*;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Frame;
 import java.io.*;
 import javax.imageio.*;
 
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
-import java.awt.GridBagLayout;
 import java.awt.Image;
 
 //MainGui
 public class GUI {
 
-	private static final Color Color = null;
+	public static final Color Color = null;
 	private static JFrame window_1;
 
 	public static void main(String[] args) {
@@ -39,8 +37,8 @@ public class GUI {
 		window_1.setUndecorated(true);
 		window_1.setVisible(true);
 		window_1.setResizable(false);
-		window_1.getContentPane().setBackground(Color.BLACK);
-		
+		window_1.getContentPane().setBackground(java.awt.Color.BLACK);
+
 	}
 
 	// Setup the GUI functions.
@@ -112,9 +110,6 @@ public class GUI {
 			e1.printStackTrace();
 		}
 		window.setContentPane(content);
-		
-		
-		
 
 	}
 }

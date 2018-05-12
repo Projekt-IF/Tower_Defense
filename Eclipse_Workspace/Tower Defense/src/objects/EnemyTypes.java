@@ -1,9 +1,5 @@
 package objects;
 
-import java.util.Timer;
-
-import utility.EnemyCooldownTimer;
-
 /*
  * The Enemy Class is just apparent as the Enemy.
  * The movement is controlled by the Enemy_Controller.
@@ -13,20 +9,17 @@ public class EnemyTypes {
 	private int speed;
 	private int life;
 	private int type;
-	
-	public EnemyTypes(int pType) 
-	{
+
+	public EnemyTypes(int pType) {
 		this.type = pType;
 		this.speed = calcSpeed();
 		this.life = calcLife();
 	}
-	
-	public int calcSpeed()
-	{
+
+	public int calcSpeed() {
 		int calcedSpeed = 0;
-		
-		switch(type)
-		{
+
+		switch (type) {
 		case '0':
 			calcedSpeed = 1;
 		case '1':
@@ -36,22 +29,19 @@ public class EnemyTypes {
 		default:
 			calcedSpeed = 0;
 		}
-		
+
 		return calcedSpeed;
-		
+
 	}
-	
-	public int getSpeed()
-	{
+
+	public int getSpeed() {
 		return speed;
 	}
-	
-	public int calcLife()
-	{
+
+	public int calcLife() {
 		int calcedLife = 0;
-		
-		switch(type)
-		{
+
+		switch (type) {
 		case '0':
 			calcedLife = 10;
 		case '1':
@@ -61,14 +51,13 @@ public class EnemyTypes {
 		default:
 			calcedLife = 0;
 		}
-		
+
 		return calcedLife;
-		
+
 	}
-	
-	public int getLife()
-	{
+
+	public int getLife() {
 		return life;
 	}
-	
+
 }

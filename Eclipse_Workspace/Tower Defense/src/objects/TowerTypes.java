@@ -1,9 +1,5 @@
 package objects;
 
-import java.util.Timer;
-
-import utility.EnemyCooldownTimer;
-
 /*
  * The Enemy Class is just apparent as the Enemy.
  * The movement is controlled by the Enemy_Controller.
@@ -16,9 +12,8 @@ public class TowerTypes {
 	private int speed;
 	private int type;
 	private int cooldown;
-	
-	public TowerTypes(int pType) 
-	{
+
+	public TowerTypes(int pType) {
 		this.type = pType;
 		this.speed = calcSpeed();
 		this.cost = calcCost();
@@ -26,38 +21,33 @@ public class TowerTypes {
 		this.range = calcRange();
 		this.cooldown = calcCooldown();
 	}
-	
-	public int calcCooldown()
-	{
+
+	public int calcCooldown() {
 		int calcedCooldown = 0;
-		
-			switch(type)
-			{
-			case '0':
-				calcedCooldown = 2;
-			case '1':
-				calcedCooldown = 4;
-			case '2':
-				calcedCooldown = 6;
-			default:
-				calcedCooldown = 0;
-			}
-		
+
+		switch (type) {
+		case '0':
+			calcedCooldown = 2;
+		case '1':
+			calcedCooldown = 4;
+		case '2':
+			calcedCooldown = 6;
+		default:
+			calcedCooldown = 0;
+		}
+
 		return calcedCooldown;
-		
+
 	}
-	
-	public int getCooldown()
-	{
+
+	public int getCooldown() {
 		return cooldown;
 	}
-	
-	public int calcSpeed()
-	{
+
+	public int calcSpeed() {
 		int calcedSpeed = 0;
-		
-		switch(type)
-		{
+
+		switch (type) {
 		case '0':
 			calcedSpeed = 2;
 		case '1':
@@ -67,22 +57,19 @@ public class TowerTypes {
 		default:
 			calcedSpeed = 0;
 		}
-		
+
 		return calcedSpeed;
-		
+
 	}
-	
-	public int getSpeed()
-	{
+
+	public int getSpeed() {
 		return speed;
 	}
-	
-	public int calcStrength()
-	{
+
+	public int calcStrength() {
 		int calcedStrength = 0;
-		
-		switch(type)
-		{
+
+		switch (type) {
 		case '0':
 			calcedStrength = 2;
 		case '1':
@@ -92,23 +79,19 @@ public class TowerTypes {
 		default:
 			calcedStrength = 0;
 		}
-		
+
 		return calcedStrength;
-		
+
 	}
-	
-	public int getStrength()
-	{
+
+	public int getStrength() {
 		return strength;
 	}
-	
-	
-	public int calcRange()
-	{
+
+	public int calcRange() {
 		int calcedRange = 0;
-		
-		switch(type)
-		{
+
+		switch (type) {
 		case '0':
 			calcedRange = 2;
 		case '1':
@@ -118,22 +101,19 @@ public class TowerTypes {
 		default:
 			calcedRange = 0;
 		}
-		
+
 		return calcedRange;
-		
+
 	}
-	
-	public int getRange()
-	{
+
+	public int getRange() {
 		return range;
 	}
-	
-	public int calcCost()
-	{
+
+	public int calcCost() {
 		int calcedCost = 0;
-		
-		switch(type)
-		{
+
+		switch (type) {
 		case '0':
 			calcedCost = 100;
 		case '1':
@@ -143,14 +123,13 @@ public class TowerTypes {
 		default:
 			calcedCost = 0;
 		}
-		
+
 		return calcedCost;
-		
+
 	}
-	
-	public int getCost()
-	{
+
+	public int getCost() {
 		return cost;
 	}
-	
+
 }

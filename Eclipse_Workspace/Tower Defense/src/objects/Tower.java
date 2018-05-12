@@ -7,7 +7,7 @@ import utility.TowerCooldownTimer;
 public class Tower {
 
 	private TowerTypes type;
-	
+
 	private int posX;
 	private int posY;
 
@@ -21,8 +21,7 @@ public class Tower {
 
 	private int cooldownTime;
 
-	public Tower(int pPosX, int pPosY, int pType) 
-	{
+	public Tower(int pPosX, int pPosY, int pType) {
 		this.type = new TowerTypes(pType);
 		this.onCooldown = false;
 		this.cooldownTime = type.getCooldown();

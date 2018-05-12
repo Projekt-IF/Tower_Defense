@@ -11,7 +11,7 @@ import objects.Tower;
 import utility.Wave;
 
 public class Game_Controller {
-	
+
 	private Player player;
 
 	private Timer timer;
@@ -46,9 +46,9 @@ public class Game_Controller {
 		this.enemyList = new ArrayList<Enemy>();
 		this.towerList = new ArrayList<Tower>();
 		this.waveList = new ArrayList<Wave>();
-		this.lC = new Level_Controller(this.currentLevel/*, this*/);
-		this.wC = new Wave_Controller(this.waveList/*, this*/);
-		this.eC = new Enemy_Controller(this.enemyList/*, this*/);
+		this.lC = new Level_Controller(this.currentLevel/* , this */);
+		this.wC = new Wave_Controller(this.waveList/* , this */);
+		this.eC = new Enemy_Controller(this.enemyList/* , this */);
 		this.tC = new Tower_Controller(this.towerList, this);
 		this.timer = new Timer();
 		// iniciateGame();
@@ -269,7 +269,8 @@ public class Game_Controller {
 	}
 
 	/**
-	 * @param currentWave the currentWave to set
+	 * @param currentWave
+	 *            the currentWave to set
 	 */
 	public void setCurrentWave(int currentWave) {
 		this.currentWave = currentWave;
@@ -283,7 +284,8 @@ public class Game_Controller {
 	}
 
 	/**
-	 * @param player the player to set
+	 * @param player
+	 *            the player to set
 	 */
 	public void setPlayer(Player player) {
 		this.player = player;
@@ -292,7 +294,7 @@ public class Game_Controller {
 	public void addPurchasedTower(int pPosX, int pPosY, int pType) {
 		getTowerList().add(getTowerController().createTower(pPosX, pPosY, pType));
 	}
-	
+
 	public void addPurchasedEnemies(ArrayList<Enemy> pAddedEnemies) {
 		for (int i = 0; i < pAddedEnemies.size(); i++) {
 			getEnemyList().add(pAddedEnemies.get(i));

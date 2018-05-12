@@ -14,6 +14,10 @@ import java.awt.event.ActionEvent;
 
 public class TextGui extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6557422167637163832L;
 	private JPanel contentPane;
 	private JTextField textField;
 	private JLabel lblContent;

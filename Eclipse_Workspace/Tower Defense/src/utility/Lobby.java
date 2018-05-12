@@ -29,11 +29,11 @@ public class Lobby {
 			return false;
 		}
 	}
-	
+
 	public void resetPlayer_1() {
 		this.player_1 = null;
 	}
-	
+
 	public void resetPlayer_2() {
 		this.player_2 = null;
 	}
@@ -125,7 +125,8 @@ public class Lobby {
 	}
 
 	/**
-	 * @param player_1_Index the player_1_Index to set
+	 * @param player_1_Index
+	 *            the player_1_Index to set
 	 */
 	public void setPlayer_1_Index(int player_1_Index) {
 		this.player_1_Index = player_1_Index;
@@ -139,7 +140,8 @@ public class Lobby {
 	}
 
 	/**
-	 * @param player_2_Index the player_2_Index to set
+	 * @param player_2_Index
+	 *            the player_2_Index to set
 	 */
 	public void setPlayer_2_Index(int player_2_Index) {
 		this.player_2_Index = player_2_Index;

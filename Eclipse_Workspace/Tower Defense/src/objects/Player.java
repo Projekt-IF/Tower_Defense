@@ -4,7 +4,7 @@ public class Player {
 
 	private String playerIP;
 	private Integer playerPort;
-	
+
 	private int lobbyIndex;
 	private int positionIndex;
 
@@ -12,7 +12,7 @@ public class Player {
 	private long health;
 
 	private boolean isReady;
-	
+
 	private boolean isConnected;
 	private boolean isInLobby;
 	private boolean isInGame;
@@ -21,7 +21,7 @@ public class Player {
 		this.setPlayerIP(pPlayerIP);
 		this.setPlayerPort(pPlayerPort);
 	}
-	
+
 	public boolean haveSameStats(Player testPlayer, Player listPlayer) {
 		if ((testPlayer.getPlayerIP().equals(listPlayer.getPlayerIP()))
 				&& ((int) testPlayer.getPlayerPort() == (int) listPlayer.getPlayerPort())) {
@@ -99,7 +99,8 @@ public class Player {
 	}
 
 	/**
-	 * @param isInLobby the isInLobby to set
+	 * @param isInLobby
+	 *            the isInLobby to set
 	 */
 	public void setInLobby(boolean isInLobby) {
 		this.isInLobby = isInLobby;
@@ -128,7 +129,8 @@ public class Player {
 	}
 
 	/**
-	 * @param isReady the isReady to set
+	 * @param isReady
+	 *            the isReady to set
 	 */
 	public void setReady(boolean isReady) {
 		this.isReady = isReady;
@@ -142,7 +144,8 @@ public class Player {
 	}
 
 	/**
-	 * @param health the health to set
+	 * @param health
+	 *            the health to set
 	 */
 	public void setHealth(long health) {
 		this.health = health;
@@ -156,7 +159,8 @@ public class Player {
 	}
 
 	/**
-	 * @param lobbyIndex the lobbyIndex to set
+	 * @param lobbyIndex
+	 *            the lobbyIndex to set
 	 */
 	public void setLobbyIndex(int lobbyIndex) {
 		this.lobbyIndex = lobbyIndex;
@@ -170,7 +174,8 @@ public class Player {
 	}
 
 	/**
-	 * @param positionIndex the positionIndex to set
+	 * @param positionIndex
+	 *            the positionIndex to set
 	 */
 	public void setPositionIndex(int positionIndex) {
 		this.positionIndex = positionIndex;

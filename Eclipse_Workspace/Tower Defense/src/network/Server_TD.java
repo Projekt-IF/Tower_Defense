@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import network.Protocol;
 import objects.Player;
-import utility.GameFrameWork;
 import utility.Lobby;
 
 ///Server
@@ -47,30 +46,30 @@ public class Server_TD extends Server {
 		String backMessage = "";
 
 		switch (prefix) {
-
+		/* CS_HELLO_WORLD */
 		case Protocol.CS_HELLO_WORLD:
 			backMessage = Protocol.SC_HELLO_WORLD + Protocol.SEPARATOR + "Hello!";
 			break;
-
+		/* CS_LOGIN:<Username><Password> */
 		case Protocol.CS_LOGIN:
 			backMessage = Protocol.SC_LOGIN_CONFIRMED + Protocol.SEPARATOR + "Login Successful!";
 			break;
-
+		/* CS_SURRENDER */
 		case Protocol.CS_SURRENDER:
 			backMessage = Protocol.SC_SURRENDER_SUCCESSFUL + Protocol.SEPARATOR + "You surrendered!";
 			break;
-
+		/* CS_LOGOUT:<Username> */
 		case Protocol.CS_LOGOUT:
 			backMessage = Protocol.SC_LOGOUT_CONFIRMED + Protocol.SEPARATOR + "Logout successful!";
 			break;
-
+		/* CS_GO */
 		case Protocol.CS_GO:
 			backMessage = Protocol.SC_GAME_STARTING + Protocol.SEPARATOR + "Game Starting";
 			break;
-
+		/* CS_READY_LOBBY */
 		case Protocol.CS_READY_LOBBY:
 			System.out.println(token[1]);
-			//TODO: Fix so it can change the actual state of ready!
+			// TODO: Fix so it can change the actual state of ready!
 			player.setReady(!player.isReady());
 			showLobbys();
 			showPlayer();
@@ -157,20 +156,24 @@ public class Server_TD extends Server {
 			if ((lobbyList.get(i).getPlayer_1() == null) && (lobbyList.get(i).getPlayer_2() == null)) {
 			} else if ((lobbyList.get(i).getPlayer_1() != null) && (lobbyList.get(i).getPlayer_2() == null)) {
 				if (lobbyList.get(i).haveSameStats(mPlayer, lobbyList.get(i).getPlayer_1())) {
-					lobbyList.get(i).resetPlayer_1();;
+					lobbyList.get(i).resetPlayer_1();
+					;
 					lobbyList.get(i).setIsFull(false);
 				}
 			} else if ((lobbyList.get(i).getPlayer_1() == null) && (lobbyList.get(i).getPlayer_2() != null)) {
 				if (lobbyList.get(i).haveSameStats(mPlayer, lobbyList.get(i).getPlayer_2())) {
-					lobbyList.get(i).resetPlayer_2();;
+					lobbyList.get(i).resetPlayer_2();
+					;
 					lobbyList.get(i).setIsFull(false);
 				}
 			} else if ((lobbyList.get(i).getPlayer_1() != null) && (lobbyList.get(i).getPlayer_2() != null)) {
 				if (lobbyList.get(i).haveSameStats(mPlayer, lobbyList.get(i).getPlayer_1())) {
-					lobbyList.get(i).resetPlayer_1();;
+					lobbyList.get(i).resetPlayer_1();
+					;
 					lobbyList.get(i).setIsFull(false);
 				} else if (lobbyList.get(i).haveSameStats(mPlayer, lobbyList.get(i).getPlayer_2())) {
-					lobbyList.get(i).resetPlayer_2();;
+					lobbyList.get(i).resetPlayer_2();
+					;
 					lobbyList.get(i).setIsFull(false);
 				}
 			}
