@@ -91,7 +91,7 @@ public class Protocol {
 			CS_PLAY = "ply",
 			/*CS_GO*/
 			CS_GO = "g",
-			/*CS_READY_LOBBY:<Boolean>*/
+			/*CS_READY_LOBBY*/
 			CS_READY_LOBBY = "rdylbby",
 			
 			//In-Game communication

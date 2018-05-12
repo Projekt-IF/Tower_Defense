@@ -29,6 +29,14 @@ public class Lobby {
 			return false;
 		}
 	}
+	
+	public void resetPlayer_1() {
+		this.player_1 = null;
+	}
+	
+	public void resetPlayer_2() {
+		this.player_2 = null;
+	}
 
 	/**
 	 * @return the player_1
