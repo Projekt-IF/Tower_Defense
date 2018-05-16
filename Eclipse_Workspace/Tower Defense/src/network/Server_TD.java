@@ -68,8 +68,6 @@ public class Server_TD extends Server {
 			break;
 		/* CS_READY_LOBBY */
 		case Protocol.CS_READY_LOBBY:
-			System.out.println(token[1]);
-			// TODO: Fix so it can change the actual state of ready!
 			player.setReady(!player.isReady());
 			showLobbys();
 			showPlayer();
