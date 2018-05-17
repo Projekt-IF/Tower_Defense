@@ -45,6 +45,14 @@ public class TD_Client extends Client {
 		case Protocol.SC_LOBBY_FULL:
 			break;
 
+		case Protocol.SC_PLAYER_READY:
+			if (tags[2].equals("true")) {
+				this.myGui.ausgeben("The Player: " + tags[1] + " is ready!");
+			} else {
+				this.myGui.ausgeben("The Player: " + tags[1] + " is not ready!");
+			}
+			break;
+
 		case Protocol.SC_ALL_PLAYER_READY:
 			break;
 

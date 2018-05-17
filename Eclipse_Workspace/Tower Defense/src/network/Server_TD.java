@@ -73,6 +73,7 @@ public class Server_TD extends Server {
 			showPlayer();
 			backMessage = Protocol.SC_PLAYER_READY + Protocol.SEPARATOR + player.getPositionIndex() + Protocol.SEPARATOR
 					+ player.isReady();
+			this.sendToLobby(player.getLobbyIndex(), backMessage);
 			break;
 		default:
 			backMessage = Protocol.SC_SENDERRORMESSAGE + Protocol.SEPARATOR + "Error!";
@@ -80,7 +81,7 @@ public class Server_TD extends Server {
 		}
 		System.out.println("Server: Gesendet :<" + backMessage + ">");
 
-		this.send(pClientIP, pClientPort, backMessage);
+		// this.send(pClientIP, pClientPort, backMessage);
 		// if (prefix.equals(Protocol.CS_LOGOUT)) {
 		// this.closeConnection(pClientIP, pClientPort);
 		// }
@@ -95,6 +96,24 @@ public class Server_TD extends Server {
 		removeFromPlayers(removePlayer);
 		removePlayer.setConnected(false);
 		this.closeConnection(pClientIP, pClientPort);
+
+	}
+
+	public void sendToLobby(int lobbyIndex, String pMessage) {
+		if ((lobbyList.get(lobbyIndex).getPlayer_1() != null) && (lobbyList.get(lobbyIndex).getPlayer_2() == null)) {
+			this.send(lobbyList.get(lobbyIndex).getPlayer_1().getPlayerIP(),
+					lobbyList.get(lobbyIndex).getPlayer_1().getPlayerPort(), pMessage);
+		} else if ((lobbyList.get(lobbyIndex).getPlayer_1() == null)
+				&& (lobbyList.get(lobbyIndex).getPlayer_2() != null)) {
+			this.send(lobbyList.get(lobbyIndex).getPlayer_2().getPlayerIP(),
+					lobbyList.get(lobbyIndex).getPlayer_2().getPlayerPort(), pMessage);
+		} else if ((lobbyList.get(lobbyIndex).getPlayer_1() != null)
+				&& (lobbyList.get(lobbyIndex).getPlayer_2() != null)) {
+			this.send(lobbyList.get(lobbyIndex).getPlayer_1().getPlayerIP(),
+					lobbyList.get(lobbyIndex).getPlayer_1().getPlayerPort(), pMessage);
+			this.send(lobbyList.get(lobbyIndex).getPlayer_2().getPlayerIP(),
+					lobbyList.get(lobbyIndex).getPlayer_2().getPlayerPort(), pMessage);
+		}
 
 	}
 
@@ -155,23 +174,19 @@ public class Server_TD extends Server {
 			} else if ((lobbyList.get(i).getPlayer_1() != null) && (lobbyList.get(i).getPlayer_2() == null)) {
 				if (lobbyList.get(i).haveSameStats(mPlayer, lobbyList.get(i).getPlayer_1())) {
 					lobbyList.get(i).resetPlayer_1();
-					;
 					lobbyList.get(i).setIsFull(false);
 				}
 			} else if ((lobbyList.get(i).getPlayer_1() == null) && (lobbyList.get(i).getPlayer_2() != null)) {
 				if (lobbyList.get(i).haveSameStats(mPlayer, lobbyList.get(i).getPlayer_2())) {
 					lobbyList.get(i).resetPlayer_2();
-					;
 					lobbyList.get(i).setIsFull(false);
 				}
 			} else if ((lobbyList.get(i).getPlayer_1() != null) && (lobbyList.get(i).getPlayer_2() != null)) {
 				if (lobbyList.get(i).haveSameStats(mPlayer, lobbyList.get(i).getPlayer_1())) {
 					lobbyList.get(i).resetPlayer_1();
-					;
 					lobbyList.get(i).setIsFull(false);
 				} else if (lobbyList.get(i).haveSameStats(mPlayer, lobbyList.get(i).getPlayer_2())) {
 					lobbyList.get(i).resetPlayer_2();
-					;
 					lobbyList.get(i).setIsFull(false);
 				}
 			}
@@ -229,6 +244,10 @@ public class Server_TD extends Server {
 					+ playerList.get(i).getPlayerPort() + " !");
 			System.out.println();
 		}
+	}
+
+	public void testPrint(String nNachricht) {
+		System.out.println(nNachricht);
 	}
 
 	public static void main(String[] args) {
