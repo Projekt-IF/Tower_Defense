@@ -30,13 +30,10 @@ public class TD_Client extends Client {
 		case Protocol.SC_LOGOUT_CONFIRMED:
 			break;
 
-		case Protocol.SC_RECONNECT_PLAYER:
-			break;
-
-		case Protocol.SC_KICK_PLAYER:
-			break;
-
 		case Protocol.SC_LOBBY_USERS:
+			this.setPlayerUsername(tags[1], tags[2]);
+			this.myGui.ausgeben("The Player: " + tags[1] + " is named " + tags[2] + " !");
+
 			break;
 
 		case Protocol.SC_PLAYER_JOINED:
@@ -46,6 +43,7 @@ public class TD_Client extends Client {
 			break;
 
 		case Protocol.SC_PLAYER_READY:
+			this.setPlayerReady(tags[1], tags[2]);
 			if (tags[2].equals("true")) {
 				this.myGui.ausgeben("The Player: " + tags[1] + " is ready!");
 			} else {
@@ -116,9 +114,36 @@ public class TD_Client extends Client {
 			break;
 
 		default:
-			this.myGui.ausgeben("Error!");
+			this.myGui.ausgeben(pMessage);
 			break;
 
 		}
+	}
+
+	private void setPlayerUsername(String playerPosition, String playerName) {
+		if (playerPosition.equals("1")) {
+			this.myGui.setUsernamePlayer1(playerName);
+		} else {
+			this.myGui.setUsernamePlayer2(playerName);
+		}
+	}
+
+	private void setPlayerReady(String playerPosition, String playerStatus) {
+		if (playerPosition.equals("1")) {
+			if (playerStatus.equals("true")) {
+				this.myGui.setReadyPlayer1("READY");
+			} else {
+				this.myGui.setReadyPlayer1("NOT READY");
+			}
+
+		} else {
+			if (playerStatus.equals("true")) {
+				this.myGui.setReadyPlayer2("READY");
+			} else {
+				this.myGui.setReadyPlayer2("NOT READY");
+			}
+
+		}
+
 	}
 }

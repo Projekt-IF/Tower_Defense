@@ -1,6 +1,8 @@
 package objects;
 
 public class Player {
+	
+	private String username;
 
 	private String playerIP;
 	private Integer playerPort;
@@ -179,6 +181,20 @@ public class Player {
 	 */
 	public void setPositionIndex(int positionIndex) {
 		this.positionIndex = positionIndex;
+	}
+
+	/**
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
+	}
+
+	/**
+	 * @param username the username to set
+	 */
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 }

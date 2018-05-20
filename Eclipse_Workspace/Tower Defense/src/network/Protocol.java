@@ -15,14 +15,11 @@ public class Protocol {
 			/* SC_LOGOUT_CONFIRMED:<String> */
 			SC_LOGOUT_CONFIRMED = "lgtcnfrmd",
 			/* SC_KICK_PLAYER:<String> */
-			SC_KICK_PLAYER = "kckplyr",
-			/* SC_RECONNECT_PLAYER:<String> */
-			SC_RECONNECT_PLAYER = "rcnnctplyr",
 
 			/* SC_LOBBY_USERS:<ArrayList<Player>> */
 			SC_LOBBY_USERS = "lbbyser",
-			/* SC_PLAYER_JOINED:<Player> */
-			SC_PLAYER_JOINED = "plyrjind",
+			/* SC_PLAYER_JOINED:<Integer>:<boolean> */
+			SC_PLAYER_JOINED = "plyrjnd",
 			/* SC_LOBBY_FULL:<String> */
 			SC_LOBBY_FULL = "lbbyfll",
 			/* SC_PLAYER_READY:<Integer>:<boolean> */
@@ -82,6 +79,8 @@ public class Protocol {
 			// Not game important communication
 			/* CS_LOGIN:<Username><Password> */
 			CS_LOGIN = "lgn",
+			/* CS_PLAYER_SET_NAME:<String> */
+			CS_PLAYER_SET_NAME = "plyrstnm",
 			/* CS_LOGOUT:<Username> */
 			CS_LOGOUT = "lgt",
 			/* CS_PLAY */
@@ -99,8 +98,6 @@ public class Protocol {
 			/* CS_READY_TOWERPLACING */
 			CS_READY_TOWERPLACING = "rdytwrplcng",
 			/* CS_READY_ENEMIESPURCHASED */
-			CS_READY_ENEMIESPURCHASED = "rdynmsprchsd",
-			/* CS_SURRENDER */
-			CS_SURRENDER = "srrndr";
+			CS_READY_ENEMIESPURCHASED = "rdynmsprchsd";
 
 }

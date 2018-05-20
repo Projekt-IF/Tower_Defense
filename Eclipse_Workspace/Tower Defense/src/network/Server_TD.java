@@ -30,8 +30,9 @@ public class Server_TD extends Server {
 		playerList.add(newPlayer);
 		System.out.println("Connected new Player! \n IP: " + pClientIP + " Port: " + pClientPort + " !");
 		sortInLobby(newPlayer);
-		String backMessage = "Connected!";
-		this.send(pClientIP, pClientPort, backMessage);
+		String backMessage = Protocol.SC_PLAYER_JOINED + Protocol.SEPARATOR + newPlayer.getPositionIndex() + Protocol.SEPARATOR
+				+ newPlayer.isReady();
+		this.sendToLobby(newPlayer.getLobbyIndex(), backMessage);
 	}
 
 	@Override
@@ -55,8 +56,11 @@ public class Server_TD extends Server {
 			backMessage = Protocol.SC_LOGIN_CONFIRMED + Protocol.SEPARATOR + "Login Successful!";
 			break;
 		/* CS_SURRENDER */
-		case Protocol.CS_SURRENDER:
-			backMessage = Protocol.SC_SURRENDER_SUCCESSFUL + Protocol.SEPARATOR + "You surrendered!";
+		case Protocol.CS_PLAYER_SET_NAME:
+			player.setUsername(token[1]);;
+			backMessage = Protocol.SC_LOBBY_USERS + Protocol.SEPARATOR + player.getPositionIndex() + Protocol.SEPARATOR
+					+ player.getUsername();
+			this.sendToLobby(player.getLobbyIndex(), backMessage);
 			break;
 		/* CS_LOGOUT:<Username> */
 		case Protocol.CS_LOGOUT:
@@ -91,7 +95,10 @@ public class Server_TD extends Server {
 	@Override
 	public void processClosingConnection(String pClientIP, int pClientPort) {
 		System.out.println("Der Client mit der IP: " + pClientIP + " wird abgemeldet.");
-		Player removePlayer = new Player(pClientIP, pClientPort);
+		Player removePlayer = getPlayer(pClientIP, pClientPort);
+		String removeMessage = Protocol.SC_LOBBY_USERS + Protocol.SEPARATOR + removePlayer.getPositionIndex() + Protocol.SEPARATOR
+				+ "EMPTY";
+		this.sendToLobby(removePlayer.getLobbyIndex(), removeMessage);
 		removeFromLobby(removePlayer);
 		removeFromPlayers(removePlayer);
 		removePlayer.setConnected(false);
