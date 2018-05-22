@@ -10,11 +10,16 @@ public class Protocol {
 	SC_HELLO_WORLD = "hllwrld",
 
 			// Not game important communication
-			/* SC_LOGIN_CONFIRMED:<String> */
-			SC_LOGIN_CONFIRMED = "lgncnfrmd",
+			/* SC_LOGIN_USERNAME_CONFIRMED:<Username> */
+			SC_LOGIN_USERNAME_CONFIRMED = "lgnsrnmcnfrmd",
+			/* SC_LOGIN_USERNAME_DENIED:<Username> */
+			SC_LOGIN_USERNAME_DENIED = "lgnsrnmdnd",
+			/* SC_LOGIN_PASSWORD_CONFIRMED */
+			SC_LOGIN_PASSWORD_CONFIRMED = "lgnpsswrdcnfrmd",
+			/* SC_LOGIN_PASSWORD_DENIED */
+			SC_LOGIN_PASSWORD_DENIED = "lgnpsswrddnd",
 			/* SC_LOGOUT_CONFIRMED:<String> */
 			SC_LOGOUT_CONFIRMED = "lgtcnfrmd",
-			/* SC_KICK_PLAYER:<String> */
 
 			/* SC_LOBBY_USERS:<ArrayList<Player>> */
 			SC_LOBBY_USERS = "lbbyser",
@@ -77,9 +82,11 @@ public class Protocol {
 	CS_HELLO_WORLD = "hllwrld",
 
 			// Not game important communication
-			/* CS_LOGIN:<Username><Password> */
-			CS_LOGIN = "lgn",
-			/* CS_PLAYER_SET_NAME:<String> */
+			/* CS_LOGIN_USERNAME:<Username> */
+			CS_LOGIN_USERNAME = "lgnsrnm",
+			/* CS_LOGIN_PASSWORD:<Password> */
+			CS_LOGIN_PASSWORD = "lgnpsswrd",
+			/* CS_PLAYER_SET_NAME:<Name> */
 			CS_PLAYER_SET_NAME = "plyrstnm",
 			/* CS_LOGOUT:<Username> */
 			CS_LOGOUT = "lgt",

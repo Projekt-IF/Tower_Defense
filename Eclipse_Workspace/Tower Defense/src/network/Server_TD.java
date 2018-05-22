@@ -9,6 +9,9 @@ import utility.Lobby;
 ///Server
 public class Server_TD extends Server {
 
+	public static final String globalPassword = "password";
+	public static final String globalUsername = "user";
+
 	private ArrayList<Player> playerList;
 	private ArrayList<Lobby> lobbyList;
 
@@ -30,8 +33,8 @@ public class Server_TD extends Server {
 		playerList.add(newPlayer);
 		System.out.println("Connected new Player! \n IP: " + pClientIP + " Port: " + pClientPort + " !");
 		sortInLobby(newPlayer);
-		String backMessage = Protocol.SC_PLAYER_JOINED + Protocol.SEPARATOR + newPlayer.getPositionIndex() + Protocol.SEPARATOR
-				+ newPlayer.isReady();
+		String backMessage = Protocol.SC_PLAYER_JOINED + Protocol.SEPARATOR + newPlayer.getPositionIndex()
+				+ Protocol.SEPARATOR + newPlayer.isReady();
 		this.sendToLobby(newPlayer.getLobbyIndex(), backMessage);
 	}
 
@@ -51,13 +54,28 @@ public class Server_TD extends Server {
 		case Protocol.CS_HELLO_WORLD:
 			backMessage = Protocol.SC_HELLO_WORLD + Protocol.SEPARATOR + "Hello!";
 			break;
-		/* CS_LOGIN:<Username><Password> */
-		case Protocol.CS_LOGIN:
-			backMessage = Protocol.SC_LOGIN_CONFIRMED + Protocol.SEPARATOR + "Login Successful!";
+		/* CS_LOGIN_USERNAME:<Username> */
+		case Protocol.CS_LOGIN_USERNAME:
+			if (token[1].equals(globalUsername)) {
+				backMessage = Protocol.SC_LOGIN_USERNAME_CONFIRMED + Protocol.SEPARATOR + token[1];
+			} else {
+				backMessage = Protocol.SC_LOGIN_USERNAME_DENIED + Protocol.SEPARATOR + token[1];
+			}
+			this.send(pClientIP, pClientPort, backMessage);
+			break;
+		/* CS_LOGIN_PASSWORD:<Password> */
+		case Protocol.CS_LOGIN_PASSWORD:
+			if(token[1].equals(globalPassword)) {
+				backMessage = Protocol.SC_LOGIN_PASSWORD_CONFIRMED;
+			} else {
+				backMessage = Protocol.SC_LOGIN_PASSWORD_DENIED;
+			}
+			this.send(pClientIP, pClientPort, backMessage);
 			break;
 		/* CS_SURRENDER */
 		case Protocol.CS_PLAYER_SET_NAME:
-			player.setUsername(token[1]);;
+			player.setUsername(token[1]);
+			;
 			backMessage = Protocol.SC_LOBBY_USERS + Protocol.SEPARATOR + player.getPositionIndex() + Protocol.SEPARATOR
 					+ player.getUsername();
 			this.sendToLobby(player.getLobbyIndex(), backMessage);
@@ -96,8 +114,8 @@ public class Server_TD extends Server {
 	public void processClosingConnection(String pClientIP, int pClientPort) {
 		System.out.println("Der Client mit der IP: " + pClientIP + " wird abgemeldet.");
 		Player removePlayer = getPlayer(pClientIP, pClientPort);
-		String removeMessage = Protocol.SC_LOBBY_USERS + Protocol.SEPARATOR + removePlayer.getPositionIndex() + Protocol.SEPARATOR
-				+ "EMPTY";
+		String removeMessage = Protocol.SC_LOBBY_USERS + Protocol.SEPARATOR + removePlayer.getPositionIndex()
+				+ Protocol.SEPARATOR + "EMPTY";
 		this.sendToLobby(removePlayer.getLobbyIndex(), removeMessage);
 		removeFromLobby(removePlayer);
 		removeFromPlayers(removePlayer);

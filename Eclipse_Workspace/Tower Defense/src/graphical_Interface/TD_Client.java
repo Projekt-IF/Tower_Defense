@@ -24,7 +24,9 @@ public class TD_Client extends Client {
 
 		// Not game important communication
 
-		case Protocol.SC_LOGIN_CONFIRMED:
+		case Protocol.SC_LOGIN_USERNAME_CONFIRMED:
+			this.myGui.ausgeben("User : " + tags[1] + " logged in!");
+			this.myGui.switchPanelLoginPassword(tags[1]);
 			break;
 
 		case Protocol.SC_LOGOUT_CONFIRMED:
