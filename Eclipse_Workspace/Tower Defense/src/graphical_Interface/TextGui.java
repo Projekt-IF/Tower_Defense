@@ -84,6 +84,8 @@ public class TextGui extends JFrame {
 	private JTextField passwordInputTextField;
 	private JPanel passwordUsernameTextPanel;
 	private JLabel passwordUsernameLabel;
+	private JPanel usernameResponsePanel;
+	private JLabel usernameResponseLabel;
 
 	/**
 	 * Launch the application.
@@ -203,6 +205,13 @@ public class TextGui extends JFrame {
 		usernameInputTextField.setText("USERNAME");
 		usernameInputPanel.add(usernameInputTextField);
 		usernameInputTextField.setColumns(20);
+		
+		usernameResponsePanel = new JPanel();
+		usernamePanel.add(usernameResponsePanel, BorderLayout.SOUTH);
+		
+		usernameResponseLabel = new JLabel(" ");
+		usernameResponseLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		usernameResponsePanel.add(usernameResponseLabel);
 
 		passwordPanel = new JPanel();
 		usernamePasswordSwitchPanel.add(passwordPanel, "passwordPanel");
@@ -393,6 +402,10 @@ public class TextGui extends JFrame {
 
 	public void sendToServer(String pMessage) {
 		this.myClient.send(pMessage);
+	}
+
+	public void setUsernameResponseLabelText(String pString) {
+		this.usernameResponseLabel.setText(pString);
 	}
 
 }

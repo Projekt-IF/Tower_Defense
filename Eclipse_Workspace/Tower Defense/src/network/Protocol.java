@@ -14,7 +14,7 @@ public class Protocol {
 			SC_LOGIN_USERNAME_CONFIRMED = "lgnsrnmcnfrmd",
 			/* SC_LOGIN_USERNAME_DENIED:<Username> */
 			SC_LOGIN_USERNAME_DENIED = "lgnsrnmdnd",
-			/* SC_LOGIN_PASSWORD_CONFIRMED */
+			/* SC_LOGIN_PASSWORD_CONFIRMED:<Username><LobbyIndex> */
 			SC_LOGIN_PASSWORD_CONFIRMED = "lgnpsswrdcnfrmd",
 			/* SC_LOGIN_PASSWORD_DENIED */
 			SC_LOGIN_PASSWORD_DENIED = "lgnpsswrddnd",

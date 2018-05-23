@@ -25,8 +25,19 @@ public class TD_Client extends Client {
 		// Not game important communication
 
 		case Protocol.SC_LOGIN_USERNAME_CONFIRMED:
-			this.myGui.ausgeben("User : " + tags[1] + " logged in!");
 			this.myGui.switchPanelLoginPassword(tags[1]);
+			break;
+			
+		case Protocol.SC_LOGIN_USERNAME_DENIED:
+			this.myGui.setUsernameResponseLabelText("The Username : " + tags[1] + " is not existent!");
+			break;
+			
+		case Protocol.SC_LOGIN_PASSWORD_CONFIRMED:
+			this.setPlayerUsername(tags[1], tags[2]);
+			this.myGui.switchPanelLobby();
+			break;
+			
+		case Protocol.SC_LOGIN_PASSWORD_DENIED:
 			break;
 
 		case Protocol.SC_LOGOUT_CONFIRMED:

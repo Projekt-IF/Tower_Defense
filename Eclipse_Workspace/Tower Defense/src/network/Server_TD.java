@@ -57,6 +57,7 @@ public class Server_TD extends Server {
 		/* CS_LOGIN_USERNAME:<Username> */
 		case Protocol.CS_LOGIN_USERNAME:
 			if (token[1].equals(globalUsername)) {
+				player.setUsername(token[1]);
 				backMessage = Protocol.SC_LOGIN_USERNAME_CONFIRMED + Protocol.SEPARATOR + token[1];
 			} else {
 				backMessage = Protocol.SC_LOGIN_USERNAME_DENIED + Protocol.SEPARATOR + token[1];
@@ -65,8 +66,9 @@ public class Server_TD extends Server {
 			break;
 		/* CS_LOGIN_PASSWORD:<Password> */
 		case Protocol.CS_LOGIN_PASSWORD:
-			if(token[1].equals(globalPassword)) {
-				backMessage = Protocol.SC_LOGIN_PASSWORD_CONFIRMED;
+			if (token[1].equals(globalPassword)) {
+				backMessage = Protocol.SC_LOGIN_PASSWORD_CONFIRMED + Protocol.SEPARATOR + player.getPositionIndex()
+						+ Protocol.SEPARATOR + player.getUsername();
 			} else {
 				backMessage = Protocol.SC_LOGIN_PASSWORD_DENIED;
 			}
@@ -75,7 +77,6 @@ public class Server_TD extends Server {
 		/* CS_SURRENDER */
 		case Protocol.CS_PLAYER_SET_NAME:
 			player.setUsername(token[1]);
-			;
 			backMessage = Protocol.SC_LOBBY_USERS + Protocol.SEPARATOR + player.getPositionIndex() + Protocol.SEPARATOR
 					+ player.getUsername();
 			this.sendToLobby(player.getLobbyIndex(), backMessage);
