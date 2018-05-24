@@ -29,6 +29,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.Color;
 
 public class TextGui extends JFrame {
 
@@ -86,6 +87,13 @@ public class TextGui extends JFrame {
 	private JLabel passwordUsernameLabel;
 	private JPanel usernameResponsePanel;
 	private JLabel usernameResponseLabel;
+	private JPanel loggedInPanel;
+	private JPanel loggedIn_TextPanel;
+	private JLabel loggedInAsLabel;
+	private JPanel loggedInUsernamePanel;
+	private JLabel loggedInUsernameLabel;
+	private JPanel loggedInLobbySwitchPanel;
+	private JButton loggedInSearchLobbyButton;
 
 	/**
 	 * Launch the application.
@@ -253,6 +261,40 @@ public class TextGui extends JFrame {
 		passwordUsernameLabel = new JLabel("Username : ");
 		passwordUsernameLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		passwordUsernameTextPanel.add(passwordUsernameLabel);
+		
+		loggedInPanel = new JPanel();
+		usernamePasswordSwitchPanel.add(loggedInPanel, "loggedInPanel");
+		loggedInPanel.setLayout(new BorderLayout(0, 0));
+		
+		loggedIn_TextPanel = new JPanel();
+		loggedInPanel.add(loggedIn_TextPanel, BorderLayout.NORTH);
+		
+		loggedInAsLabel = new JLabel("Logged in as : ");
+		loggedInAsLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		loggedIn_TextPanel.add(loggedInAsLabel);
+		
+		loggedInUsernamePanel = new JPanel();
+		loggedInPanel.add(loggedInUsernamePanel, BorderLayout.CENTER);
+		
+		loggedInUsernameLabel = new JLabel(" ");
+		loggedInUsernameLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		loggedInUsernamePanel.add(loggedInUsernameLabel);
+		
+		loggedInLobbySwitchPanel = new JPanel();
+		loggedInPanel.add(loggedInLobbySwitchPanel, BorderLayout.SOUTH);
+		
+		loggedInSearchLobbyButton = new JButton("Search Lobby");
+		loggedInSearchLobbyButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				sendToServer(Protocol.CS_SEARCH_LOBBY);
+			}
+		});
+		loggedInSearchLobbyButton.setForeground(Color.BLACK);
+		loggedInSearchLobbyButton.setToolTipText("");
+		loggedInSearchLobbyButton.setBackground(Color.WHITE);
+		loggedInSearchLobbyButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		loggedInLobbySwitchPanel.add(loggedInSearchLobbyButton);
 
 		lobbyPanel = new JPanel();
 		switchablePanel.add(lobbyPanel, "lobbyPanel");
@@ -373,6 +415,15 @@ public class TextGui extends JFrame {
 		CardLayout clUP = (CardLayout) usernamePasswordSwitchPanel.getLayout();
 		clUP.show(usernamePasswordSwitchPanel, "passwordPanel");
 		this.passwordUsernameLabel.setText(USERNAMEPRESET + pUsername);
+	}
+	
+	public void switchPanelLoggedIn(String pUsername) {
+		CardLayout cl = (CardLayout) switchablePanel.getLayout();
+		cl.show(switchablePanel, "loginPanel");
+		CardLayout clUP = (CardLayout) usernamePasswordSwitchPanel.getLayout();
+		clUP.show(usernamePasswordSwitchPanel, "loggedInPanel");
+		this.loggedInUsernameLabel.setText(pUsername);
+		
 	}
 
 	public void switchPanelLobby() {

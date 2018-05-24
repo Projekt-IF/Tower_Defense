@@ -14,14 +14,17 @@ public class Protocol {
 			SC_LOGIN_USERNAME_CONFIRMED = "lgnsrnmcnfrmd",
 			/* SC_LOGIN_USERNAME_DENIED:<Username> */
 			SC_LOGIN_USERNAME_DENIED = "lgnsrnmdnd",
-			/* SC_LOGIN_PASSWORD_CONFIRMED:<Username><LobbyIndex> */
+			/* SC_LOGIN_PASSWORD_CONFIRMED:<Username> */
 			SC_LOGIN_PASSWORD_CONFIRMED = "lgnpsswrdcnfrmd",
 			/* SC_LOGIN_PASSWORD_DENIED */
 			SC_LOGIN_PASSWORD_DENIED = "lgnpsswrddnd",
 			/* SC_LOGOUT_CONFIRMED:<String> */
 			SC_LOGOUT_CONFIRMED = "lgtcnfrmd",
 
-			/* SC_LOBBY_USERS:<ArrayList<Player>> */
+			/* SC_LOBBY_FOUND*/
+			SC_LOBBY_FOUND = "lbbyfnd",
+			
+			/* SC_LOBBY_USERS:<Username_1>:<Ready_1>:<Username_2>:<Ready_2> */
 			SC_LOBBY_USERS = "lbbyser",
 			/* SC_PLAYER_JOINED:<Integer>:<boolean> */
 			SC_PLAYER_JOINED = "plyrjnd",
@@ -85,7 +88,9 @@ public class Protocol {
 			/* CS_LOGIN_USERNAME:<Username> */
 			CS_LOGIN_USERNAME = "lgnsrnm",
 			/* CS_LOGIN_PASSWORD:<Password> */
-			CS_LOGIN_PASSWORD = "lgnpsswrd",
+			CS_LOGIN_PASSWORD = "lgnpsswrd", 
+			/* CS_SEARCH_LOBBY */
+			CS_SEARCH_LOBBY = "srchlbby",
 			/* CS_PLAYER_SET_NAME:<Name> */
 			CS_PLAYER_SET_NAME = "plyrstnm",
 			/* CS_LOGOUT:<Username> */

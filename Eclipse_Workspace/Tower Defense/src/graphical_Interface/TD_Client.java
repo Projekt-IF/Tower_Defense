@@ -27,26 +27,41 @@ public class TD_Client extends Client {
 		case Protocol.SC_LOGIN_USERNAME_CONFIRMED:
 			this.myGui.switchPanelLoginPassword(tags[1]);
 			break;
-			
+
 		case Protocol.SC_LOGIN_USERNAME_DENIED:
 			this.myGui.setUsernameResponseLabelText("The Username : " + tags[1] + " is not existent!");
 			break;
-			
+
 		case Protocol.SC_LOGIN_PASSWORD_CONFIRMED:
-			this.setPlayerUsername(tags[1], tags[2]);
-			this.myGui.switchPanelLobby();
+			this.myGui.switchPanelLoggedIn(tags[1]);
+			;
 			break;
-			
+
 		case Protocol.SC_LOGIN_PASSWORD_DENIED:
+			break;
+
+		case Protocol.SC_LOBBY_FOUND:
+			this.myGui.switchPanelLobby();
 			break;
 
 		case Protocol.SC_LOGOUT_CONFIRMED:
 			break;
 
 		case Protocol.SC_LOBBY_USERS:
-			this.setPlayerUsername(tags[1], tags[2]);
-			this.myGui.ausgeben("The Player: " + tags[1] + " is named " + tags[2] + " !");
-
+			if (!tags[1].equals("null")) {
+				this.setPlayerUsername("1", tags[1]);
+				this.setPlayerReady("1", tags[2]);
+			} else {
+				this.setPlayerUsername("1", "EMPTY");
+				this.setPlayerReady("1", "false");
+			}
+			if (!tags[3].equals("null")) {
+				this.setPlayerUsername("2", tags[3]);
+				this.setPlayerReady("2", tags[4]);
+			} else {
+				this.setPlayerUsername("2", "EMPTY");
+				this.setPlayerReady("2", "false");
+			}
 			break;
 
 		case Protocol.SC_PLAYER_JOINED:
@@ -62,6 +77,7 @@ public class TD_Client extends Client {
 			} else {
 				this.myGui.ausgeben("The Player: " + tags[1] + " is not ready!");
 			}
+			System.out.println("NEW");
 			break;
 
 		case Protocol.SC_ALL_PLAYER_READY:
