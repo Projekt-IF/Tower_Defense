@@ -78,7 +78,7 @@ public class Server_TD extends Server {
 		/* CS_SEARCh_LOBBY */
 		case Protocol.CS_SEARCH_LOBBY:
 			sortInLobby(player);
-			backMessage = Protocol.SC_LOBBY_FOUND;
+			backMessage = Protocol.SC_LOBBY_FOUND + Protocol.SEPARATOR + player.getPositionIndex();
 			this.send(pClientIP, pClientPort, backMessage);
 			backMessage = Protocol.SC_LOBBY_USERS + Protocol.SEPARATOR + createLobbyUsersResponse(player);
 			this.sendToLobby(player.getLobbyIndex(), backMessage);
@@ -93,12 +93,17 @@ public class Server_TD extends Server {
 			break;
 		/* CS_READY_LOBBY */
 		case Protocol.CS_READY_LOBBY:
-			player.setReady(!player.isReady());
+			if (lobbyReady(player)) {
+				backMessage = Protocol.SC_ALL_PLAYER_READY;
+				this.sendToLobby(player.getLobbyIndex(), backMessage);
+			} else {
+				player.setReady(!player.isReady());
+				backMessage = Protocol.SC_PLAYER_READY + Protocol.SEPARATOR + player.getPositionIndex()
+						+ Protocol.SEPARATOR + player.isReady();
+				this.sendToLobby(player.getLobbyIndex(), backMessage);
+			}
 			showLobbys();
 			showPlayer();
-			backMessage = Protocol.SC_PLAYER_READY + Protocol.SEPARATOR + player.getPositionIndex() + Protocol.SEPARATOR
-					+ player.isReady();
-			this.sendToLobby(player.getLobbyIndex(), backMessage);
 			break;
 		default:
 			backMessage = Protocol.SC_SENDERRORMESSAGE + Protocol.SEPARATOR + "Error!";
@@ -173,6 +178,16 @@ public class Server_TD extends Server {
 					+ Protocol.SEPARATOR + lobby.getPlayer_2().isReady();
 		}
 		return pMessage;
+	}
+
+	private boolean lobbyReady(Player player) {
+		Lobby lobby = lobbyList.get(player.getLobbyIndex());
+		if ((lobby.getPlayer_1() != null)&&lobby.getPlayer_1().isReady()) {
+			if ((lobby.getPlayer_2() != null)&&lobby.getPlayer_2().isReady()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void sortInLobby(Player player) {

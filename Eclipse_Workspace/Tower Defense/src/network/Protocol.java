@@ -21,7 +21,7 @@ public class Protocol {
 			/* SC_LOGOUT_CONFIRMED:<String> */
 			SC_LOGOUT_CONFIRMED = "lgtcnfrmd",
 
-			/* SC_LOBBY_FOUND*/
+			/* SC_LOBBY_FOUND:<Position>*/
 			SC_LOBBY_FOUND = "lbbyfnd",
 			
 			/* SC_LOBBY_USERS:<Username_1>:<Ready_1>:<Username_2>:<Ready_2> */

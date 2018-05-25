@@ -39,7 +39,6 @@ public class TextGui extends JFrame {
 	private static final String USERNAMEPRESET = "USERNAME : ";
 	private static final long serialVersionUID = 6557422167637163832L;
 	private JPanel switchPanel;
-	private JTextField lobbyTextField;
 	private JLabel lblContent;
 	private TD_Client myClient;
 	private JPanel playerPanel;
@@ -50,9 +49,7 @@ public class TextGui extends JFrame {
 	private JPanel player_2_TagPanel;
 	private JLabel lblPlayer_2;
 	private JPanel player_1_ReadyPanel;
-	private JLabel lblReadyPlayer_1;
 	private JPanel player_2_ReadyPanel;
-	private JLabel lblReadyPlayer_2;
 	private JPanel player_1_NamePanel;
 	private JPanel player_2_NamePanel;
 	private JLabel lblPlayer_2_Name;
@@ -65,13 +62,7 @@ public class TextGui extends JFrame {
 	private Component rigidArea_1;
 	private JPanel lobbyPanel;
 	private JPanel loginPanel;
-	private JPanel loginInputPanel;
-	private JPanel loginTextPanel;
-	private JLabel lblTextOutput;
-	private JTextField loginTextField;
-	private JPanel switchButtonPanel;
 	private JPanel switchablePanel;
-	private JButton switchButton;
 	private JPanel usernamePasswordSwitchPanel;
 	private JPanel usernamePanel;
 	private JPanel usernameTextPanel;
@@ -94,6 +85,16 @@ public class TextGui extends JFrame {
 	private JLabel loggedInUsernameLabel;
 	private JPanel loggedInLobbySwitchPanel;
 	private JButton loggedInSearchLobbyButton;
+	private JPanel gamePanel;
+	private JLabel readyPlayer_2_Label;
+	private JLabel readyPlayer_1_Label;
+	private JPanel readyPlayerButtonPanel;
+	private JButton readyPlayerButton;
+	private Component readyPlayerButtonSpace;
+	private JPanel switchGamePanel;
+	private JPanel gameBuyTowerPanel;
+	private JPanel gameBuyEnemiesPanel;
+	private JPanel gamePlayPanel;
 
 	/**
 	 * Launch the application.
@@ -131,25 +132,12 @@ public class TextGui extends JFrame {
 		}
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 350);
 		setIconImage(image);
 		switchPanel = new JPanel();
 		switchPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(switchPanel);
 		switchPanel.setLayout(new BorderLayout(0, 0));
-
-		switchButtonPanel = new JPanel();
-		switchPanel.add(switchButtonPanel, BorderLayout.EAST);
-		switchButtonPanel.setLayout(new BorderLayout(0, 0));
-
-		switchButton = new JButton("SwitchLobby");
-		switchButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				switchPanel();
-			}
-		});
-		switchButtonPanel.add(switchButton, BorderLayout.CENTER);
 
 		switchablePanel = new JPanel();
 		switchPanel.add(switchablePanel, BorderLayout.CENTER);
@@ -158,23 +146,6 @@ public class TextGui extends JFrame {
 		loginPanel = new JPanel();
 		switchablePanel.add(loginPanel, "loginPanel");
 		loginPanel.setLayout(new BorderLayout(0, 0));
-
-		loginInputPanel = new JPanel();
-		loginPanel.add(loginInputPanel, BorderLayout.NORTH);
-		loginInputPanel.setLayout(new BorderLayout(0, 0));
-
-		loginTextField = new JTextField();
-		loginTextField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		loginInputPanel.add(loginTextField);
-		loginTextField.setColumns(10);
-
-		loginTextPanel = new JPanel();
-		loginPanel.add(loginTextPanel, BorderLayout.SOUTH);
-		loginTextPanel.setLayout(new BorderLayout(0, 0));
-
-		lblTextOutput = new JLabel("_TEXT_");
-		lblTextOutput.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		loginTextPanel.add(lblTextOutput, BorderLayout.SOUTH);
 
 		usernamePasswordSwitchPanel = new JPanel();
 		loginPanel.add(usernamePasswordSwitchPanel, BorderLayout.CENTER);
@@ -213,10 +184,10 @@ public class TextGui extends JFrame {
 		usernameInputTextField.setText("USERNAME");
 		usernameInputPanel.add(usernameInputTextField);
 		usernameInputTextField.setColumns(20);
-		
+
 		usernameResponsePanel = new JPanel();
 		usernamePanel.add(usernameResponsePanel, BorderLayout.SOUTH);
-		
+
 		usernameResponseLabel = new JLabel(" ");
 		usernameResponseLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		usernameResponsePanel.add(usernameResponseLabel);
@@ -254,35 +225,35 @@ public class TextGui extends JFrame {
 		passwordInputTextField.setText("PASSWORD");
 		passwordInputPanel.add(passwordInputTextField);
 		passwordInputTextField.setColumns(20);
-		
+
 		passwordUsernameTextPanel = new JPanel();
 		passwordPanel.add(passwordUsernameTextPanel, BorderLayout.SOUTH);
-		
+
 		passwordUsernameLabel = new JLabel("Username : ");
 		passwordUsernameLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		passwordUsernameTextPanel.add(passwordUsernameLabel);
-		
+
 		loggedInPanel = new JPanel();
 		usernamePasswordSwitchPanel.add(loggedInPanel, "loggedInPanel");
 		loggedInPanel.setLayout(new BorderLayout(0, 0));
-		
+
 		loggedIn_TextPanel = new JPanel();
 		loggedInPanel.add(loggedIn_TextPanel, BorderLayout.NORTH);
-		
+
 		loggedInAsLabel = new JLabel("Logged in as : ");
 		loggedInAsLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		loggedIn_TextPanel.add(loggedInAsLabel);
-		
+
 		loggedInUsernamePanel = new JPanel();
 		loggedInPanel.add(loggedInUsernamePanel, BorderLayout.CENTER);
-		
+
 		loggedInUsernameLabel = new JLabel(" ");
 		loggedInUsernameLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		loggedInUsernamePanel.add(loggedInUsernameLabel);
-		
+
 		loggedInLobbySwitchPanel = new JPanel();
 		loggedInPanel.add(loggedInLobbySwitchPanel, BorderLayout.SOUTH);
-		
+
 		loggedInSearchLobbyButton = new JButton("Search Lobby");
 		loggedInSearchLobbyButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -299,15 +270,6 @@ public class TextGui extends JFrame {
 		lobbyPanel = new JPanel();
 		switchablePanel.add(lobbyPanel, "lobbyPanel");
 		lobbyPanel.setLayout(new BorderLayout(0, 0));
-
-		JButton sendButton = new JButton("SendMessage");
-		sendButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lobbyPanel.add(sendButton, BorderLayout.EAST);
-
-		lobbyTextField = new JTextField();
-		lobbyTextField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lobbyPanel.add(lobbyTextField, BorderLayout.NORTH);
-		lobbyTextField.setColumns(10);
 
 		lblContent = new JLabel("Content");
 		lblContent.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -333,9 +295,9 @@ public class TextGui extends JFrame {
 		player_1_Panel.add(player_1_ReadyPanel, BorderLayout.SOUTH);
 		player_1_ReadyPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-		lblReadyPlayer_1 = new JLabel("_isReady_");
-		lblReadyPlayer_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		player_1_ReadyPanel.add(lblReadyPlayer_1);
+		readyPlayer_1_Label = new JLabel("_isReady_");
+		readyPlayer_1_Label.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		player_1_ReadyPanel.add(readyPlayer_1_Label);
 
 		player_1_NamePanel = new JPanel();
 		player_1_Panel.add(player_1_NamePanel, BorderLayout.CENTER);
@@ -370,9 +332,9 @@ public class TextGui extends JFrame {
 		player_2_ReadyPanel = new JPanel();
 		player_2_Panel.add(player_2_ReadyPanel, BorderLayout.SOUTH);
 
-		lblReadyPlayer_2 = new JLabel("_isReady_");
-		lblReadyPlayer_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		player_2_ReadyPanel.add(lblReadyPlayer_2);
+		readyPlayer_2_Label = new JLabel("_isReady_");
+		readyPlayer_2_Label.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		player_2_ReadyPanel.add(readyPlayer_2_Label);
 
 		player_2_NamePanel = new JPanel();
 		player_2_Panel.add(player_2_NamePanel, BorderLayout.CENTER);
@@ -390,16 +352,41 @@ public class TextGui extends JFrame {
 
 		rigidArea_1 = Box.createRigidArea(new Dimension(100, 20));
 		spacePanel_2.add(rigidArea_1);
-		sendButton.addActionListener(new ActionListener() {
+
+		readyPlayerButtonPanel = new JPanel();
+		lobbyPanel.add(readyPlayerButtonPanel, BorderLayout.EAST);
+		readyPlayerButtonPanel.setLayout(new BorderLayout(0, 0));
+
+		readyPlayerButton = new JButton("NOT READY");
+		readyPlayerButtonPanel.add(readyPlayerButton);
+		readyPlayerButton.setForeground(Color.RED);
+		readyPlayerButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+
+		readyPlayerButtonSpace = Box.createRigidArea(new Dimension(100, 26));
+		readyPlayerButtonPanel.add(readyPlayerButtonSpace, BorderLayout.NORTH);
+		readyPlayerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				sendToServer(lobbyTextField.getText());
+				sendToServer(Protocol.CS_READY_LOBBY);
 			}
 		});
-	}
 
-	public void switchPanel() {
-		CardLayout cl = (CardLayout) switchablePanel.getLayout();
-		cl.next(switchablePanel);
+		gamePanel = new JPanel();
+		switchablePanel.add(gamePanel, "gamePanel");
+		gamePanel.setLayout(new BorderLayout(0, 0));
+
+		switchGamePanel = new JPanel();
+		gamePanel.add(switchGamePanel, BorderLayout.CENTER);
+		switchGamePanel.setLayout(new CardLayout(0, 0));
+		
+		gameBuyTowerPanel = new JPanel();
+		switchGamePanel.add(gameBuyTowerPanel, "name_1338215343868048");
+		gameBuyTowerPanel.setLayout(new BorderLayout(0, 0));
+		
+		gameBuyEnemiesPanel = new JPanel();
+		switchGamePanel.add(gameBuyEnemiesPanel, "name_1338251438268294");
+		
+		gamePlayPanel = new JPanel();
+		switchGamePanel.add(gamePlayPanel, "name_1338326409121367");
 	}
 
 	public void switchPanelLoginUsername() {
@@ -408,7 +395,7 @@ public class TextGui extends JFrame {
 		CardLayout clUP = (CardLayout) usernamePasswordSwitchPanel.getLayout();
 		clUP.show(usernamePasswordSwitchPanel, "usernamePanel");
 	}
-	
+
 	public void switchPanelLoginPassword(String pUsername) {
 		CardLayout cl = (CardLayout) switchablePanel.getLayout();
 		cl.show(switchablePanel, "loginPanel");
@@ -416,14 +403,14 @@ public class TextGui extends JFrame {
 		clUP.show(usernamePasswordSwitchPanel, "passwordPanel");
 		this.passwordUsernameLabel.setText(USERNAMEPRESET + pUsername);
 	}
-	
+
 	public void switchPanelLoggedIn(String pUsername) {
 		CardLayout cl = (CardLayout) switchablePanel.getLayout();
 		cl.show(switchablePanel, "loginPanel");
 		CardLayout clUP = (CardLayout) usernamePasswordSwitchPanel.getLayout();
 		clUP.show(usernamePasswordSwitchPanel, "loggedInPanel");
 		this.loggedInUsernameLabel.setText(pUsername);
-		
+
 	}
 
 	public void switchPanelLobby() {
@@ -436,11 +423,31 @@ public class TextGui extends JFrame {
 	}
 
 	public void setReadyPlayer1(String readyText) {
-		this.lblReadyPlayer_1.setText(readyText);
+		this.readyPlayer_1_Label.setText(readyText);
+		if (readyText.equals("READY")) {
+			this.readyPlayer_1_Label.setForeground(Color.GREEN);
+		} else if (readyText.equals("NOT READY")) {
+			this.readyPlayer_1_Label.setForeground(Color.RED);
+		}
 	}
 
 	public void setReadyPlayer2(String readyText) {
-		this.lblReadyPlayer_2.setText(readyText);
+		this.readyPlayer_2_Label.setText(readyText);
+		if (readyText.equals("READY")) {
+			this.readyPlayer_2_Label.setForeground(Color.GREEN);
+		} else if (readyText.equals("NOT READY")) {
+			this.readyPlayer_2_Label.setForeground(Color.RED);
+		}
+	}
+
+	public void setReadyButton(String playerStatus) {
+		if (playerStatus.equals("true")) {
+			readyPlayerButton.setText("READY");
+			readyPlayerButton.setForeground(Color.GREEN);
+		} else if (playerStatus.equals("false")) {
+			readyPlayerButton.setText("NOT READY");
+			readyPlayerButton.setForeground(Color.RED);
+		}
 	}
 
 	public void setUsernamePlayer1(String name) {

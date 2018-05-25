@@ -1,8 +1,11 @@
 package graphical_Interface;
 
+
 import network.Protocol;
 
 public class TD_Client extends Client {
+
+	private Integer positionInLobby;
 
 	private TextGui myGui;
 
@@ -41,6 +44,7 @@ public class TD_Client extends Client {
 			break;
 
 		case Protocol.SC_LOBBY_FOUND:
+			this.positionInLobby = setLobbyPosition(tags[1]);
 			this.myGui.switchPanelLobby();
 			break;
 
@@ -77,10 +81,10 @@ public class TD_Client extends Client {
 			} else {
 				this.myGui.ausgeben("The Player: " + tags[1] + " is not ready!");
 			}
-			System.out.println("NEW");
 			break;
 
 		case Protocol.SC_ALL_PLAYER_READY:
+			this.myGui.ausgeben("All players ready!");
 			break;
 
 		// In-Game communication
@@ -149,6 +153,13 @@ public class TD_Client extends Client {
 		}
 	}
 
+	private int setLobbyPosition(String string) {
+		if (string.equals("1")) {
+			return 1;
+		}
+		return 2;
+	}
+
 	private void setPlayerUsername(String playerPosition, String playerName) {
 		if (playerPosition.equals("1")) {
 			this.myGui.setUsernamePlayer1(playerName);
@@ -172,6 +183,9 @@ public class TD_Client extends Client {
 				this.myGui.setReadyPlayer2("NOT READY");
 			}
 
+		}
+		if(playerPosition.equals(this.positionInLobby.toString())) {
+			this.myGui.setReadyButton(playerStatus);
 		}
 
 	}
