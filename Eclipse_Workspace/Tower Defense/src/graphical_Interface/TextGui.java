@@ -30,6 +30,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.Color;
+import javax.swing.JSplitPane;
 
 public class TextGui extends JFrame {
 
@@ -95,6 +96,16 @@ public class TextGui extends JFrame {
 	private JPanel gameBuyTowerPanel;
 	private JPanel gameBuyEnemiesPanel;
 	private JPanel gamePlayPanel;
+	private JPanel gameTowerBuyTextPanel;
+	private JPanel gameTowerBuyChosenPanel;
+	private JLabel gameTowerBuyTextLabel;
+	private JPanel gameEnemyBuyTextPanel;
+	private JPanel gameEnemyBuyChosenPanel;
+	private JPanel gameEnemyBuyOptionsPanel;
+	private JLabel gameEnemyBuyTextLabel;
+	private JSplitPane gameTowerBuyMapOptionsSplitPanel;
+	private JPanel gameTowerBuyMapPanel;
+	private JPanel gameTowerBuyOptionsPanel;
 
 	/**
 	 * Launch the application.
@@ -379,14 +390,50 @@ public class TextGui extends JFrame {
 		switchGamePanel.setLayout(new CardLayout(0, 0));
 		
 		gameBuyTowerPanel = new JPanel();
-		switchGamePanel.add(gameBuyTowerPanel, "name_1338215343868048");
+		switchGamePanel.add(gameBuyTowerPanel, "gameBuyTowerPanel");
 		gameBuyTowerPanel.setLayout(new BorderLayout(0, 0));
 		
+		gameTowerBuyTextPanel = new JPanel();
+		gameBuyTowerPanel.add(gameTowerBuyTextPanel, BorderLayout.NORTH);
+		
+		gameTowerBuyTextLabel = new JLabel("Buy Tower : ");
+		gameTowerBuyTextLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gameTowerBuyTextPanel.add(gameTowerBuyTextLabel);
+		
+		gameTowerBuyChosenPanel = new JPanel();
+		gameBuyTowerPanel.add(gameTowerBuyChosenPanel, BorderLayout.SOUTH);
+		
+		gameTowerBuyMapOptionsSplitPanel = new JSplitPane();
+		gameTowerBuyMapOptionsSplitPanel.setResizeWeight(0.5);
+		gameBuyTowerPanel.add(gameTowerBuyMapOptionsSplitPanel, BorderLayout.CENTER);
+		
+		gameTowerBuyMapPanel = new JPanel();
+		gameTowerBuyMapPanel.setBackground(Color.BLACK);
+		gameTowerBuyMapOptionsSplitPanel.setLeftComponent(gameTowerBuyMapPanel);
+		
+		gameTowerBuyOptionsPanel = new JPanel();
+		gameTowerBuyOptionsPanel.setBackground(Color.WHITE);
+		gameTowerBuyMapOptionsSplitPanel.setRightComponent(gameTowerBuyOptionsPanel);
+		
 		gameBuyEnemiesPanel = new JPanel();
-		switchGamePanel.add(gameBuyEnemiesPanel, "name_1338251438268294");
+		switchGamePanel.add(gameBuyEnemiesPanel, "gameBuyEnemiesPanel");
+		gameBuyEnemiesPanel.setLayout(new BorderLayout(0, 0));
+		
+		gameEnemyBuyTextPanel = new JPanel();
+		gameBuyEnemiesPanel.add(gameEnemyBuyTextPanel, BorderLayout.NORTH);
+		
+		gameEnemyBuyTextLabel = new JLabel("Buy Enemy : ");
+		gameEnemyBuyTextLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gameEnemyBuyTextPanel.add(gameEnemyBuyTextLabel);
+		
+		gameEnemyBuyChosenPanel = new JPanel();
+		gameBuyEnemiesPanel.add(gameEnemyBuyChosenPanel, BorderLayout.CENTER);
+		
+		gameEnemyBuyOptionsPanel = new JPanel();
+		gameBuyEnemiesPanel.add(gameEnemyBuyOptionsPanel, BorderLayout.SOUTH);
 		
 		gamePlayPanel = new JPanel();
-		switchGamePanel.add(gamePlayPanel, "name_1338326409121367");
+		switchGamePanel.add(gamePlayPanel, "gamePlayPanel");
 	}
 
 	public void switchPanelLoginUsername() {
@@ -458,12 +505,11 @@ public class TextGui extends JFrame {
 		this.lblPlayer_2_Name.setText(name);
 	}
 
-	public void sendToServer(String pMessage) {
-		this.myClient.send(pMessage);
-	}
-
 	public void setUsernameResponseLabelText(String pString) {
 		this.usernameResponseLabel.setText(pString);
 	}
-
+	
+	public void sendToServer(String pMessage) {
+		this.myClient.send(pMessage);
+	}
 }

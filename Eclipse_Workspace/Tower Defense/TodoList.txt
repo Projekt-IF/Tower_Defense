@@ -1,0 +1,8 @@
+Today:
+
+	- Wave Spawning
+	- Checking Player Life
+		- Player Life implementation -> need the enemies to check when they are on the BaseTile
+		- 
+		
+	- Wave System Generating the Waves

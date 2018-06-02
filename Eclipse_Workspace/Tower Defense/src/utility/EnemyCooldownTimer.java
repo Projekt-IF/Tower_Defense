@@ -27,7 +27,6 @@ public class EnemyCooldownTimer extends TimerTask {
 			count = 0;
 		}
 		this.enemy.setOnCooldown(false);
-		// timer.cancel();
 	}
 
 }

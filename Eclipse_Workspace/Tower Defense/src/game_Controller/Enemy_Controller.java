@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import envoirement.Grid;
 import envoirement.Tile;
 import objects.Enemy;
+import objects.Player;
 
 /**
  * 
@@ -12,6 +13,8 @@ import objects.Enemy;
 public class Enemy_Controller {
 
 	// private Game_Controller game_Controller;
+
+	private Player player;
 
 	private Grid grid;
 
@@ -22,9 +25,10 @@ public class Enemy_Controller {
 	/**
 	 * 
 	 */
-	public Enemy_Controller(ArrayList<Enemy> pEnemyList/* , Game_Controller pGame_Controller */) {
+	public Enemy_Controller(ArrayList<Enemy> pEnemyList, Player pPlayer/* , Game_Controller pGame_Controller */) {
 		// this.game_Controller = pGame_Controller;
 		this.enemyList = pEnemyList;
+		this.player = pPlayer;
 	}
 
 	/**
@@ -47,8 +51,7 @@ public class Enemy_Controller {
 		int currentYPos = e.getPosY();
 		e.setPosX(grid.getGridLayer()[currentYPos][currentXPos].getNextTile().getxPos());
 		e.setPosY(grid.getGridLayer()[currentYPos][currentXPos].getNextTile().getyPos());
-		e.setOnCooldown(true);
-		e.startTimer();
+		e.move();
 	}
 
 	/**
@@ -96,10 +99,21 @@ public class Enemy_Controller {
 			} else {
 				if (grid.getGridLayer()[enemyList.get(a).getPosY()][enemyList.get(a).getPosX()]
 						.getHasNextTile() == false) {
+					if ((grid.getBaseTile().getxPos() == enemyList.get(a).getPosX())
+							&& (grid.getBaseTile().getyPos() == enemyList.get(a).getPosY())) {
+						player.setHealth(player.getHealth() - enemyList.get(a).getDamage());
+					}
 					enemyList.remove(enemyList.get(a));
 				}
 			}
 		}
+	}
+	
+	public boolean isEnemyAffordable(int pCost) {
+		if(player.getPlayerMoney() >= pCost) {
+			return true;
+		}
+		return false;
 	}
 
 	public void clearEnemyList() {

@@ -14,15 +14,18 @@ public class Enemy {
 	 * 
 	 */
 	public static final int TYPE_NORMAL = 1;
+	
+	private EnemyTypes types;
+	private int type;
 
 	private int posX;
 	private int posY;
 
-	private EnemyTypes type;
 	private int level;
 
 	private int life;
 	private int speed;
+	private int damage;
 
 	private int cost;
 
@@ -32,12 +35,15 @@ public class Enemy {
 	 * 
 	 */
 	public Enemy(int pPosX, int pPosY, int pType, int pLevel) {
-		onCooldown = false;
-		this.type = new EnemyTypes(pType);
 		this.posX = pPosX;
 		this.posY = pPosY;
-		this.life = type.getLife();
-		this.speed = type.getSpeed();
+		this.setType(pType);
+		this.types = new EnemyTypes(pType);
+		this.life = types.getLife();
+		this.speed = types.getSpeed();
+		this.damage = types.getDamage();
+		this.cost = types.getCost();
+		this.onCooldown = false;
 	}
 
 	public Boolean checkAlife() {
@@ -52,6 +58,11 @@ public class Enemy {
 		Timer timer = new Timer();
 		System.out.println(this.speed * 2500);
 		timer.schedule(new EnemyCooldownTimer(this, timer), (long) (this.speed * 2500));
+	}
+	
+	public void move() {
+		this.onCooldown = true;
+		startTimer();
 	}
 
 	public int getPosX() {
@@ -115,6 +126,34 @@ public class Enemy {
 
 	public void setLife(int pLife) {
 		this.life = pLife;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public int getType() {
+		return type;
+	}
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	/**
+	 * @return the damage
+	 */
+	public int getDamage() {
+		return damage;
+	}
+
+	/**
+	 * @param damage the damage to set
+	 */
+	public void setDamage(int damage) {
+		this.damage = damage;
 	}
 
 }

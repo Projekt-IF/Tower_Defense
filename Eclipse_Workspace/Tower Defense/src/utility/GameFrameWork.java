@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import game_Controller.Game_Controller;
 import objects.Enemy;
 import objects.Player;
+import objects.Tower;
 
 public class GameFrameWork {
 
@@ -18,8 +19,11 @@ public class GameFrameWork {
 	private Game_Controller player_1_Game_Controller;
 	private Game_Controller player_2_Game_Controller;
 
-	private ArrayList<Enemy> baughtEnemies_Player_1;
-	private ArrayList<Enemy> baughtEnemies_Player_2;
+	private ArrayList<Enemy> boughtEnemies_Player_1;
+	private ArrayList<Enemy> boughtEnemies_Player_2;
+	
+	private ArrayList<Tower> boughtTowers_Player_1;
+	private ArrayList<Tower> boughtTowers_Player_2;
 
 	public GameFrameWork(Player pPlayer_1, Player pPlayer_2) {
 		this.player_1 = pPlayer_1;
@@ -57,8 +61,14 @@ public class GameFrameWork {
 	}
 
 	public void assembleWaves() {
-		player_1_Game_Controller.addPurchasedEnemies(baughtEnemies_Player_1);
-		player_2_Game_Controller.addPurchasedEnemies(baughtEnemies_Player_2);
+		//The Enemies Player 2 bought are put together with the wave
+		player_1_Game_Controller.addPurchasedEnemies(boughtEnemies_Player_2);
+		player_2_Game_Controller.addPurchasedEnemies(boughtEnemies_Player_1);
+	}
+	
+	public void placeNewTowers() {
+		player_1_Game_Controller.addPurchasedTowers(boughtTowers_Player_1);
+		player_2_Game_Controller.addPurchasedTowers(boughtTowers_Player_2);
 	}
 
 	public boolean playerReadyCheck() {

@@ -1,11 +1,18 @@
 package graphical_Interface;
 
 
+import java.util.ArrayList;
+
 import network.Protocol;
+import objects.Enemy;
+import objects.Tower;
 
 public class TD_Client extends Client {
 
 	private Integer positionInLobby;
+	
+	private ArrayList<Tower> baughtTowers;
+	private ArrayList<Enemy> baughtEnemies;
 
 	private TextGui myGui;
 
@@ -188,5 +195,33 @@ public class TD_Client extends Client {
 			this.myGui.setReadyButton(playerStatus);
 		}
 
+	}
+
+	/**
+	 * @return the baughtTowers
+	 */
+	public ArrayList<Tower> getBaughtTowers() {
+		return baughtTowers;
+	}
+
+	/**
+	 * @param baughtTowers the baughtTowers to set
+	 */
+	public void setBaughtTowers(ArrayList<Tower> baughtTowers) {
+		this.baughtTowers = baughtTowers;
+	}
+
+	/**
+	 * @return the baughtEnemies
+	 */
+	public ArrayList<Enemy> getBaughtEnemies() {
+		return baughtEnemies;
+	}
+
+	/**
+	 * @param baughtEnemies the baughtEnemies to set
+	 */
+	public void setBaughtEnemies(ArrayList<Enemy> baughtEnemies) {
+		this.baughtEnemies = baughtEnemies;
 	}
 }

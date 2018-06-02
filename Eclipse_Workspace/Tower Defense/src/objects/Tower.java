@@ -6,7 +6,8 @@ import utility.TowerCooldownTimer;
 
 public class Tower {
 
-	private TowerTypes type;
+	private TowerTypes types;
+	private int type;
 
 	private int posX;
 	private int posY;
@@ -22,13 +23,14 @@ public class Tower {
 	private int cooldownTime;
 
 	public Tower(int pPosX, int pPosY, int pType) {
-		this.type = new TowerTypes(pType);
+		this.types = new TowerTypes(pType);
 		this.onCooldown = false;
-		this.cooldownTime = type.getCooldown();
+		this.cooldownTime = types.getCooldown();
 		this.posX = pPosX;
 		this.posY = pPosY;
-		this.range = type.getRange();
-		this.shot = new Shot(type.getStrength(), type.getSpeed());
+		this.type = pType;
+		this.range = types.getRange();
+		this.shot = new Shot(types.getStrength(), types.getSpeed());
 	}
 
 	public void upgradeShot(int strength, int speed, int velocity) {
@@ -105,5 +107,19 @@ public class Tower {
 	 */
 	public void setOnCooldown(boolean onCooldown) {
 		this.onCooldown = onCooldown;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public int getType() {
+		return type;
+	}
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(int type) {
+		this.type = type;
 	}
 }
