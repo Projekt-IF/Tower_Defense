@@ -18,13 +18,17 @@ public class Wave_Controller {
 	@SuppressWarnings("unused")
 	private int currentWaveIndex;
 
-	public Wave_Controller(/* Game_Controller pGame_Controller */) {
+	public Wave_Controller(ArrayList<Enemy> generatedEnemyList/* Game_Controller pGame_Controller */) {
 		// this.game_Controller = pGame_Controller;
-		wG = new WaveGenerator();
+		wG = new WaveGenerator(generatedEnemyList);
 	}
 	
 	public ArrayList<Enemy> generateWave() {
 		return wG.generateWave();
+	}
+	
+	public void setNumbers() {
+		wG.setNumbers();
 	}
 
 	public void setNextWave() {

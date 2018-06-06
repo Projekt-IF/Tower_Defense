@@ -34,7 +34,7 @@ public class Enemy {
 	/*
 	 * 
 	 */
-	public Enemy(Integer pPosX, Integer pPosY, int pType, int pLevel) {
+	public Enemy(Integer pPosX, Integer pPosY, int pType) {
 		this.posX = pPosX;
 		this.posY = pPosY;
 		this.setType(pType);

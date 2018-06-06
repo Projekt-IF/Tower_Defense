@@ -20,8 +20,13 @@ public class Lobby {
 		isFull = false;
 		inGame = false;
 	}
+	
+	public void initializeGame(String pLevel) {
+		this.gameFrameWork = new GameFrameWork(this.player_1, this.player_2);
+		gameFrameWork.startGame(pLevel);
+	}
 
-	public boolean haveSameStats(Player testPlayer, Player lobbyPlayer) {
+	public boolean haveSamePortIP(Player testPlayer, Player lobbyPlayer) {
 		if ((testPlayer.getPlayerIP().equals(lobbyPlayer.getPlayerIP()))
 				&& ((int) testPlayer.getPlayerPort() == (int) lobbyPlayer.getPlayerPort())) {
 			return true;

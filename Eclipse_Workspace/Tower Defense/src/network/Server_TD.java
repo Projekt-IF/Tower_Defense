@@ -3,7 +3,9 @@ package network;
 import java.util.ArrayList;
 
 import network.Protocol;
+import objects.EnemyTypes;
 import objects.Player;
+import objects.TowerTypes;
 import utility.Lobby;
 
 ///Server
@@ -71,25 +73,17 @@ public class Server_TD extends Server {
 		/* CS_SET_NAME:<Username> */
 		case Protocol.CS_PLAYER_SET_NAME:
 			player.setUsername(token[1]);
-			backMessage = Protocol.SC_LOBBY_USERS + Protocol.SEPARATOR + player.getPositionIndex() + Protocol.SEPARATOR
-					+ player.getUsername();
+			backMessage = Protocol.SC_LOBBY_USERS + Protocol.SEPARATOR + player.getPositionInLobby()
+					+ Protocol.SEPARATOR + player.getUsername();
 			this.sendToLobby(player.getLobbyIndex(), backMessage);
 			break;
-		/* CS_SEARCh_LOBBY */
+		/* CS_SEARCH_LOBBY */
 		case Protocol.CS_SEARCH_LOBBY:
 			sortInLobby(player);
-			backMessage = Protocol.SC_LOBBY_FOUND + Protocol.SEPARATOR + player.getPositionIndex();
+			backMessage = Protocol.SC_LOBBY_FOUND + Protocol.SEPARATOR + player.getPositionInLobby();
 			this.send(pClientIP, pClientPort, backMessage);
 			backMessage = Protocol.SC_LOBBY_USERS + Protocol.SEPARATOR + createLobbyUsersResponse(player);
 			this.sendToLobby(player.getLobbyIndex(), backMessage);
-			break;
-		/* CS_LOGOUT:<Username> */
-		case Protocol.CS_LOGOUT:
-			backMessage = Protocol.SC_LOGOUT_CONFIRMED + Protocol.SEPARATOR + "Logout successful!";
-			break;
-		/* CS_GO */
-		case Protocol.CS_GO:
-			backMessage = Protocol.SC_GAME_STARTING + Protocol.SEPARATOR + "Game Starting";
 			break;
 		/* CS_READY_LOBBY */
 		case Protocol.CS_READY_LOBBY:
@@ -98,12 +92,63 @@ public class Server_TD extends Server {
 				this.sendToLobby(player.getLobbyIndex(), backMessage);
 			} else {
 				player.setReady(!player.isReady());
-				backMessage = Protocol.SC_PLAYER_READY + Protocol.SEPARATOR + player.getPositionIndex()
+				backMessage = Protocol.SC_PLAYER_READY + Protocol.SEPARATOR + player.getPositionInLobby()
 						+ Protocol.SEPARATOR + player.isReady();
 				this.sendToLobby(player.getLobbyIndex(), backMessage);
 			}
 			showLobbys();
 			showPlayer();
+			break;
+		/* CS_GO */
+		case Protocol.CS_GO:
+			String pLevel = token[1];
+			lobbyList.get(player.getPositionInLobby()).setInGame(true);
+			lobbyList.get(player.getPositionInLobby()).initializeGame(pLevel);
+			backMessage = Protocol.SC_GAME_STARTING + Protocol.SEPARATOR + pLevel;
+			this.sendToLobby(player.getLobbyIndex(), backMessage);
+			break;
+		/* CS_PURCHASE_TOWER:<TowerPosX>:<TowerPosY>:<TowerType> */
+		case Protocol.CS_PURCHASE_TOWER:
+			int tPosX = Integer.parseInt(token[1]);
+			int tPosY = Integer.parseInt(token[2]);
+			int tType = Integer.parseInt(token[3]);
+			if (checkTowerAffordable(player, tType)) {
+				if (lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
+						.getGameController(player.getPositionInLobby()).getGlobalGrid().getGridLayer()[tPosY][tPosX]
+								.getType() == 0) {
+					// TODO: complete the pushing to the towerlist
+				}
+			}
+			break;
+		/* CS_READY_TOWERPLACING */
+		case Protocol.CS_READY_TOWERPLACING:
+			lobbyList.get(player.getLobbyIndex()).getGameFrameWork().getGameController(player.getPositionInLobby())
+					.addPurchasedTowers(lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
+							.getBoughtTowerList(player.getPositionInLobby()));
+			;
+			break;
+		/* CS_PURCHASE_ENEMY:<EnemyPosX>:<EnemyPosY>:<EnemyType> */
+		case Protocol.CS_PURCHASE_ENEMY:
+			int ePosX = Integer.parseInt(token[1]);
+			int ePosY = Integer.parseInt(token[2]);
+			int eType = Integer.parseInt(token[3]);
+			if (checkEnemyAffordable(player, eType)) {
+
+				// TODO: complete the pushing to the EnemyList
+
+			}
+			break;
+		/* CS_READY_ENEMIESPURCHASED */
+		case Protocol.CS_READY_ENEMIESPURCHASED:
+			lobbyList.get(player.getLobbyIndex()).getGameFrameWork().getGameController(player.getPositionInLobby())
+					.addPurchasedEnemies(lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
+							.getBoughtEnemyList(player.getPositionInLobby()));
+			;
+			break;
+		/* CS_LOGOUT:<Username> */
+		case Protocol.CS_LOGOUT:
+			// TODO:
+			backMessage = Protocol.SC_LOGOUT_CONFIRMED + Protocol.SEPARATOR + "Logout successful!";
 			break;
 		default:
 			backMessage = Protocol.SC_SENDERRORMESSAGE + Protocol.SEPARATOR + "Error!";
@@ -116,6 +161,22 @@ public class Server_TD extends Server {
 		// this.closeConnection(pClientIP, pClientPort);
 		// }
 
+	}
+
+	private boolean checkTowerAffordable(Player player, int type) {
+		TowerTypes tt = new TowerTypes();
+		if (player.getPlayerMoney() >= tt.calcCost(type)) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean checkEnemyAffordable(Player player, int type) {
+		EnemyTypes et = new EnemyTypes();
+		if (player.getPlayerMoney() >= et.calcCost(type)) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -182,8 +243,8 @@ public class Server_TD extends Server {
 
 	private boolean lobbyReady(Player player) {
 		Lobby lobby = lobbyList.get(player.getLobbyIndex());
-		if ((lobby.getPlayer_1() != null)&&lobby.getPlayer_1().isReady()) {
-			if ((lobby.getPlayer_2() != null)&&lobby.getPlayer_2().isReady()) {
+		if ((lobby.getPlayer_1() != null) && lobby.getPlayer_1().isReady()) {
+			if ((lobby.getPlayer_2() != null) && lobby.getPlayer_2().isReady()) {
 				return true;
 			}
 		}
@@ -196,19 +257,19 @@ public class Server_TD extends Server {
 				if ((lobbyList.get(i).getPlayer_1() != null) && (lobbyList.get(i).getPlayer_2() == null)) {
 					lobbyList.get(i).setPlayer_2(player, playerList.indexOf(player));
 					player.setLobbyIndex(i);
-					player.setPositionIndex(2);
+					player.setPositionInLobby(2);
 					lobbyList.get(i).setIsFull(true);
 					break;
 				} else if ((lobbyList.get(i).getPlayer_1() == null) && (lobbyList.get(i).getPlayer_2() != null)) {
 					lobbyList.get(i).setPlayer_1(player, playerList.indexOf(player));
 					player.setLobbyIndex(i);
-					player.setPositionIndex(1);
+					player.setPositionInLobby(1);
 					lobbyList.get(i).setIsFull(true);
 					break;
 				} else if ((lobbyList.get(i).getPlayer_1() == null) && (lobbyList.get(i).getPlayer_2() == null)) {
 					lobbyList.get(i).setPlayer_1(player, playerList.indexOf(player));
 					player.setLobbyIndex(i);
-					player.setPositionIndex(1);
+					player.setPositionInLobby(1);
 					lobbyList.get(i).setIsFull(false);
 					break;
 				}
@@ -218,7 +279,7 @@ public class Server_TD extends Server {
 					Lobby newLobby = new Lobby();
 					newLobby.setPlayer_1(player, playerList.indexOf(player));
 					player.setLobbyIndex(i);
-					player.setPositionIndex(1);
+					player.setPositionInLobby(1);
 					lobbyList.add(newLobby);
 					break;
 				}
@@ -233,20 +294,20 @@ public class Server_TD extends Server {
 		for (int i = 0; i < lobbyList.size(); i++) {
 			if ((lobbyList.get(i).getPlayer_1() == null) && (lobbyList.get(i).getPlayer_2() == null)) {
 			} else if ((lobbyList.get(i).getPlayer_1() != null) && (lobbyList.get(i).getPlayer_2() == null)) {
-				if (lobbyList.get(i).haveSameStats(mPlayer, lobbyList.get(i).getPlayer_1())) {
+				if (lobbyList.get(i).haveSamePortIP(mPlayer, lobbyList.get(i).getPlayer_1())) {
 					lobbyList.get(i).resetPlayer_1();
 					lobbyList.get(i).setIsFull(false);
 				}
 			} else if ((lobbyList.get(i).getPlayer_1() == null) && (lobbyList.get(i).getPlayer_2() != null)) {
-				if (lobbyList.get(i).haveSameStats(mPlayer, lobbyList.get(i).getPlayer_2())) {
+				if (lobbyList.get(i).haveSamePortIP(mPlayer, lobbyList.get(i).getPlayer_2())) {
 					lobbyList.get(i).resetPlayer_2();
 					lobbyList.get(i).setIsFull(false);
 				}
 			} else if ((lobbyList.get(i).getPlayer_1() != null) && (lobbyList.get(i).getPlayer_2() != null)) {
-				if (lobbyList.get(i).haveSameStats(mPlayer, lobbyList.get(i).getPlayer_1())) {
+				if (lobbyList.get(i).haveSamePortIP(mPlayer, lobbyList.get(i).getPlayer_1())) {
 					lobbyList.get(i).resetPlayer_1();
 					lobbyList.get(i).setIsFull(false);
-				} else if (lobbyList.get(i).haveSameStats(mPlayer, lobbyList.get(i).getPlayer_2())) {
+				} else if (lobbyList.get(i).haveSamePortIP(mPlayer, lobbyList.get(i).getPlayer_2())) {
 					lobbyList.get(i).resetPlayer_2();
 					lobbyList.get(i).setIsFull(false);
 				}

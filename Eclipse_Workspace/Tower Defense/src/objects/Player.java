@@ -8,7 +8,7 @@ public class Player {
 	private Integer playerPort;
 
 	private int lobbyIndex;
-	private int positionIndex;
+	private int positionInLobby;
 
 	private long playerMoney;
 	private long health;
@@ -169,18 +169,18 @@ public class Player {
 	}
 
 	/**
-	 * @return the positionIndex
+	 * @return the positionInLobby
 	 */
-	public int getPositionIndex() {
-		return positionIndex;
+	public int getPositionInLobby() {
+		return positionInLobby;
 	}
 
 	/**
-	 * @param positionIndex
-	 *            the positionIndex to set
+	 * @param positionInLobby
+	 *            the positionInLobby to set
 	 */
-	public void setPositionIndex(int positionIndex) {
-		this.positionIndex = positionIndex;
+	public void setPositionInLobby(int positionInLobby) {
+		this.positionInLobby = positionInLobby;
 	}
 
 	/**

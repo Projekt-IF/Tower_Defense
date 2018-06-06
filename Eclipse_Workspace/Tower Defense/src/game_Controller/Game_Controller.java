@@ -34,33 +34,23 @@ public class Game_Controller {
 
 	private Tile baseTile;
 
-	// public Game_Controller(Wave_Controller pWC, Enemy_Controller pEC,
-	// Level_Controller pLC, Tower_Controller pTC) {
 	public Game_Controller(Player pPlayer) {
-		// this.wC = pWC;
-		// this.eC = pEC;
-		// this.lC = pLC;
-		// this.tC = pTC;
 		this.player = pPlayer;
 		this.currentLevel = "";
 		this.enemyList = new ArrayList<Enemy>();
 		this.generatedEnemyList = new ArrayList<Enemy>();
 		this.towerList = new ArrayList<Tower>();
 		this.lC = new Level_Controller(this.currentLevel/* , this */);
-		this.wC = new Wave_Controller(/* this */);
+		this.wC = new Wave_Controller(this.generatedEnemyList/* this */);
 		this.eC = new Enemy_Controller(this.enemyList, this.generatedEnemyList, this.player/* , this */);
 		this.tC = new Tower_Controller(this.towerList, this);
 		this.timer = new Timer();
-		// iniciateGame();
 	}
 
 	/**
 	 * 
 	 */
 	public void iniciateGame() {
-		// TODO: These lines have to be deleted and instead the globalGrid has to be set
-		// while initialising the changeLevel
-		currentLevel = "test";
 		changeLevel(currentLevel);
 		// getGlobalGrid().printGrid();
 		updateGame();
@@ -82,7 +72,6 @@ public class Game_Controller {
 	}
 
 	public void changeLevel(String pLevelName) {
-		this.currentLevel = pLevelName;
 		setGlobalGrid(this.lC.changeLevel(pLevelName));
 		this.spawnerTile = getGlobalGrid().getSpawnerTile();
 		this.baseTile = getGlobalGrid().getBaseTile();
@@ -122,8 +111,10 @@ public class Game_Controller {
 
 	public void addPurchasedEnemies(ArrayList<Enemy> pAddedEnemies) {
 		for (int i = 0; i < pAddedEnemies.size(); i++) {
-			getEnemyList().add(pAddedEnemies.get(i));
+			getGeneratedEnemyList().add(pAddedEnemies.get(i));
 		}
+		eC.printEnemyLists();
+		wC.setNumbers();
 		pAddedEnemies.clear();
 	}
 
@@ -377,15 +368,21 @@ public class Game_Controller {
 		Game_Controller gC = new Game_Controller(new Player("LOL", 1));
 		gC.iniciateGame();
 		gC.createWave();
-//		gC.spawnEnemy();
-//		gC.spawnEnemy();
-//		gC.spawnEnemy();
-//		gC.spawnEnemy();
-//		while (true) {
-//			if (!gC.getEnemyController().getGeneratedEnemyList().isEmpty()) {
-//				gC.spawnEnemy();
-//			}
-//		}
+		ArrayList<Enemy> eL = new ArrayList<Enemy>();
+		for (int i = 0; i < 5; i++) {
+			Enemy e = new Enemy(null, null, 3);
+			eL.add(e);
+		}
+		gC.addPurchasedEnemies(eL);
+		// gC.spawnEnemy();
+		// gC.spawnEnemy();
+		// gC.spawnEnemy();
+		// gC.spawnEnemy();
+		// while (true) {
+		// if (!gC.getEnemyController().getGeneratedEnemyList().isEmpty()) {
+		// gC.spawnEnemy();
+		// }
+		// }
 		while (true) {
 			if (!gC.getEnemyController().getGeneratedEnemyList().isEmpty()) {
 				gC.spawnEnemy();

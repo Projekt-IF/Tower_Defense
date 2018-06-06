@@ -19,8 +19,8 @@ public class WaveGenerator {
 	private int currentType2;
 	private int currentType3;
 
-	public WaveGenerator() {
-		generatedEnemies = new ArrayList<Enemy>();
+	public WaveGenerator(ArrayList<Enemy> pGeneratedEnemyList) {
+		generatedEnemies = pGeneratedEnemyList;
 		currentMaxNumber = 5;
 		currentWaveIndex = 0;
 		currentType3 = 0;
@@ -63,7 +63,7 @@ public class WaveGenerator {
 	
 	public void generateEnemies(Integer n, int pType/*, int pLevel*/) {
 		for(int a = 0; a < n; a++) {
-			Enemy e = new Enemy(null, null, pType, 1);
+			Enemy e = new Enemy(null, null, pType);
 			generatedEnemies.add(e);
 		}
 	}
@@ -71,6 +71,12 @@ public class WaveGenerator {
 	public void setNumbers() {
 		for(int a = 0; a < generatedEnemies.size(); a++) {
 			generatedEnemies.get(a).setNumber(a + 1);
+		}
+	}
+	
+	public void setNumbers(ArrayList<Enemy> list) {
+		for(int a = 0; a < list.size(); a++) {
+			list.get(a).setNumber(a + 1);
 		}
 	}
 

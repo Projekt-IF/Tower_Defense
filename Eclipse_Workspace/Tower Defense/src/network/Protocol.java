@@ -35,7 +35,7 @@ public class Protocol {
 			/* SC_ALL_PLAYER_READY:<String> */
 			SC_ALL_PLAYER_READY = "llplyrrdy",
 
-			/* SC_GAME_STARTING:<String> */
+			/* SC_GAME_STARTING:<Level>*/
 			SC_GAME_STARTING = "gmstrtng",
 
 			// In-Game communication
@@ -97,15 +97,15 @@ public class Protocol {
 			CS_LOGOUT = "lgt",
 			/* CS_PLAY */
 			CS_PLAY = "ply",
-			/* CS_GO */
+			/* CS_GO:<Level> */
 			CS_GO = "g",
 			/* CS_READY_LOBBY */
 			CS_READY_LOBBY = "rdylbby",
 
 			// In-Game communication
-			/* CS_PURCHASE_TOWER:<ArrayList<Tower>> */
+			/* CS_PURCHASE_TOWER:<TowerPosX>:<TowerPosY>:<TowerType> */
 			CS_PURCHASE_TOWER = "prchstwr",
-			/* CS_PURCHASE_ENEMY:<ArrayList<Enemy>> */
+			/* CS_PURCHASE_ENEMY:<EnemyPosX>:<EnemyPosY>:<EnemyType> */
 			CS_PURCHASE_ENEMY = "prchsnmy",
 			/* CS_READY_TOWERPLACING */
 			CS_READY_TOWERPLACING = "rdytwrplcng",
