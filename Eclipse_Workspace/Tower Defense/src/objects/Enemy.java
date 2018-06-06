@@ -13,13 +13,13 @@ public class Enemy {
 	/**
 	 * 
 	 */
-	public static final int TYPE_NORMAL = 1;
+	private int number;
 	
 	private EnemyTypes types;
 	private int type;
 
-	private int posX;
-	private int posY;
+	private Integer posX;
+	private Integer posY;
 
 	private int level;
 
@@ -34,15 +34,15 @@ public class Enemy {
 	/*
 	 * 
 	 */
-	public Enemy(int pPosX, int pPosY, int pType, int pLevel) {
+	public Enemy(Integer pPosX, Integer pPosY, int pType, int pLevel) {
 		this.posX = pPosX;
 		this.posY = pPosY;
 		this.setType(pType);
-		this.types = new EnemyTypes(pType);
-		this.life = types.getLife();
-		this.speed = types.getSpeed();
-		this.damage = types.getDamage();
-		this.cost = types.getCost();
+		this.types = new EnemyTypes();
+		this.life = types.calcLife(pType);
+		this.speed = types.calcSpeed(pType);
+		this.damage = types.calcDamage(pType);
+		this.cost = types.calcCost(pType);
 		this.onCooldown = false;
 	}
 
@@ -154,6 +154,20 @@ public class Enemy {
 	 */
 	public void setDamage(int damage) {
 		this.damage = damage;
+	}
+
+	/**
+	 * @return the number
+	 */
+	public int getNumber() {
+		return number;
+	}
+
+	/**
+	 * @param number the number to set
+	 */
+	public void setNumber(int number) {
+		this.number = number;
 	}
 
 }

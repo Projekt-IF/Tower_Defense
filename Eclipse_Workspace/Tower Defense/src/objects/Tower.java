@@ -23,14 +23,15 @@ public class Tower {
 	private int cooldownTime;
 
 	public Tower(int pPosX, int pPosY, int pType) {
-		this.types = new TowerTypes(pType);
+		this.types = new TowerTypes();
 		this.onCooldown = false;
-		this.cooldownTime = types.getCooldown();
+		this.cooldownTime = types.calcCooldown(pType);
 		this.posX = pPosX;
 		this.posY = pPosY;
 		this.type = pType;
-		this.range = types.getRange();
-		this.shot = new Shot(types.getStrength(), types.getSpeed());
+		this.range = types.calcRange(pType);
+		this.cost = types.calcCost(pType);
+		this.shot = new Shot(types.calcStrength(pType), types.calcSpeed(pType));
 	}
 
 	public void upgradeShot(int strength, int speed, int velocity) {

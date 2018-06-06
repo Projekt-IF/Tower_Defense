@@ -6,31 +6,18 @@ package objects;
  */
 public class TowerTypes {
 
-	private int cost;
-	private int range;
-	private int strength;
-	private int speed;
-	private int type;
-	private int cooldown;
-
-	public TowerTypes(int pType) {
-		this.type = pType;
-		this.speed = calcSpeed();
-		this.cost = calcCost();
-		this.strength = calcStrength();
-		this.range = calcRange();
-		this.cooldown = calcCooldown();
+	public TowerTypes() {
 	}
 
-	public int calcCooldown() {
+	public int calcCooldown(int pType) {
 		int calcedCooldown = 0;
 
-		switch (type) {
-		case '0':
+		switch (pType) {
+		case 1:
 			calcedCooldown = 2;
-		case '1':
+		case 2:
 			calcedCooldown = 4;
-		case '2':
+		case 3:
 			calcedCooldown = 6;
 		default:
 			calcedCooldown = 0;
@@ -40,19 +27,15 @@ public class TowerTypes {
 
 	}
 
-	public int getCooldown() {
-		return cooldown;
-	}
-
-	public int calcSpeed() {
+	public int calcSpeed(int pType) {
 		int calcedSpeed = 0;
 
-		switch (type) {
-		case '0':
+		switch (pType) {
+		case 1:
 			calcedSpeed = 2;
-		case '1':
+		case 2:
 			calcedSpeed = 4;
-		case '2':
+		case 3:
 			calcedSpeed = 6;
 		default:
 			calcedSpeed = 0;
@@ -62,19 +45,15 @@ public class TowerTypes {
 
 	}
 
-	public int getSpeed() {
-		return speed;
-	}
-
-	public int calcStrength() {
+	public int calcStrength(int pType) {
 		int calcedStrength = 0;
 
-		switch (type) {
-		case '0':
+		switch (pType) {
+		case 1:
 			calcedStrength = 2;
-		case '1':
+		case 2:
 			calcedStrength = 5;
-		case '2':
+		case 3:
 			calcedStrength = 10;
 		default:
 			calcedStrength = 0;
@@ -84,19 +63,15 @@ public class TowerTypes {
 
 	}
 
-	public int getStrength() {
-		return strength;
-	}
-
-	public int calcRange() {
+	public int calcRange(int pType) {
 		int calcedRange = 0;
 
-		switch (type) {
-		case '0':
+		switch (pType) {
+		case 1:
 			calcedRange = 2;
-		case '1':
+		case 2:
 			calcedRange = 3;
-		case '2':
+		case 3:
 			calcedRange = 5;
 		default:
 			calcedRange = 0;
@@ -106,19 +81,15 @@ public class TowerTypes {
 
 	}
 
-	public int getRange() {
-		return range;
-	}
-
-	public int calcCost() {
+	public int calcCost(int pType) {
 		int calcedCost = 0;
 
-		switch (type) {
-		case '0':
+		switch (pType) {
+		case 1:
 			calcedCost = 100;
-		case '1':
+		case 2:
 			calcedCost = 300;
-		case '2':
+		case 3:
 			calcedCost = 500;
 		default:
 			calcedCost = 0;
@@ -127,9 +98,4 @@ public class TowerTypes {
 		return calcedCost;
 
 	}
-
-	public int getCost() {
-		return cost;
-	}
-
 }

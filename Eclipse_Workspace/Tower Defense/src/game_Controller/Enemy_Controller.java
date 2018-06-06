@@ -1,11 +1,12 @@
 package game_Controller;
 
 import java.util.ArrayList;
+import java.util.Timer;
 
 import envoirement.Grid;
-import envoirement.Tile;
 import objects.Enemy;
 import objects.Player;
+import utility.EnemySpawnTimer;
 
 /**
  * 
@@ -18,28 +19,43 @@ public class Enemy_Controller {
 
 	private Grid grid;
 
-	private Tile spawnerTile;
-
+	private ArrayList<Enemy> generatedEnemyList;
 	private ArrayList<Enemy> enemyList;
+	
+	private boolean isOnSpawnCooldown;
 
 	/**
 	 * 
 	 */
-	public Enemy_Controller(ArrayList<Enemy> pEnemyList, Player pPlayer/* , Game_Controller pGame_Controller */) {
+	public Enemy_Controller(ArrayList<Enemy> pEnemyList, ArrayList<Enemy> pGeneratedEnemyList, Player pPlayer/* , Game_Controller pGame_Controller */) {
 		// this.game_Controller = pGame_Controller;
+		this.generatedEnemyList = pGeneratedEnemyList;
 		this.enemyList = pEnemyList;
 		this.player = pPlayer;
+		this.isOnSpawnCooldown = false;;
+	}
+	
+	public void startTimer() {
+		Timer timer = new Timer();
+		System.out.println("TIMER FOR: " + 5000/1000 + "Seconds");
+		timer.schedule(new EnemySpawnTimer(this, timer), (long) (5000));
 	}
 
 	/**
 	 * 
-	 * @param pType
-	 * @param pLevel
-	 * @return
 	 */
-	public Enemy spawnEnemy(Integer pType, Integer pLevel) {
-		Enemy e = new Enemy(this.spawnerTile.getxPos(), this.spawnerTile.getyPos(), pType, pLevel);
-		return e;
+	public void spawnEnemy() {
+			Enemy e = generatedEnemyList.get(0);
+			e.setPosX(grid.getSpawnerTile().getxPos());
+			e.setPosY(grid.getSpawnerTile().getyPos());
+			enemyList.add(e);
+			generatedEnemyList.remove(e);
+			spawn();
+	}
+	
+	public void spawn() {
+		this.isOnSpawnCooldown = true;
+		startTimer();
 	}
 
 	/**
@@ -93,7 +109,7 @@ public class Enemy_Controller {
 		for (int a = 0; a < enemyList.size(); a++) {
 			if (isMovable(enemyList.get(a))) {
 				moveEnemy(enemyList.get(a));
-				System.out.println("Enemy Here: " + a);
+				System.out.println("Enemy Here: " + enemyList.get(a).getNumber());
 				System.out.println("Y: " + enemyList.get(a).getPosY() + " X: " + enemyList.get(a).getPosX() + " Life: "
 						+ enemyList.get(a).getLife());
 			} else {
@@ -119,22 +135,26 @@ public class Enemy_Controller {
 	public void clearEnemyList() {
 		enemyList.clear();
 	}
+	
+	public void printEnemyLists() {
+		System.out.println("The GeneratedEnemyList: ");
+		for (int a = 0; a < generatedEnemyList.size(); a++) {
+			Enemy tmp = generatedEnemyList.get(a);
+			System.out.println("Enemy: " + (a+1) + ";  PosY: null;  PosX: null;  Type: " + tmp.getType() + ";  Life: " + tmp.getLife() + ";  Speed: " + tmp.getSpeed());
+		}
+		System.out.println("The EnemyList: ");
+		for (int a = 0; a < enemyList.size(); a++) {
+			Enemy tmp = enemyList.get(a);
+			System.out.println("Enemy: " + (a+1) + ";  PosY: " + tmp.getPosY() + ";  PosX: " + tmp.getPosX() + ";  Type: " + tmp.getType() + ";  Life: " + tmp.getLife() + ";  Speed: " + tmp.getSpeed());
+		}
+	}
 
 	public Grid getGrid() {
 		return grid;
 	}
 
 	public void setGrid(Grid grid) {
-		this.spawnerTile = grid.getSpawnerTile();
 		this.grid = grid;
-	}
-
-	public Tile getSpawnerTile() {
-		return spawnerTile;
-	}
-
-	public void setSpawnerTile(Tile spawnerTile) {
-		this.spawnerTile = spawnerTile;
 	}
 
 	/**
@@ -150,5 +170,33 @@ public class Enemy_Controller {
 	 */
 	public void setEnemyList(ArrayList<Enemy> enemyList) {
 		this.enemyList = enemyList;
+	}
+
+	/**
+	 * @return the isOnSpawnCooldown
+	 */
+	public boolean isOnSpawnCooldown() {
+		return isOnSpawnCooldown;
+	}
+
+	/**
+	 * @param isOnSpawnCooldown the isOnSpawnCooldown to set
+	 */
+	public void setOnSpawnCooldown(boolean isOnSpawnCooldown) {
+		this.isOnSpawnCooldown = isOnSpawnCooldown;
+	}
+
+	/**
+	 * @return the generatedEnemyList
+	 */
+	public ArrayList<Enemy> getGeneratedEnemyList() {
+		return generatedEnemyList;
+	}
+
+	/**
+	 * @param generatedEnemyList the generatedEnemyList to set
+	 */
+	public void setGeneratedEnemyList(ArrayList<Enemy> generatedEnemyList) {
+		this.generatedEnemyList = generatedEnemyList;
 	}
 }

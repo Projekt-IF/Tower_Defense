@@ -61,13 +61,16 @@ public class GameFrameWork {
 	}
 
 	public void assembleWaves() {
-		//The Enemies Player 2 bought are put together with the wave
+		//The Enemies Player 2 bought are put together with the wave of Player 1
 		player_1_Game_Controller.addPurchasedEnemies(boughtEnemies_Player_2);
+		//The Enemies Player 1 bought are put together with the wave of Player 2
 		player_2_Game_Controller.addPurchasedEnemies(boughtEnemies_Player_1);
 	}
 	
 	public void placeNewTowers() {
+		//The Tower Player 1 bought are put on the Map
 		player_1_Game_Controller.addPurchasedTowers(boughtTowers_Player_1);
+		//The Tower Player 2 bought are put on the Map
 		player_2_Game_Controller.addPurchasedTowers(boughtTowers_Player_2);
 	}
 

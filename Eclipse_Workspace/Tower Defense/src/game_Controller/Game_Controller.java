@@ -8,7 +8,6 @@ import envoirement.Tile;
 import objects.Enemy;
 import objects.Player;
 import objects.Tower;
-import utility.Wave;
 
 public class Game_Controller {
 
@@ -17,12 +16,12 @@ public class Game_Controller {
 	private Timer timer;
 
 	private String currentLevel;
-	private int currentWave;
+
+	private int currentWaveIndex;
 
 	private ArrayList<Enemy> enemyList;
-	private ArrayList<Enemy> createdEnemyList;
+	private ArrayList<Enemy> generatedEnemyList;
 	private ArrayList<Tower> towerList;
-	private ArrayList<Wave> waveList;
 
 	private Enemy_Controller eC;
 	private Wave_Controller wC;
@@ -45,11 +44,11 @@ public class Game_Controller {
 		this.player = pPlayer;
 		this.currentLevel = "";
 		this.enemyList = new ArrayList<Enemy>();
+		this.generatedEnemyList = new ArrayList<Enemy>();
 		this.towerList = new ArrayList<Tower>();
-		this.waveList = new ArrayList<Wave>();
 		this.lC = new Level_Controller(this.currentLevel/* , this */);
-		this.wC = new Wave_Controller(this.waveList/* , this */);
-		this.eC = new Enemy_Controller(this.enemyList, this.player/* , this */);
+		this.wC = new Wave_Controller(/* this */);
+		this.eC = new Enemy_Controller(this.enemyList, this.generatedEnemyList, this.player/* , this */);
 		this.tC = new Tower_Controller(this.towerList, this);
 		this.timer = new Timer();
 		// iniciateGame();
@@ -67,22 +66,18 @@ public class Game_Controller {
 		updateGame();
 	}
 
-	public void createWave(int pNumber, int pType, int pLevel) {
-		this.enemyList.clear();
-		for (int i = 0; i < pNumber; i++) {
-			System.out.println(i);
-			Enemy e = eC.spawnEnemy(pType, pLevel);
-			System.out.println(e.getPosX() + " " + e.getPosY());
-			this.createdEnemyList.add(e);
-			System.out.println(enemyList.size());
-		}
+	public void createWave() {
+		this.getGeneratedEnemyList().clear();
+		this.setGeneratedEnemyList(wC.generateWave());
+		this.currentWaveIndex = wC.getCurrentWaveIndex();
 		// updateGame();
 		// TODO: ändern, sodass die Gegner einzeln gespawned werden
 	}
 
-	public void spawnWave() {
-		if (!createdEnemyList.isEmpty()) {
-			this.enemyList.add(createdEnemyList.get(0));
+	public void spawnEnemy() {
+		if (!eC.isOnSpawnCooldown()) {
+			eC.spawnEnemy();
+			eC.printEnemyLists();
 		}
 	}
 
@@ -132,12 +127,6 @@ public class Game_Controller {
 		pAddedEnemies.clear();
 	}
 
-	public void startWave() {
-		createWave(getWaveController().getCurrentWave().getEnemyNumber(),
-				getWaveController().getCurrentWave().getEnemyType(),
-				getWaveController().getCurrentWave().getEnemyLevel());
-	}
-
 	public void startLoop() {
 
 	}
@@ -148,8 +137,8 @@ public class Game_Controller {
 		this.setGlobalGrid(this.getGlobalGrid());
 		this.setSpawnerTile(this.getSpawnerTile());
 		this.setBaseTile(this.getBaseTile());
-		this.setWaveList(this.getWaveList());
 		this.setEnemyList(this.getEnemyList());
+		this.setGeneratedEnemyList(this.getGeneratedEnemyList());
 		this.setTowerList(this.getTowerList());
 	}
 
@@ -176,6 +165,7 @@ public class Game_Controller {
 	public void setGlobalGrid(Grid globalGrid) {
 		eC.setGrid(globalGrid);
 		tC.setGrid(globalGrid);
+		wC.setGrid(globalGrid);
 		this.globalGrid = globalGrid;
 	}
 
@@ -200,7 +190,6 @@ public class Game_Controller {
 	 *            the spawnerTile to set
 	 */
 	public void setSpawnerTile(Tile spawnerTile) {
-		eC.setSpawnerTile(spawnerTile);
 		this.spawnerTile = spawnerTile;
 	}
 
@@ -233,22 +222,6 @@ public class Game_Controller {
 	public void setTowerList(ArrayList<Tower> towerList) {
 		tC.setTowerList(towerList);
 		this.towerList = towerList;
-	}
-
-	/**
-	 * @return the waveList
-	 */
-	public ArrayList<Wave> getWaveList() {
-		return waveList;
-	}
-
-	/**
-	 * @param waveList
-	 *            the waveList to set
-	 */
-	public void setWaveList(ArrayList<Wave> waveList) {
-		wC.setWaveList(waveList);
-		this.waveList = waveList;
 	}
 
 	public Enemy_Controller getEnemyController() {
@@ -299,18 +272,34 @@ public class Game_Controller {
 	}
 
 	/**
-	 * @return the currentWave
+	 * @return the currentWaveIndex
 	 */
-	public int getCurrentWave() {
-		return currentWave;
+	public int getCurrentWaveIndex() {
+		return currentWaveIndex;
 	}
 
 	/**
-	 * @param currentWave
-	 *            the currentWave to set
+	 * @param currentWaveIndex
+	 *            the currentWaveIndex to set
 	 */
-	public void setCurrentWave(int currentWave) {
-		this.currentWave = currentWave;
+	public void setCurrentWaveIndex(int currentWaveIndex) {
+		this.currentWaveIndex = currentWaveIndex;
+	}
+
+	/**
+	 * @return the generatedEnemyList
+	 */
+	public ArrayList<Enemy> getGeneratedEnemyList() {
+		return generatedEnemyList;
+	}
+
+	/**
+	 * @param generatedEnemyList
+	 *            the generatedEnemyList to set
+	 */
+	public void setGeneratedEnemyList(ArrayList<Enemy> generatedEnemyList) {
+		eC.setGeneratedEnemyList(generatedEnemyList);
+		this.generatedEnemyList = generatedEnemyList;
 	}
 
 	/**
@@ -347,42 +336,65 @@ public class Game_Controller {
 			// System.out.println(
 			// "The Length " + gC.getWaveList().size() + " " +
 			// gC.getWaveController().getWaveList().size());
-			gC.getWaveController().loadWaves(waves[a]);
+			// gC.getWaveController().loadWaves(waves[a]);
 			// System.out.println(
 			// "The Length " + gC.getWaveList().size() + " " +
 			// gC.getWaveController().getWaveList().size());
 			// System.out.println("TEst3");
 			// Go Through Wave List
-			while (!gC.getWaveController().getWaveList().isEmpty()) {
-				gC.setCurrentWave(gC.getCurrentWave() + 1);
-				// Create Wave
-				gC.createWave(gC.getWaveController().getCurrentWave().getEnemyNumber(),
-						gC.getWaveController().getCurrentWave().getEnemyType(),
-						gC.getWaveController().getCurrentWave().getEnemyLevel());
-				gC.spawnWave();
+			// while (!gC.getWaveController().getWaveList().isEmpty()) {
+			// gC.setCurrentWave(gC.getCurrentWave() + 1);
+			// Create Wave
+			// gC.createWave(gC.getWaveController().getCurrentWave().getEnemyNumber(),
+			// gC.getWaveController().getCurrentWave().getEnemyType(),
+			// gC.getWaveController().getCurrentWave().getEnemyLevel());
+			gC.spawnEnemy();
+			gC.checkEnemiesLife();
+			while (!gC.getEnemyList().isEmpty()) {
+				// System.out.println(enemyList.get(enemyList.size()-1));
+				// If Tower in Range
+				// TODO: Gegebenen Falls kann im überprüfen auf die Range der enemy gedamaged
+				// werden
+				// Check Towers
+				gC.getTowerController().checkTowers();
+				// Move The Enemies
+				gC.getEnemyController().checkMoveEnemies();
 				gC.checkEnemiesLife();
-				while (!gC.getEnemyList().isEmpty()) {
-					// System.out.println(enemyList.get(enemyList.size()-1));
-					// If Tower in Range
-					// TODO: Gegebenen Falls kann im überprüfen auf die Range der enemy gedamaged
-					// werden
-					// Check Towers
-					gC.getTowerController().checkTowers();
-					// Move The Enemies
-					gC.getEnemyController().checkMoveEnemies();
-					gC.checkEnemiesLife();
-				}
-				gC.getWaveController().setNextWave();
-				System.out.println(gC.getWaveController().getWaveList().size());
 			}
-			// System.out.println("Elle Weg");
 			gC.getWaveController().setNextWave();
-			if (waves[a].toString().contains("Test")) {
-				gC.changeLevel("one");
-			} else if (waves[a].toString().contains("One")) {
-				gC.changeLevel("two");
+			// System.out.println(gC.getWaveController().getWaveList().size());
+		}
+		// System.out.println("Elle Weg");
+		gC.getWaveController().setNextWave();
+		// if (waves[a].toString().contains("Test")) {
+		gC.changeLevel("one");
+		// } else if (waves[a].toString().contains("One")) {
+		gC.changeLevel("two");
+	}
+	// }
+
+	public static void main(String[] args) {
+		Game_Controller gC = new Game_Controller(new Player("LOL", 1));
+		gC.iniciateGame();
+		gC.createWave();
+//		gC.spawnEnemy();
+//		gC.spawnEnemy();
+//		gC.spawnEnemy();
+//		gC.spawnEnemy();
+//		while (true) {
+//			if (!gC.getEnemyController().getGeneratedEnemyList().isEmpty()) {
+//				gC.spawnEnemy();
+//			}
+//		}
+		while (true) {
+			if (!gC.getEnemyController().getGeneratedEnemyList().isEmpty()) {
+				gC.spawnEnemy();
+			}
+			if (!gC.getEnemyList().isEmpty()) {
+				gC.getTowerController().checkTowers();
+				gC.getEnemyController().checkMoveEnemies();
+				gC.checkEnemiesLife();
 			}
 		}
 	}
 }
-// System.out.println("End");

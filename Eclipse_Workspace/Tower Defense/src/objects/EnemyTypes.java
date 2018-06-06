@@ -6,120 +6,89 @@ package objects;
  */
 public class EnemyTypes {
 
-	private int speed;
-	private int life;
-	private int damage;
-	private int cost;
-	private int type;
-
-	public EnemyTypes(int pType) {
-		this.type = pType;
-		this.speed = calcSpeed();
-		this.life = calcLife();
-		this.damage = calcDamage();
-		this.cost = calcCost();
+	public EnemyTypes() {
 	}
 
-	public int calcSpeed() {
+	public int calcSpeed(int pType) {
 		int calcedSpeed = 0;
 
-		switch (type) {
-		case '0':
-			calcedSpeed = 1;
+		switch (pType) {
+		case 1:
+			calcedSpeed = 4;
 			break;
-		case '1':
+		case 2:
 			calcedSpeed = 3;
 			break;
-		case '2':
-			calcedSpeed = 5;
+		case 3:
+			calcedSpeed = 1;
 			break;
 		default:
 			calcedSpeed = 0;
 			break;
 		}
-
 		return calcedSpeed;
 
 	}
 
-	public int getSpeed() {
-		return speed;
-	}
-
-	public int calcLife() {
+	public int calcLife(int pType) {
 		int calcedLife = 0;
 
-		switch (type) {
-		case '0':
+		switch (pType) {
+		case 1:
 			calcedLife = 10;
 			break;
-		case '1':
+		case 2:
 			calcedLife = 30;
 			break;
-		case '2':
+		case 3:
 			calcedLife = 50;
 			break;
 		default:
 			calcedLife = 0;
 			break;
 		}
-
 		return calcedLife;
 
 	}
 
-	public int getLife() {
-		return life;
-	}
-
-	public int calcDamage() {
+	public int calcDamage(int pType) {
 		int calcedDamage = 0;
 
-		switch (type) {
-		case '0':
+		switch (pType) {
+		case 1:
 			calcedDamage = 1;
 			break;
-		case '1':
+		case 2:
 			calcedDamage = 2;
 			break;
-		case '2':
+		case 3:
 			calcedDamage = 5;
 			break;
 		default:
 			calcedDamage = 0;
 			break;
 		}
-
 		return calcedDamage;
 	}
 
-	public int getDamage() {
-		return this.damage;
-	}
-
-	public int calcCost() {
+	public int calcCost(int pType) {
 		int calcedCost = 0;
 
-		switch (type) {
-		case '0':
+		switch (pType) {
+		case 1:
 			calcedCost = 50;
 			break;
-		case '1':
+		case 2:
 			calcedCost = 100;
 			break;
-		case '2':
+		case 3:
 			calcedCost = 250;
 			break;
 		default:
 			calcedCost = 0;
 			break;
 		}
-
 		return calcedCost;
-	}
-
-	public int getCost() {
-		return this.cost;
 	}
 
 }

@@ -3,7 +3,7 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="objects.Enemy" project="Tower Defense" 
     file="/Tower Defense/src/objects/Enemy.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="513" width="173" x="507" y="37"/>    
+    <position height="675" width="173" x="507" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="objects.EnemyTypes" project="Tower Defense" 
     file="/Tower Defense/src/objects/EnemyTypes.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="207" width="106" x="507" y="716"/>    
+    <position height="153" width="118" x="507" y="770"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="objects.Player" project="Tower Defense" 
     file="/Tower Defense/src/objects/Player.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="639" width="213" x="41" y="37"/>    
+    <position height="693" width="213" x="41" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,7 +30,7 @@
   </class>  
   <class id="4" language="java" name="objects.Shot" project="Tower Defense" file="/Tower Defense/src/objects/Shot.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="189" width="124" x="186" y="716"/>    
+    <position height="189" width="124" x="175" y="770"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,7 +39,7 @@
   </class>  
   <class id="5" language="java" name="objects.Tower" project="Tower Defense" 
     file="/Tower Defense/src/objects/Tower.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="441" width="173" x="294" y="37"/>    
+    <position height="495" width="173" x="294" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -48,7 +48,7 @@
   </class>  
   <class id="6" language="java" name="objects.TowerTypes" project="Tower Defense" 
     file="/Tower Defense/src/objects/TowerTypes.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="369" width="117" x="350" y="716"/>    
+    <position height="171" width="128" x="339" y="770"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -64,19 +64,19 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="10">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="11" name="type"/>      
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="11" name="types"/>      
       <multiplicity id="12" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
+    <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="13">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="14" name="type"/>      
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="14" name="types"/>      
       <multiplicity id="15" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

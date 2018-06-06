@@ -2,67 +2,69 @@ package game_Controller;
 
 import java.util.ArrayList;
 
-import utility.Wave;
-import utility.WaveReader;
+import envoirement.Grid;
+import objects.Enemy;
+import utility.WaveGenerator;
 
 public class Wave_Controller {
 
 	// private Game_Controller game_Controller;
 
-	private WaveReader wR;
+	private WaveGenerator wG;
+	
+	private Grid grid;
 
-	private Wave currentWave;
+	private ArrayList<Enemy> currentWave;
+	@SuppressWarnings("unused")
+	private int currentWaveIndex;
 
-	private ArrayList<Wave> waveList;
-
-	public Wave_Controller(ArrayList<Wave> pWaveList/* , Game_Controller pGame_Controller */) {
+	public Wave_Controller(/* Game_Controller pGame_Controller */) {
 		// this.game_Controller = pGame_Controller;
-		wR = new WaveReader();
-		this.waveList = pWaveList;
+		wG = new WaveGenerator();
 	}
-
-	public void loadWaves(String pFileName) {
-		System.out.println("Loading Waves");
-		ArrayList<Wave> tmpWaveList = wR.loadWaveFile(pFileName);
-		for (int i = 0; i < tmpWaveList.size(); i++) {
-			this.waveList.add(tmpWaveList.get(i));
-		}
-		setCurrentWave(waveList.get(0));
+	
+	public ArrayList<Enemy> generateWave() {
+		return wG.generateWave();
 	}
 
 	public void setNextWave() {
-		waveList.remove(currentWave);
-		if (!waveList.isEmpty()) {
-			currentWave = waveList.get(0);
-		}
+		wG.generateWave();
 	}
 
-	public void clearWaveList() {
-		waveList.clear();
-	}
-
-	public Wave getCurrentWave() {
+	public ArrayList<Enemy> getCurrentWave() {
 		return currentWave;
 	}
 
-	public void setCurrentWave(Wave currentWave) {
+	public void setCurrentWave(ArrayList<Enemy> currentWave) {
 		this.currentWave = currentWave;
 	}
 
-	public ArrayList<Wave> getWaveList() {
-		return waveList;
+	/**
+	 * @return the currentWaveIndex
+	 */
+	public int getCurrentWaveIndex() {
+		return wG.getCurrentWaveIndex();
 	}
 
-	public void setWaveList(ArrayList<Wave> waveList) {
-		this.waveList = waveList;
+	/**
+	 * @param currentWaveIndex the currentWaveIndex to set
+	 */
+	public void setCurrentWaveIndex(int currentWaveIndex) {
+		this.currentWaveIndex = currentWaveIndex;
 	}
 
-	public void readWaves() {
-		System.out.println("Printing Waves");
-		for (int i = 0; i < waveList.size(); i++) {
-			Wave current = waveList.get(i);
-			System.out.println("Number of Enemies: " + current.getEnemyNumber() + " Level: " + current.getEnemyLevel()
-					+ " Type: " + current.getEnemyType());
-		}
+	/**
+	 * @return the grid
+	 */
+	public Grid getGrid() {
+		return grid;
+	}
+
+	/**
+	 * @param grid the grid to set
+	 */
+	public void setGrid(Grid grid) {
+		this.grid = grid;
+		this.wG.setGrid(grid);
 	}
 }
