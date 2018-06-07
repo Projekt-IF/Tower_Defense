@@ -1,8 +1,11 @@
 package utility;
 
+import network.Server_TD;
 import objects.Player;
 
 public class Lobby {
+	
+	private Server_TD server;
 
 	private GameFrameWork gameFrameWork;
 
@@ -14,7 +17,8 @@ public class Lobby {
 	private boolean isFull;
 	private boolean inGame;
 
-	public Lobby() {
+	public Lobby(Server_TD pServer) {
+		this.server = pServer;
 		player_1 = null;
 		player_2 = null;
 		isFull = false;
@@ -22,7 +26,7 @@ public class Lobby {
 	}
 	
 	public void initializeGame(String pLevel) {
-		this.gameFrameWork = new GameFrameWork(this.player_1, this.player_2);
+		this.gameFrameWork = new GameFrameWork(this.server ,this.player_1, this.player_2);
 		gameFrameWork.startGame(pLevel);
 	}
 

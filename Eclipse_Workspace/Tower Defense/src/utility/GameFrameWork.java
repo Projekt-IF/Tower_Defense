@@ -3,6 +3,7 @@ package utility;
 import java.util.ArrayList;
 
 import game_Controller.Game_Controller;
+import network.Server_TD;
 import objects.Enemy;
 import objects.Player;
 import objects.Tower;
@@ -12,6 +13,8 @@ public class GameFrameWork {
 	public static final int startMoney = 500;
 
 	public static final int startHealth = 100;
+	
+	private Server_TD server;
 
 	private Player player_1;
 	private Player player_2;
@@ -27,11 +30,12 @@ public class GameFrameWork {
 	private ArrayList<Tower> boughtTowers_Player_1;
 	private ArrayList<Tower> boughtTowers_Player_2;
 
-	public GameFrameWork(Player pPlayer_1, Player pPlayer_2) {
+	public GameFrameWork(Server_TD pServer, Player pPlayer_1, Player pPlayer_2) {
+		this.server = pServer;
 		this.player_1 = pPlayer_1;
 		this.player_2 = pPlayer_2;
-		this.player_1_Game_Controller = new Game_Controller(player_1);
-		this.player_2_Game_Controller = new Game_Controller(player_2);
+		this.player_1_Game_Controller = new Game_Controller(this.server, this.player_1);
+		this.player_2_Game_Controller = new Game_Controller(this.server, this.player_2);
 		this.currentLevel = "";
 	}
 
@@ -65,18 +69,36 @@ public class GameFrameWork {
 		player_2.setHealth(startHealth);
 	}
 
-	public void assembleWaves() {
-		// The Enemies Player 2 bought are put together with the wave of Player 1
-		player_1_Game_Controller.addPurchasedEnemies(boughtEnemies_Player_2);
-		// The Enemies Player 1 bought are put together with the wave of Player 2
-		player_2_Game_Controller.addPurchasedEnemies(boughtEnemies_Player_1);
+	public void pushToBoughtEnemies(int positionInLobby, Enemy pEnemy) {
+		if (positionInLobby == 1) {
+			this.boughtEnemies_Player_1.add(pEnemy);
+		} else if (positionInLobby == 2) {
+			this.boughtEnemies_Player_2.add(pEnemy);
+		}
+	}
+	
+	public void pushToBoughtTowers(int positionInLobby, Tower pTower) {
+		if (positionInLobby == 1) {
+			this.boughtTowers_Player_1.add(pTower);
+		} else if (positionInLobby == 2) {
+			this.boughtTowers_Player_2.add(pTower);
+		}
 	}
 
-	public void placeNewTowers() {
-		// The Tower Player 1 bought are put on the Map
-		player_1_Game_Controller.addPurchasedTowers(boughtTowers_Player_1);
-		// The Tower Player 2 bought are put on the Map
-		player_2_Game_Controller.addPurchasedTowers(boughtTowers_Player_2);
+	public void assembleWaves(int positionInLobby) {
+		if (positionInLobby == 1) {
+			player_1_Game_Controller.addPurchasedEnemies(boughtEnemies_Player_2);
+		} else if (positionInLobby == 2) {
+			player_2_Game_Controller.addPurchasedEnemies(boughtEnemies_Player_1);
+		}
+	}
+
+	public void placeNewTowers(int positionInLobby) {
+		if (positionInLobby == 1) {
+			player_1_Game_Controller.addPurchasedTowers(boughtTowers_Player_1);
+		} else if (positionInLobby == 2) {
+			player_2_Game_Controller.addPurchasedTowers(boughtTowers_Player_2);
+		}
 	}
 
 	public boolean playerReadyCheck() {
@@ -167,7 +189,7 @@ public class GameFrameWork {
 		}
 		return null;
 	}
-	
+
 	public ArrayList<Tower> getBoughtTowerList(int positionInLobby) {
 		if (positionInLobby == 1) {
 			return boughtTowers_Player_1;
@@ -176,7 +198,7 @@ public class GameFrameWork {
 		}
 		return null;
 	}
-	
+
 	public ArrayList<Enemy> getBoughtEnemyList(int positionInLobby) {
 		if (positionInLobby == 1) {
 			return boughtEnemies_Player_1;

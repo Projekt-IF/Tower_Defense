@@ -3,8 +3,10 @@ package network;
 import java.util.ArrayList;
 
 import network.Protocol;
+import objects.Enemy;
 import objects.EnemyTypes;
 import objects.Player;
+import objects.Tower;
 import objects.TowerTypes;
 import utility.Lobby;
 
@@ -21,7 +23,7 @@ public class Server_TD extends Server {
 		super(pPort);
 		playerList = new ArrayList<Player>();
 		lobbyList = new ArrayList<Lobby>();
-		lobbyList.add(new Lobby());
+		lobbyList.add(new Lobby(this));
 		System.out.println("Server auf Port: " + pPort + " geöffnet!");
 		showLobbys();
 		showPlayer();
@@ -109,6 +111,7 @@ public class Server_TD extends Server {
 			break;
 		/* CS_PURCHASE_TOWER:<TowerPosX>:<TowerPosY>:<TowerType> */
 		case Protocol.CS_PURCHASE_TOWER:
+			TowerTypes tT = new TowerTypes();
 			int tPosX = Integer.parseInt(token[1]);
 			int tPosY = Integer.parseInt(token[2]);
 			int tType = Integer.parseInt(token[3]);
@@ -116,34 +119,43 @@ public class Server_TD extends Server {
 				if (lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
 						.getGameController(player.getPositionInLobby()).getGlobalGrid().getGridLayer()[tPosY][tPosX]
 								.getType() == 0) {
-					// TODO: complete the pushing to the towerlist
+					Tower t = new Tower(tPosX, tPosY, tType);
+					lobbyList.get(player.getLobbyIndex()).getGameFrameWork().pushToBoughtTowers(player.getPositionInLobby(), t);
+					player.setPlayerMoney(player.getPlayerMoney() - tT.calcCost(tType));
+					// TODO: editing so you can undo the buy
+				} else {
+					int tileType = lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
+							.getGameController(player.getPositionInLobby()).getGlobalGrid().getGridLayer()[tPosY][tPosX]
+									.getType();
+					backMessage = Protocol.SC_TOWER_NOT_PLACEABLE + Protocol.SEPARATOR + tPosX + Protocol.SEPARATOR + tPosY + Protocol.SEPARATOR + tileType;
+					this.send(pClientIP, pClientPort, backMessage);
 				}
+			} else {
+				backMessage = Protocol.SC_TOWER_NOT_AFFORDABLE + Protocol.SEPARATOR + tT.calcCost(tType) + Protocol.SEPARATOR + player.getPlayerMoney();
+				this.send(pClientIP, pClientPort, backMessage);
 			}
 			break;
 		/* CS_READY_TOWERPLACING */
 		case Protocol.CS_READY_TOWERPLACING:
-			lobbyList.get(player.getLobbyIndex()).getGameFrameWork().getGameController(player.getPositionInLobby())
-					.addPurchasedTowers(lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
-							.getBoughtTowerList(player.getPositionInLobby()));
-			;
+			lobbyList.get(player.getLobbyIndex()).getGameFrameWork().placeNewTowers(player.getPositionInLobby());
 			break;
 		/* CS_PURCHASE_ENEMY:<EnemyPosX>:<EnemyPosY>:<EnemyType> */
 		case Protocol.CS_PURCHASE_ENEMY:
-			int ePosX = Integer.parseInt(token[1]);
-			int ePosY = Integer.parseInt(token[2]);
-			int eType = Integer.parseInt(token[3]);
+			EnemyTypes eT = new EnemyTypes();
+			int eType = Integer.parseInt(token[1]);
 			if (checkEnemyAffordable(player, eType)) {
-
-				// TODO: complete the pushing to the EnemyList
-
+				Enemy e = new Enemy(null, null, eType);
+				lobbyList.get(player.getLobbyIndex()).getGameFrameWork().pushToBoughtEnemies(player.getPositionInLobby(), e);
+				player.setPlayerMoney(player.getPlayerMoney() - eT.calcCost(eType));
+				// TODO: editing so you can undo the buy
+			} else {
+				backMessage = Protocol.SC_ENEMY_NOT_AFFORDABLE + Protocol.SEPARATOR + eT.calcCost(eType) + Protocol.SEPARATOR + player.getPlayerMoney();
+				this.send(pClientIP, pClientPort, backMessage);
 			}
 			break;
 		/* CS_READY_ENEMIESPURCHASED */
 		case Protocol.CS_READY_ENEMIESPURCHASED:
-			lobbyList.get(player.getLobbyIndex()).getGameFrameWork().getGameController(player.getPositionInLobby())
-					.addPurchasedEnemies(lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
-							.getBoughtEnemyList(player.getPositionInLobby()));
-			;
+			lobbyList.get(player.getLobbyIndex()).getGameFrameWork().assembleWaves(player.getPositionInLobby());;
 			break;
 		/* CS_LOGOUT:<Username> */
 		case Protocol.CS_LOGOUT:
@@ -276,7 +288,7 @@ public class Server_TD extends Server {
 
 			} else {
 				if (i == (lobbyList.size() - 1)) {
-					Lobby newLobby = new Lobby();
+					Lobby newLobby = new Lobby(this);
 					newLobby.setPlayer_1(player, playerList.indexOf(player));
 					player.setLobbyIndex(i);
 					player.setPositionInLobby(1);

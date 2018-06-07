@@ -3,14 +3,19 @@ package game_Controller;
 import java.util.ArrayList;
 import java.util.Timer;
 
+import org.omg.PortableServer.SERVANT_RETENTION_POLICY_ID;
+
 import envoirement.Grid;
 import envoirement.Tile;
+import network.Server_TD;
 import objects.Enemy;
 import objects.Player;
 import objects.Tower;
 
 public class Game_Controller {
 
+	private Server_TD server;
+	
 	private Player player;
 
 	private Timer timer;
@@ -34,7 +39,8 @@ public class Game_Controller {
 
 	private Tile baseTile;
 
-	public Game_Controller(Player pPlayer) {
+	public Game_Controller(Server_TD pServer, Player pPlayer) {
+		this.server = pServer;
 		this.player = pPlayer;
 		this.currentLevel = "";
 		this.enemyList = new ArrayList<Enemy>();
@@ -42,7 +48,7 @@ public class Game_Controller {
 		this.towerList = new ArrayList<Tower>();
 		this.lC = new Level_Controller(this.currentLevel/* , this */);
 		this.wC = new Wave_Controller(this.generatedEnemyList/* this */);
-		this.eC = new Enemy_Controller(this.enemyList, this.generatedEnemyList, this.player/* , this */);
+		this.eC = new Enemy_Controller(this.server, this.enemyList, this.generatedEnemyList, this.player/* , this */);
 		this.tC = new Tower_Controller(this.towerList, this);
 		this.timer = new Timer();
 	}
@@ -308,8 +314,8 @@ public class Game_Controller {
 		this.player = player;
 	}
 
-	public void test(Player pPlayer) {
-		Game_Controller gC = new Game_Controller(pPlayer);
+	public void test(Server_TD pServer, Player pPlayer) {
+		Game_Controller gC = new Game_Controller(pServer, pPlayer);
 		String[] waves = new String[3];
 		waves[0] = "src/Waves/Wave_Test.txt";
 		waves[1] = "src/Waves/Wave_One.txt";
@@ -365,7 +371,7 @@ public class Game_Controller {
 	// }
 
 	public static void main(String[] args) {
-		Game_Controller gC = new Game_Controller(new Player("LOL", 1));
+		Game_Controller gC = new Game_Controller(new Server_TD(15679),new Player("LOL", 1));
 		gC.iniciateGame();
 		gC.createWave();
 		ArrayList<Enemy> eL = new ArrayList<Enemy>();

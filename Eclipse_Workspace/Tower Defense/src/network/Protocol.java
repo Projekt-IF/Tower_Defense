@@ -21,9 +21,9 @@ public class Protocol {
 			/* SC_LOGOUT_CONFIRMED:<String> */
 			SC_LOGOUT_CONFIRMED = "lgtcnfrmd",
 
-			/* SC_LOBBY_FOUND:<Position>*/
+			/* SC_LOBBY_FOUND:<Position> */
 			SC_LOBBY_FOUND = "lbbyfnd",
-			
+
 			/* SC_LOBBY_USERS:<Username_1>:<Ready_1>:<Username_2>:<Ready_2> */
 			SC_LOBBY_USERS = "lbbyser",
 			/* SC_PLAYER_JOINED:<Integer>:<boolean> */
@@ -35,10 +35,16 @@ public class Protocol {
 			/* SC_ALL_PLAYER_READY:<String> */
 			SC_ALL_PLAYER_READY = "llplyrrdy",
 
-			/* SC_GAME_STARTING:<Level>*/
+			/* SC_GAME_STARTING:<Level> */
 			SC_GAME_STARTING = "gmstrtng",
 
 			// In-Game communication
+			/* SC_TOWER_NOT_AFFORDABLE:<Cost>:<Money> */
+			SC_TOWER_NOT_AFFORDABLE = "twrntffrdbl",
+			/* SC_TOWER_NOT_PLACABLE:<TowerPosX>:<TowerPosY>:<TileType> */
+			SC_TOWER_NOT_PLACEABLE = "twrntplcbl",
+			/* SC_ENEMY_NOT_AFFORDABLE:<Cost>:<Money> */
+			SC_ENEMY_NOT_AFFORDABLE = "nmyntffrdbl",
 			/* SC_LOAD_MAP:<Level> */
 			SC_LOAD_MAP = "ldmp",
 			/* SC_LOAD_ENEMIES:<ArrayList<Enemy>> */
@@ -88,7 +94,7 @@ public class Protocol {
 			/* CS_LOGIN_USERNAME:<Username> */
 			CS_LOGIN_USERNAME = "lgnsrnm",
 			/* CS_LOGIN_PASSWORD:<Password> */
-			CS_LOGIN_PASSWORD = "lgnpsswrd", 
+			CS_LOGIN_PASSWORD = "lgnpsswrd",
 			/* CS_SEARCH_LOBBY */
 			CS_SEARCH_LOBBY = "srchlbby",
 			/* CS_PLAYER_SET_NAME:<Name> */
@@ -105,7 +111,7 @@ public class Protocol {
 			// In-Game communication
 			/* CS_PURCHASE_TOWER:<TowerPosX>:<TowerPosY>:<TowerType> */
 			CS_PURCHASE_TOWER = "prchstwr",
-			/* CS_PURCHASE_ENEMY:<EnemyPosX>:<EnemyPosY>:<EnemyType> */
+			/* CS_PURCHASE_ENEMY:<EnemyType> */
 			CS_PURCHASE_ENEMY = "prchsnmy",
 			/* CS_READY_TOWERPLACING */
 			CS_READY_TOWERPLACING = "rdytwrplcng",
