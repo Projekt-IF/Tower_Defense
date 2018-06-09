@@ -1,5 +1,7 @@
 package utility;
 
+import java.util.Random;
+
 import network.Server_TD;
 import objects.Player;
 
@@ -13,21 +15,31 @@ public class Lobby {
 	private int player_1_Index;
 	private Player player_2;
 	private int player_2_Index;
+	
+	private String mapName;
 
 	private boolean isFull;
 	private boolean inGame;
 
 	public Lobby(Server_TD pServer) {
 		this.server = pServer;
+		this.gameFrameWork = new GameFrameWork(this.server);
 		player_1 = null;
 		player_2 = null;
 		isFull = false;
 		inGame = false;
+		mapName = "";
+		chooseRandomMap();
 	}
 	
-	public void initializeGame(String pLevel) {
-		this.gameFrameWork = new GameFrameWork(this.server ,this.player_1, this.player_2);
-		gameFrameWork.startGame(pLevel);
+	public void chooseRandomMap() {
+		setMapName(gameFrameWork.chooseRandomMap());
+	}
+	
+	public void initializeGame() {
+		gameFrameWork.setPlayer_1(player_1);
+		gameFrameWork.setPlayer_2(player_2);
+		gameFrameWork.startGame();
 	}
 
 	public boolean haveSamePortIP(Player testPlayer, Player lobbyPlayer) {
@@ -154,6 +166,20 @@ public class Lobby {
 	 */
 	public void setPlayer_2_Index(int player_2_Index) {
 		this.player_2_Index = player_2_Index;
+	}
+
+	/**
+	 * @return the mapName
+	 */
+	public String getMapName() {
+		return mapName;
+	}
+
+	/**
+	 * @param mapName the mapName to set
+	 */
+	public void setMapName(String mapName) {
+		this.mapName = mapName;
 	}
 
 }

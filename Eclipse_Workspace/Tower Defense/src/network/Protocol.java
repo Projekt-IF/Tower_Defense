@@ -103,7 +103,7 @@ public class Protocol {
 			CS_LOGOUT = "lgt",
 			/* CS_PLAY */
 			CS_PLAY = "ply",
-			/* CS_GO:<Level> */
+			/* CS_GO */
 			CS_GO = "g",
 			/* CS_READY_LOBBY */
 			CS_READY_LOBBY = "rdylbby",

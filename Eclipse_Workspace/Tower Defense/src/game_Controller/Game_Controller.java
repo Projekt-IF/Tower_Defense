@@ -39,9 +39,8 @@ public class Game_Controller {
 
 	private Tile baseTile;
 
-	public Game_Controller(Server_TD pServer, Player pPlayer) {
+	public Game_Controller(Server_TD pServer) {
 		this.server = pServer;
-		this.player = pPlayer;
 		this.currentLevel = "";
 		this.enemyList = new ArrayList<Enemy>();
 		this.generatedEnemyList = new ArrayList<Enemy>();
@@ -56,7 +55,7 @@ public class Game_Controller {
 	/**
 	 * 
 	 */
-	public void iniciateGame() {
+	public void iniciateLevel() {
 		changeLevel(currentLevel);
 		// getGlobalGrid().printGrid();
 		updateGame();
@@ -315,13 +314,13 @@ public class Game_Controller {
 	}
 
 	public void test(Server_TD pServer, Player pPlayer) {
-		Game_Controller gC = new Game_Controller(pServer, pPlayer);
+		Game_Controller gC = new Game_Controller(pServer);
 		String[] waves = new String[3];
 		waves[0] = "src/Waves/Wave_Test.txt";
 		waves[1] = "src/Waves/Wave_One.txt";
 		waves[2] = "src/Waves/Wave_Two.txt";
 		// Setting the Grid
-		gC.iniciateGame();
+		gC.iniciateLevel();
 		for (int a = 0; a < waves.length; a++) {
 			// Setting up tower
 			// System.out.println();
@@ -371,8 +370,8 @@ public class Game_Controller {
 	// }
 
 	public static void main(String[] args) {
-		Game_Controller gC = new Game_Controller(new Server_TD(15679),new Player("LOL", 1));
-		gC.iniciateGame();
+		Game_Controller gC = new Game_Controller(new Server_TD(15679));
+		gC.iniciateLevel();
 		gC.createWave();
 		ArrayList<Enemy> eL = new ArrayList<Enemy>();
 		for (int i = 0; i < 5; i++) {

@@ -1,7 +1,11 @@
 package utility;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import envoirement.Level_1_Preset;
+import envoirement.Level_2_Preset;
+import envoirement.Level_Test_Preset;
 import game_Controller.Game_Controller;
 import network.Server_TD;
 import objects.Enemy;
@@ -13,7 +17,7 @@ public class GameFrameWork {
 	public static final int startMoney = 500;
 
 	public static final int startHealth = 100;
-	
+
 	private Server_TD server;
 
 	private Player player_1;
@@ -30,29 +34,57 @@ public class GameFrameWork {
 	private ArrayList<Tower> boughtTowers_Player_1;
 	private ArrayList<Tower> boughtTowers_Player_2;
 
-	public GameFrameWork(Server_TD pServer, Player pPlayer_1, Player pPlayer_2) {
+	public GameFrameWork(Server_TD pServer) {
 		this.server = pServer;
-		this.player_1 = pPlayer_1;
-		this.player_2 = pPlayer_2;
-		this.player_1_Game_Controller = new Game_Controller(this.server, this.player_1);
-		this.player_2_Game_Controller = new Game_Controller(this.server, this.player_2);
+		this.player_1 = null;
+		this.player_2 = null;
+		this.player_1_Game_Controller = new Game_Controller(this.server);
+		this.player_2_Game_Controller = new Game_Controller(this.server);
 		this.currentLevel = "";
+	}
+
+	public String chooseRandomMap() {
+		Random rand = new Random();
+		String mapName = "";
+		int number = rand.nextInt(3);
+		System.out.println("NUMBER: " + number);
+		switch (number) {
+		case 0:
+			System.out.println("NUMBER: " + number);
+			mapName = Level_Test_Preset.NAME;
+			break;
+		case 1:
+			System.out.println("NUMBER: " + number);
+			mapName = Level_1_Preset.NAME;
+			break;
+		case 2:
+			System.out.println("NUMBER: " + number);
+			mapName = Level_2_Preset.NAME;
+			break;
+		default:
+			System.out.println("NUMBER: " + number);
+			mapName = "";
+			break;
+		}
+		this.currentLevel = mapName;
+		System.out.println("Map: " + number + "CURRENT: " + currentLevel);
+		return mapName;
 	}
 
 	public void setLevel(String pLevel) {
 		this.currentLevel = pLevel;
 		player_1_Game_Controller.setCurrentLevel(pLevel);
-		player_1_Game_Controller.iniciateGame();
+		player_1_Game_Controller.iniciateLevel();
 		player_2_Game_Controller.setCurrentLevel(pLevel);
-		player_2_Game_Controller.iniciateGame();
+		player_2_Game_Controller.iniciateLevel();
 	}
 
 	/**
 	 * The Game is engaged for both players. The grid gets set. Then the possibility
 	 * to buy towers and enemies.
 	 */
-	public void startGame(String pLevel) {
-		prepareGame(pLevel);
+	public void startGame() {
+		prepareGame();
 	}
 
 	private void startLoop() {
@@ -60,9 +92,8 @@ public class GameFrameWork {
 
 	}
 
-	private void prepareGame(String pLevel) {
+	private void prepareGame() {
 		// TODO
-		setLevel(pLevel);
 		player_1.setPlayerMoney(startMoney);
 		player_2.setPlayerMoney(startMoney);
 		player_1.setHealth(startHealth);
@@ -76,7 +107,7 @@ public class GameFrameWork {
 			this.boughtEnemies_Player_2.add(pEnemy);
 		}
 	}
-	
+
 	public void pushToBoughtTowers(int positionInLobby, Tower pTower) {
 		if (positionInLobby == 1) {
 			this.boughtTowers_Player_1.add(pTower);
@@ -134,6 +165,7 @@ public class GameFrameWork {
 	 */
 	public void setPlayer_1(Player player_1) {
 		this.player_1 = player_1;
+		player_1_Game_Controller.setPlayer(player_1);
 	}
 
 	/**
@@ -149,6 +181,7 @@ public class GameFrameWork {
 	 */
 	public void setPlayer_2(Player player_2) {
 		this.player_2 = player_2;
+		player_2_Game_Controller.setPlayer(player_2);
 	}
 
 	/**

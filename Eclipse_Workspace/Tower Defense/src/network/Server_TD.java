@@ -82,7 +82,8 @@ public class Server_TD extends Server {
 		/* CS_SEARCH_LOBBY */
 		case Protocol.CS_SEARCH_LOBBY:
 			sortInLobby(player);
-			backMessage = Protocol.SC_LOBBY_FOUND + Protocol.SEPARATOR + player.getPositionInLobby();
+			String mapName = lobbyList.get(player.getLobbyIndex()).getMapName();
+			backMessage = Protocol.SC_LOBBY_FOUND + Protocol.SEPARATOR + player.getPositionInLobby() + Protocol.SEPARATOR + mapName;
 			this.send(pClientIP, pClientPort, backMessage);
 			backMessage = Protocol.SC_LOBBY_USERS + Protocol.SEPARATOR + createLobbyUsersResponse(player);
 			this.sendToLobby(player.getLobbyIndex(), backMessage);
@@ -103,10 +104,9 @@ public class Server_TD extends Server {
 			break;
 		/* CS_GO */
 		case Protocol.CS_GO:
-			String pLevel = token[1];
 			lobbyList.get(player.getPositionInLobby()).setInGame(true);
-			lobbyList.get(player.getPositionInLobby()).initializeGame(pLevel);
-			backMessage = Protocol.SC_GAME_STARTING + Protocol.SEPARATOR + pLevel;
+			lobbyList.get(player.getPositionInLobby()).initializeGame();
+			backMessage = Protocol.SC_GAME_STARTING + Protocol.SEPARATOR + lobbyList.get(player.getPositionInLobby()).getMapName();
 			this.sendToLobby(player.getLobbyIndex(), backMessage);
 			break;
 		/* CS_PURCHASE_TOWER:<TowerPosX>:<TowerPosY>:<TowerType> */

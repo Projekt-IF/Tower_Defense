@@ -52,6 +52,8 @@ public class TD_Client extends Client {
 
 		case Protocol.SC_LOBBY_FOUND:
 			this.positionInLobby = setLobbyPosition(tags[1]);
+			this.myGui.setMapName(tags[2]);
+			this.myGui.setMapPicture(tags[2]);
 			this.myGui.switchPanelLobby();
 			break;
 
@@ -91,7 +93,7 @@ public class TD_Client extends Client {
 			break;
 
 		case Protocol.SC_ALL_PLAYER_READY:
-			this.myGui.ausgeben("All players ready!");
+			this.myGui.switchPanelGame();
 			break;
 
 		// In-Game communication

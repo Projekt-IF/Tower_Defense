@@ -38,20 +38,20 @@ public class Grid {
 	 * @param level
 	 */
 	private void loadLevel(String level) {
-		if (level.equalsIgnoreCase("TEST")) {
+		if (level.equalsIgnoreCase("Level_Test_Preset")) {
 			this.gridLayer = gc.presetToGrid(Level_Test_Preset.LAYOUT, Level_Test_Preset.HEIGHT,
 					Level_Test_Preset.LENGTH);
 			this.height = Level_Test_Preset.HEIGHT;
 			this.length = Level_Test_Preset.LENGTH;
 			this.setBaseTile(gc.getBaseTile());
 			this.setSpawnerTile(gc.getSpawnerTile());
-		} else if (level.equalsIgnoreCase("ONE")) {
+		} else if (level.equalsIgnoreCase("Level_1_Preset")) {
 			this.gridLayer = gc.presetToGrid(Level_1_Preset.LAYOUT, Level_1_Preset.HEIGHT, Level_1_Preset.LENGTH);
 			this.height = Level_1_Preset.HEIGHT;
 			this.length = Level_1_Preset.LENGTH;
 			this.setBaseTile(gc.getBaseTile());
 			this.setSpawnerTile(gc.getSpawnerTile());
-		} else if (level.equalsIgnoreCase("TWO")) {
+		} else if (level.equalsIgnoreCase("Level_2_Preset")) {
 			this.gridLayer = gc.presetToGrid(Level_2_Preset.LAYOUT, Level_2_Preset.HEIGHT, Level_2_Preset.LENGTH);
 			this.height = Level_2_Preset.HEIGHT;
 			this.length = Level_2_Preset.LENGTH;

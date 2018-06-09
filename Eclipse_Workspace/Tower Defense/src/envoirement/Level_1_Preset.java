@@ -32,7 +32,10 @@ public class Level_1_Preset {
 	//The Grid's length
 	public static final int LENGTH = 5;
 	
+	//The Name
+	public static final String NAME = "Level_1_Preset";
+	
 	//The Wave Files Name as String
-	public static final String WAVEFILENAME = "Wave_1";
+//	public static final String WAVEFILENAME = "Wave_1";
 
 }

@@ -15,11 +15,13 @@ import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Component;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -89,7 +91,7 @@ public class TextGui extends JFrame {
 	private JPanel gamePanel;
 	private JLabel readyPlayer_2_Label;
 	private JLabel readyPlayer_1_Label;
-	private JPanel readyPlayerButtonPanel;
+	private JPanel readyPlayerButtonMapPanel;
 	private JButton readyPlayerButton;
 	private Component readyPlayerButtonSpace;
 	private JPanel switchGamePanel;
@@ -97,7 +99,7 @@ public class TextGui extends JFrame {
 	private JPanel gameBuyEnemiesPanel;
 	private JPanel gamePlayPanel;
 	private JPanel gameTowerBuyTextPanel;
-	private JPanel gameTowerBuyChosenPanel;
+	private JPanel gameTowerBuyOptionsPanel;
 	private JLabel gameTowerBuyTextLabel;
 	private JPanel gameEnemyBuyTextPanel;
 	private JPanel gameEnemyBuyChosenPanel;
@@ -105,7 +107,19 @@ public class TextGui extends JFrame {
 	private JLabel gameEnemyBuyTextLabel;
 	private JSplitPane gameTowerBuyMapOptionsSplitPanel;
 	private JPanel gameTowerBuyMapPanel;
-	private JPanel gameTowerBuyOptionsPanel;
+	private JPanel gameTowerBuyChosenInfoPanel;
+	private JButton gameTowerBuyOptions_Tower_1_Button;
+	private JButton gameTowerBuyOptions_Tower_2_Button;
+	private JButton gameTowerBuyOptions_Tower_3_Button;
+	private JButton gameEnemyBuyOptions_Enemy_1_Button;
+	private JButton gameEnemyBuyOptions_Enemy_2_Button;
+	private JButton gameEnemyBuyOptions_Enemy_3_Button;
+	private JLabel readyPlayerMap_Map_Label;
+	private JPanel readyPlayerButtonMapSplitPanel;
+	private JPanel readyPlayerButtonPanel;
+	private JPanel readyPlayerMapPanel;
+	private JLabel readyPlayerMap_Name_Label;
+	private JLabel readyPlayerMap_Picture_Label;
 
 	/**
 	 * Launch the application.
@@ -364,8 +378,19 @@ public class TextGui extends JFrame {
 		rigidArea_1 = Box.createRigidArea(new Dimension(100, 20));
 		spacePanel_2.add(rigidArea_1);
 
+		readyPlayerButtonMapPanel = new JPanel();
+		lobbyPanel.add(readyPlayerButtonMapPanel, BorderLayout.EAST);
+		readyPlayerButtonMapPanel.setLayout(new BorderLayout(0, 0));
+
+		readyPlayerButtonSpace = Box.createRigidArea(new Dimension(150, 26));
+		readyPlayerButtonMapPanel.add(readyPlayerButtonSpace, BorderLayout.NORTH);
+
+		readyPlayerButtonMapSplitPanel = new JPanel();
+		readyPlayerButtonMapPanel.add(readyPlayerButtonMapSplitPanel, BorderLayout.CENTER);
+		readyPlayerButtonMapSplitPanel.setLayout(new BorderLayout(0, 0));
+
 		readyPlayerButtonPanel = new JPanel();
-		lobbyPanel.add(readyPlayerButtonPanel, BorderLayout.EAST);
+		readyPlayerButtonMapSplitPanel.add(readyPlayerButtonPanel, BorderLayout.NORTH);
 		readyPlayerButtonPanel.setLayout(new BorderLayout(0, 0));
 
 		readyPlayerButton = new JButton("NOT READY");
@@ -373,8 +398,21 @@ public class TextGui extends JFrame {
 		readyPlayerButton.setForeground(Color.RED);
 		readyPlayerButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		readyPlayerButtonSpace = Box.createRigidArea(new Dimension(100, 26));
-		readyPlayerButtonPanel.add(readyPlayerButtonSpace, BorderLayout.NORTH);
+		readyPlayerMapPanel = new JPanel();
+		readyPlayerButtonMapSplitPanel.add(readyPlayerMapPanel, BorderLayout.CENTER);
+		readyPlayerMapPanel.setLayout(new BorderLayout(0, 0));
+
+		readyPlayerMap_Map_Label = new JLabel("         Map:");
+		readyPlayerMapPanel.add(readyPlayerMap_Map_Label, BorderLayout.NORTH);
+		readyPlayerMap_Map_Label.setFont(new Font("Tahoma", Font.PLAIN, 18));
+
+		readyPlayerMap_Name_Label = new JLabel("_MAPNAME_");
+		readyPlayerMap_Name_Label.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		readyPlayerMapPanel.add(readyPlayerMap_Name_Label, BorderLayout.SOUTH);
+
+		readyPlayerMap_Picture_Label = new JLabel("_MAP_PICTURE_");
+		readyPlayerMap_Picture_Label.setIcon(null);
+		readyPlayerMapPanel.add(readyPlayerMap_Picture_Label, BorderLayout.CENTER);
 		readyPlayerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				sendToServer(Protocol.CS_READY_LOBBY);
@@ -388,50 +426,74 @@ public class TextGui extends JFrame {
 		switchGamePanel = new JPanel();
 		gamePanel.add(switchGamePanel, BorderLayout.CENTER);
 		switchGamePanel.setLayout(new CardLayout(0, 0));
-		
+
 		gameBuyTowerPanel = new JPanel();
 		switchGamePanel.add(gameBuyTowerPanel, "gameBuyTowerPanel");
 		gameBuyTowerPanel.setLayout(new BorderLayout(0, 0));
-		
+
 		gameTowerBuyTextPanel = new JPanel();
 		gameBuyTowerPanel.add(gameTowerBuyTextPanel, BorderLayout.NORTH);
-		
+
 		gameTowerBuyTextLabel = new JLabel("Buy Tower : ");
 		gameTowerBuyTextLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		gameTowerBuyTextPanel.add(gameTowerBuyTextLabel);
-		
-		gameTowerBuyChosenPanel = new JPanel();
-		gameBuyTowerPanel.add(gameTowerBuyChosenPanel, BorderLayout.SOUTH);
-		
+
+		gameTowerBuyOptionsPanel = new JPanel();
+		gameBuyTowerPanel.add(gameTowerBuyOptionsPanel, BorderLayout.SOUTH);
+
+		gameTowerBuyOptions_Tower_1_Button = new JButton("T-Type 1");
+		gameTowerBuyOptions_Tower_1_Button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				buyTowerType_1();
+			}
+		});
+		gameTowerBuyOptionsPanel.add(gameTowerBuyOptions_Tower_1_Button);
+
+		gameTowerBuyOptions_Tower_2_Button = new JButton("T-Type 2");
+		gameTowerBuyOptionsPanel.add(gameTowerBuyOptions_Tower_2_Button);
+
+		gameTowerBuyOptions_Tower_3_Button = new JButton("T-Type 3");
+		gameTowerBuyOptionsPanel.add(gameTowerBuyOptions_Tower_3_Button);
+
 		gameTowerBuyMapOptionsSplitPanel = new JSplitPane();
 		gameTowerBuyMapOptionsSplitPanel.setResizeWeight(0.5);
 		gameBuyTowerPanel.add(gameTowerBuyMapOptionsSplitPanel, BorderLayout.CENTER);
-		
+
 		gameTowerBuyMapPanel = new JPanel();
 		gameTowerBuyMapPanel.setBackground(Color.BLACK);
 		gameTowerBuyMapOptionsSplitPanel.setLeftComponent(gameTowerBuyMapPanel);
-		
-		gameTowerBuyOptionsPanel = new JPanel();
-		gameTowerBuyOptionsPanel.setBackground(Color.WHITE);
-		gameTowerBuyMapOptionsSplitPanel.setRightComponent(gameTowerBuyOptionsPanel);
-		
+
+		gameTowerBuyChosenInfoPanel = new JPanel();
+		gameTowerBuyChosenInfoPanel.setBackground(Color.WHITE);
+		gameTowerBuyMapOptionsSplitPanel.setRightComponent(gameTowerBuyChosenInfoPanel);
+
 		gameBuyEnemiesPanel = new JPanel();
 		switchGamePanel.add(gameBuyEnemiesPanel, "gameBuyEnemiesPanel");
 		gameBuyEnemiesPanel.setLayout(new BorderLayout(0, 0));
-		
+
 		gameEnemyBuyTextPanel = new JPanel();
 		gameBuyEnemiesPanel.add(gameEnemyBuyTextPanel, BorderLayout.NORTH);
-		
+
 		gameEnemyBuyTextLabel = new JLabel("Buy Enemy : ");
 		gameEnemyBuyTextLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		gameEnemyBuyTextPanel.add(gameEnemyBuyTextLabel);
-		
+
 		gameEnemyBuyChosenPanel = new JPanel();
 		gameBuyEnemiesPanel.add(gameEnemyBuyChosenPanel, BorderLayout.CENTER);
-		
+
 		gameEnemyBuyOptionsPanel = new JPanel();
 		gameBuyEnemiesPanel.add(gameEnemyBuyOptionsPanel, BorderLayout.SOUTH);
-		
+
+		gameEnemyBuyOptions_Enemy_1_Button = new JButton("E-Type 1");
+		gameEnemyBuyOptionsPanel.add(gameEnemyBuyOptions_Enemy_1_Button);
+
+		gameEnemyBuyOptions_Enemy_2_Button = new JButton("E-Type 2");
+		gameEnemyBuyOptionsPanel.add(gameEnemyBuyOptions_Enemy_2_Button);
+
+		gameEnemyBuyOptions_Enemy_3_Button = new JButton("E-Type 3");
+		gameEnemyBuyOptionsPanel.add(gameEnemyBuyOptions_Enemy_3_Button);
+
 		gamePlayPanel = new JPanel();
 		switchGamePanel.add(gamePlayPanel, "gamePlayPanel");
 	}
@@ -463,6 +525,25 @@ public class TextGui extends JFrame {
 	public void switchPanelLobby() {
 		CardLayout cl = (CardLayout) switchablePanel.getLayout();
 		cl.show(switchablePanel, "lobbyPanel");
+	}
+	
+	public void switchPanelGame() {
+		CardLayout cl = (CardLayout) switchablePanel.getLayout();
+		cl.show(switchablePanel, "gamePanel");
+	}
+	
+	public void switchPanelGameBuyTowers() {
+		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
+		cl.show(switchGamePanel, "gameBuyTowerPanel");
+	}
+	public void switchPanelGameBuyEnemies() {
+		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
+		cl.show(switchGamePanel, "gameBuyEnemiesPanel");
+	}
+	
+	public void switchPanelGamePlay() {
+		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
+		cl.show(switchGamePanel, "gamePlayPanel");
 	}
 
 	public void ausgeben(String message) {
@@ -496,6 +577,22 @@ public class TextGui extends JFrame {
 			readyPlayerButton.setForeground(Color.RED);
 		}
 	}
+	
+	public void setMapName(String pMapName) {
+		this.readyPlayerMap_Name_Label.setText(pMapName);
+	}
+	
+	public void setMapPicture(String pMapPictureName) {
+		readyPlayerMap_Picture_Label.setText("");
+		System.out.println("Images/MapImages/" + pMapPictureName + ".png");
+		BufferedImage pPicture = null;
+		try {
+			pPicture = ImageIO.read(new File("Images/MapImages/" + pMapPictureName + ".png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		this.readyPlayerMap_Picture_Label.setIcon(new ImageIcon(pPicture));
+	}
 
 	public void setUsernamePlayer1(String name) {
 		this.lblPlayer_1_Name.setText(name);
@@ -508,7 +605,31 @@ public class TextGui extends JFrame {
 	public void setUsernameResponseLabelText(String pString) {
 		this.usernameResponseLabel.setText(pString);
 	}
-	
+
+	public void buyTowerType_1() {
+		this.sendToServer(Protocol.CS_PURCHASE_TOWER + Protocol.SEPARATOR + 1);
+	}
+
+	public void buyTowerType_2() {
+		this.sendToServer(Protocol.CS_PURCHASE_TOWER + Protocol.SEPARATOR + 2);
+	}
+
+	public void buyTowerType_3() {
+		this.sendToServer(Protocol.CS_PURCHASE_TOWER + Protocol.SEPARATOR + 3);
+	}
+
+	public void buyEnemyType_1() {
+		this.sendToServer(Protocol.CS_PURCHASE_ENEMY + Protocol.SEPARATOR + 1);
+	}
+
+	public void buyTEnemyType_2() {
+		this.sendToServer(Protocol.CS_PURCHASE_ENEMY + Protocol.SEPARATOR + 2);
+	}
+
+	public void buyEnemyType_3() {
+		this.sendToServer(Protocol.CS_PURCHASE_ENEMY + Protocol.SEPARATOR + 3);
+	}
+
 	public void sendToServer(String pMessage) {
 		this.myClient.send(pMessage);
 	}
