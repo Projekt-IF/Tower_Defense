@@ -5,6 +5,6 @@ Today:
 		+ Player Life implementation -> need the enemies to check when they are on the BaseTile 
 		
 	+ Wave System Generating the Waves
+	+ NEED TO GET A WAY OF CHOOSING THE MAP!!!!!!
 	
 	- The Response to the Client when the enemies spawn and move and die
-	- NEED TO GET AN WAY OF CHOOSING THE MAP!!!!!!

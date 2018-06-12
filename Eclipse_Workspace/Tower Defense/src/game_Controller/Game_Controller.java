@@ -3,8 +3,6 @@ package game_Controller;
 import java.util.ArrayList;
 import java.util.Timer;
 
-import org.omg.PortableServer.SERVANT_RETENTION_POLICY_ID;
-
 import envoirement.Grid;
 import envoirement.Tile;
 import network.Server_TD;
@@ -15,7 +13,7 @@ import objects.Tower;
 public class Game_Controller {
 
 	private Server_TD server;
-	
+
 	private Player player;
 
 	private Timer timer;

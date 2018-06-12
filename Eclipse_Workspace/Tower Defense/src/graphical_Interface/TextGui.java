@@ -39,6 +39,9 @@ public class TextGui extends JFrame {
 	/**
 	 * 
 	 */
+	private Integer chosenTowerType;
+	private Integer chosenEnemyType;
+	
 	private static final String USERNAMEPRESET = "USERNAME : ";
 	private static final long serialVersionUID = 6557422167637163832L;
 	private JPanel switchPanel;
@@ -120,6 +123,7 @@ public class TextGui extends JFrame {
 	private JPanel readyPlayerMapPanel;
 	private JLabel readyPlayerMap_Name_Label;
 	private JLabel readyPlayerMap_Picture_Label;
+	private JLabel gameTowerBuyMapPictureLabel;
 
 	/**
 	 * Launch the application.
@@ -148,6 +152,9 @@ public class TextGui extends JFrame {
 	 * Create the frame.
 	 */
 	public TextGui() {
+		
+		this.chosenTowerType = null;
+		this.chosenEnemyType = null;
 
 		BufferedImage image = null;
 		try {
@@ -442,18 +449,33 @@ public class TextGui extends JFrame {
 		gameBuyTowerPanel.add(gameTowerBuyOptionsPanel, BorderLayout.SOUTH);
 
 		gameTowerBuyOptions_Tower_1_Button = new JButton("T-Type 1");
+		gameTowerBuyOptions_Tower_1_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		gameTowerBuyOptions_Tower_1_Button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				buyTowerType_1();
+				chosenTowerType = 1;
 			}
 		});
 		gameTowerBuyOptionsPanel.add(gameTowerBuyOptions_Tower_1_Button);
 
 		gameTowerBuyOptions_Tower_2_Button = new JButton("T-Type 2");
+		gameTowerBuyOptions_Tower_2_Button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				chosenTowerType = 2;
+			}
+		});
+		gameTowerBuyOptions_Tower_2_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		gameTowerBuyOptionsPanel.add(gameTowerBuyOptions_Tower_2_Button);
 
 		gameTowerBuyOptions_Tower_3_Button = new JButton("T-Type 3");
+		gameTowerBuyOptions_Tower_3_Button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				chosenTowerType = 3;
+			}
+		});
+		gameTowerBuyOptions_Tower_3_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		gameTowerBuyOptionsPanel.add(gameTowerBuyOptions_Tower_3_Button);
 
 		gameTowerBuyMapOptionsSplitPanel = new JSplitPane();
@@ -461,8 +483,15 @@ public class TextGui extends JFrame {
 		gameBuyTowerPanel.add(gameTowerBuyMapOptionsSplitPanel, BorderLayout.CENTER);
 
 		gameTowerBuyMapPanel = new JPanel();
+		gameTowerBuyMapPanel.setToolTipText("\"Hwllo\"");
 		gameTowerBuyMapPanel.setBackground(Color.BLACK);
 		gameTowerBuyMapOptionsSplitPanel.setLeftComponent(gameTowerBuyMapPanel);
+		gameTowerBuyMapPanel.setLayout(new BorderLayout(0, 0));
+		
+		gameTowerBuyMapPictureLabel = new JLabel("_MAP_PICTURE_");
+		gameTowerBuyMapPictureLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		gameTowerBuyMapPictureLabel.setForeground(Color.WHITE);
+		gameTowerBuyMapPanel.add(gameTowerBuyMapPictureLabel);
 
 		gameTowerBuyChosenInfoPanel = new JPanel();
 		gameTowerBuyChosenInfoPanel.setBackground(Color.WHITE);
@@ -486,12 +515,33 @@ public class TextGui extends JFrame {
 		gameBuyEnemiesPanel.add(gameEnemyBuyOptionsPanel, BorderLayout.SOUTH);
 
 		gameEnemyBuyOptions_Enemy_1_Button = new JButton("E-Type 1");
+		gameEnemyBuyOptions_Enemy_1_Button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				chosenEnemyType = 1;
+			}
+		});
+		gameEnemyBuyOptions_Enemy_1_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		gameEnemyBuyOptionsPanel.add(gameEnemyBuyOptions_Enemy_1_Button);
 
 		gameEnemyBuyOptions_Enemy_2_Button = new JButton("E-Type 2");
+		gameEnemyBuyOptions_Enemy_2_Button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				chosenEnemyType = 2;
+			}
+		});
+		gameEnemyBuyOptions_Enemy_2_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		gameEnemyBuyOptionsPanel.add(gameEnemyBuyOptions_Enemy_2_Button);
 
 		gameEnemyBuyOptions_Enemy_3_Button = new JButton("E-Type 3");
+		gameEnemyBuyOptions_Enemy_3_Button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				chosenEnemyType = 3;
+			}
+		});
+		gameEnemyBuyOptions_Enemy_3_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		gameEnemyBuyOptionsPanel.add(gameEnemyBuyOptions_Enemy_3_Button);
 
 		gamePlayPanel = new JPanel();
@@ -584,6 +634,7 @@ public class TextGui extends JFrame {
 	
 	public void setMapPicture(String pMapPictureName) {
 		readyPlayerMap_Picture_Label.setText("");
+		gameTowerBuyMapPictureLabel.setText("");
 		System.out.println("Images/MapImages/" + pMapPictureName + ".png");
 		BufferedImage pPicture = null;
 		try {
@@ -592,6 +643,7 @@ public class TextGui extends JFrame {
 			e.printStackTrace();
 		}
 		this.readyPlayerMap_Picture_Label.setIcon(new ImageIcon(pPicture));
+		this.gameTowerBuyMapPictureLabel.setIcon(new ImageIcon(pPicture));
 	}
 
 	public void setUsernamePlayer1(String name) {

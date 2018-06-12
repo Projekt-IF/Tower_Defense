@@ -87,11 +87,6 @@ public class GameFrameWork {
 		prepareGame();
 	}
 
-	private void startLoop() {
-		// TODO Auto-generated method stub
-
-	}
-
 	private void prepareGame() {
 		// TODO
 		player_1.setPlayerMoney(startMoney);

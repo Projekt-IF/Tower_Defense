@@ -16,6 +16,7 @@ public class Enemy_Controller {
 
 	// private Game_Controller game_Controller;
 
+	@SuppressWarnings("unused")
 	private Server_TD server;
 	
 	private Player player;
