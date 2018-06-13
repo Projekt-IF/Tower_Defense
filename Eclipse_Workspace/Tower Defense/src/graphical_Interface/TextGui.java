@@ -33,6 +33,12 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.Color;
 import javax.swing.JSplitPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.JComboBox;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class TextGui extends JFrame {
 
@@ -124,6 +130,12 @@ public class TextGui extends JFrame {
 	private JLabel readyPlayerMap_Name_Label;
 	private JLabel readyPlayerMap_Picture_Label;
 	private JLabel gameTowerBuyMapPictureLabel;
+	private JPanel gameTowerBuyMapPicturePanel;
+	private JPanel gameTowerBuyMapPositionPanel;
+	private JSpinner gameTowerBuyMapPosition_YSpinner;
+	private JSpinner gameTowerBuyMapPosition_XSpinner;
+	private JLabel gameTowerBuyMapPositionYLabel;
+	private JLabel gameTowerBuyMapPositionXLabel;
 
 	/**
 	 * Launch the application.
@@ -164,7 +176,7 @@ public class TextGui extends JFrame {
 		}
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 350);
+		setBounds(100, 100, 547, 376);
 		setIconImage(image);
 		switchPanel = new JPanel();
 		switchPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -454,6 +466,7 @@ public class TextGui extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				chosenTowerType = 1;
+				buyTower();
 			}
 		});
 		gameTowerBuyOptionsPanel.add(gameTowerBuyOptions_Tower_1_Button);
@@ -463,6 +476,7 @@ public class TextGui extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				chosenTowerType = 2;
+				buyTower();
 			}
 		});
 		gameTowerBuyOptions_Tower_2_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -473,6 +487,7 @@ public class TextGui extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				chosenTowerType = 3;
+				buyTower();
 			}
 		});
 		gameTowerBuyOptions_Tower_3_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -488,10 +503,44 @@ public class TextGui extends JFrame {
 		gameTowerBuyMapOptionsSplitPanel.setLeftComponent(gameTowerBuyMapPanel);
 		gameTowerBuyMapPanel.setLayout(new BorderLayout(0, 0));
 		
+		gameTowerBuyMapPicturePanel = new JPanel();
+		gameTowerBuyMapPicturePanel.setBackground(Color.BLACK);
+		gameTowerBuyMapPicturePanel.setForeground(Color.WHITE);
+		gameTowerBuyMapPanel.add(gameTowerBuyMapPicturePanel, BorderLayout.CENTER);
+		
 		gameTowerBuyMapPictureLabel = new JLabel("_MAP_PICTURE_");
+		gameTowerBuyMapPicturePanel.add(gameTowerBuyMapPictureLabel);
 		gameTowerBuyMapPictureLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		gameTowerBuyMapPictureLabel.setForeground(Color.WHITE);
-		gameTowerBuyMapPanel.add(gameTowerBuyMapPictureLabel);
+		
+		gameTowerBuyMapPositionPanel = new JPanel();
+		gameTowerBuyMapPositionPanel.setForeground(Color.WHITE);
+		gameTowerBuyMapPositionPanel.setBackground(Color.BLACK);
+		gameTowerBuyMapPanel.add(gameTowerBuyMapPositionPanel, BorderLayout.SOUTH);
+		
+		gameTowerBuyMapPositionYLabel = new JLabel("Y: ");
+		gameTowerBuyMapPositionYLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		gameTowerBuyMapPositionYLabel.setBackground(Color.BLACK);
+		gameTowerBuyMapPositionYLabel.setForeground(Color.WHITE);
+		gameTowerBuyMapPositionPanel.add(gameTowerBuyMapPositionYLabel);
+		
+		gameTowerBuyMapPosition_YSpinner = new JSpinner();
+		gameTowerBuyMapPosition_YSpinner.setModel(new SpinnerNumberModel(1, 1, 9, 1));
+		gameTowerBuyMapPosition_YSpinner.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		gameTowerBuyMapPositionPanel.add(gameTowerBuyMapPosition_YSpinner);
+		
+		gameTowerBuyMapPositionXLabel = new JLabel("X: ");
+		gameTowerBuyMapPositionXLabel.setForeground(Color.WHITE);
+		gameTowerBuyMapPositionXLabel.setBackground(Color.BLACK);
+		gameTowerBuyMapPositionXLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		gameTowerBuyMapPositionPanel.add(gameTowerBuyMapPositionXLabel);
+		
+		gameTowerBuyMapPosition_XSpinner = new JSpinner();
+		gameTowerBuyMapPosition_XSpinner.setModel(new SpinnerNumberModel(1, 1, 9, 1));
+		gameTowerBuyMapPosition_XSpinner.setForeground(Color.WHITE);
+		gameTowerBuyMapPosition_XSpinner.setBackground(Color.WHITE);
+		gameTowerBuyMapPosition_XSpinner.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		gameTowerBuyMapPositionPanel.add(gameTowerBuyMapPosition_XSpinner);
 
 		gameTowerBuyChosenInfoPanel = new JPanel();
 		gameTowerBuyChosenInfoPanel.setBackground(Color.WHITE);
@@ -519,6 +568,7 @@ public class TextGui extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				chosenEnemyType = 1;
+				buyEnemy();
 			}
 		});
 		gameEnemyBuyOptions_Enemy_1_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -529,6 +579,7 @@ public class TextGui extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				chosenEnemyType = 2;
+				buyEnemy();
 			}
 		});
 		gameEnemyBuyOptions_Enemy_2_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -539,6 +590,7 @@ public class TextGui extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				chosenEnemyType = 3;
+				buyEnemy();
 			}
 		});
 		gameEnemyBuyOptions_Enemy_3_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -628,6 +680,14 @@ public class TextGui extends JFrame {
 		}
 	}
 	
+	public void setTowerBuyModelYSpinner(int maximum) {
+		gameTowerBuyMapPosition_YSpinner.setModel(new SpinnerNumberModel(1, 1, maximum, 1));
+	}
+	
+	public void setTowerBuyModelXSpinner(int maximum) {
+		gameTowerBuyMapPosition_XSpinner.setModel(new SpinnerNumberModel(1, 1, maximum, 1));
+	}
+	
 	public void setMapName(String pMapName) {
 		this.readyPlayerMap_Name_Label.setText(pMapName);
 	}
@@ -658,28 +718,17 @@ public class TextGui extends JFrame {
 		this.usernameResponseLabel.setText(pString);
 	}
 
-	public void buyTowerType_1() {
-		this.sendToServer(Protocol.CS_PURCHASE_TOWER + Protocol.SEPARATOR + 1);
+	public void buyTower(){
+		int type = chosenTowerType;
+		int posY = Integer.parseInt(gameTowerBuyMapPosition_YSpinner.getValue().toString());
+		int posX = Integer.parseInt(gameTowerBuyMapPosition_XSpinner.getValue().toString());
+		System.out.println(posY + "  " + posX);
+		this.sendToServer(Protocol.CS_PURCHASE_TOWER + Protocol.SEPARATOR + posX + Protocol.SEPARATOR + posY + Protocol.SEPARATOR + type);
 	}
 
-	public void buyTowerType_2() {
-		this.sendToServer(Protocol.CS_PURCHASE_TOWER + Protocol.SEPARATOR + 2);
-	}
-
-	public void buyTowerType_3() {
-		this.sendToServer(Protocol.CS_PURCHASE_TOWER + Protocol.SEPARATOR + 3);
-	}
-
-	public void buyEnemyType_1() {
-		this.sendToServer(Protocol.CS_PURCHASE_ENEMY + Protocol.SEPARATOR + 1);
-	}
-
-	public void buyTEnemyType_2() {
-		this.sendToServer(Protocol.CS_PURCHASE_ENEMY + Protocol.SEPARATOR + 2);
-	}
-
-	public void buyEnemyType_3() {
-		this.sendToServer(Protocol.CS_PURCHASE_ENEMY + Protocol.SEPARATOR + 3);
+	public void buyEnemy() {
+		int type = chosenEnemyType;
+		this.sendToServer(Protocol.CS_PURCHASE_ENEMY + Protocol.SEPARATOR + type);
 	}
 
 	public void sendToServer(String pMessage) {

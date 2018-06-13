@@ -3,6 +3,8 @@ package graphical_Interface;
 
 import java.util.ArrayList;
 
+import javax.swing.SpinnerNumberModel;
+
 import network.Protocol;
 import objects.Enemy;
 import objects.Tower;
@@ -54,6 +56,7 @@ public class TD_Client extends Client {
 			this.positionInLobby = setLobbyPosition(tags[1]);
 			this.myGui.setMapName(tags[2]);
 			this.myGui.setMapPicture(tags[2]);
+			setSpinnerMaximum(tags[2]);
 			this.myGui.switchPanelLobby();
 			break;
 
@@ -167,6 +170,28 @@ public class TD_Client extends Client {
 			return 1;
 		}
 		return 2;
+	}
+	
+	private void setSpinnerMaximum(String mapName) {
+		switch(mapName) {
+		
+		case "Level_Test_Preset":
+			this.myGui.setTowerBuyModelXSpinner(5);
+			this.myGui.setTowerBuyModelYSpinner(5);
+			break;
+		case "Level_1_Preset":
+			this.myGui.setTowerBuyModelXSpinner(5);
+			this.myGui.setTowerBuyModelYSpinner(5);
+			break;
+		case "Level_2_Preset":
+			this.myGui.setTowerBuyModelXSpinner(9);
+			this.myGui.setTowerBuyModelYSpinner(9);
+			break;
+		default:
+			this.myGui.setTowerBuyModelXSpinner(5);
+			this.myGui.setTowerBuyModelYSpinner(5);
+			break;
+		}
 	}
 
 	private void setPlayerUsername(String playerPosition, String playerName) {
