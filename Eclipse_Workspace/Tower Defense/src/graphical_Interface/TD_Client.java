@@ -96,6 +96,7 @@ public class TD_Client extends Client {
 			break;
 
 		case Protocol.SC_ALL_PLAYER_READY:
+			this.send(Protocol.CS_GO);
 			this.myGui.switchPanelGame();
 			break;
 

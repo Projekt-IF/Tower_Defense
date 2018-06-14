@@ -61,6 +61,7 @@ public class Grid {
 	}
 
 	public void printGrid() {
+		System.out.println();
 		for (int y = 0; y <= height - 1; y++) {
 			for (int x = 0; x <= length - 1; x++) {
 				System.out.print(this.gridLayer[y][x].getType() + " ");

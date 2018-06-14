@@ -104,24 +104,36 @@ public class Server_TD extends Server {
 			break;
 		/* CS_GO */
 		case Protocol.CS_GO:
-			lobbyList.get(player.getPositionInLobby()).setInGame(true);
-			lobbyList.get(player.getPositionInLobby()).initializeGame();
-			backMessage = Protocol.SC_GAME_STARTING + Protocol.SEPARATOR + lobbyList.get(player.getPositionInLobby()).getMapName();
+			lobbyList.get(player.getLobbyIndex()).setInGame(true);
+			lobbyList.get(player.getLobbyIndex()).initializeGame();
+			backMessage = Protocol.SC_GAME_STARTING + Protocol.SEPARATOR + lobbyList.get(player.getLobbyIndex()).getMapName();
 			this.sendToLobby(player.getLobbyIndex(), backMessage);
 			break;
 		/* CS_PURCHASE_TOWER:<TowerPosX>:<TowerPosY>:<TowerType> */
 		case Protocol.CS_PURCHASE_TOWER:
 			TowerTypes tT = new TowerTypes();
-			int tPosX = Integer.parseInt(token[1]);
-			int tPosY = Integer.parseInt(token[2]);
+			int tPosX = Integer.parseInt(token[1]) - 1;
+			int tPosY = Integer.parseInt(token[2]) - 1;
 			int tType = Integer.parseInt(token[3]);
+			System.out.println(checkTowerAffordable(player, tType));
 			if (checkTowerAffordable(player, tType)) {
+				System.out.println(lobbyList.get(player.getLobbyIndex()).getGameFrameWork());
+				System.out.println(lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
+						.getGameController(player.getPositionInLobby()));
+				System.out.println(lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
+						.getGameController(player.getPositionInLobby()).getGlobalGrid());
+				System.out.println(lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
+						.getGameController(player.getPositionInLobby()).getGlobalGrid().getGridLayer()[tPosY][tPosX].getType());
 				if (lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
 						.getGameController(player.getPositionInLobby()).getGlobalGrid().getGridLayer()[tPosY][tPosX]
 								.getType() == 0) {
 					Tower t = new Tower(tPosX, tPosY, tType);
 					lobbyList.get(player.getLobbyIndex()).getGameFrameWork().pushToBoughtTowers(player.getPositionInLobby(), t);
 					player.setPlayerMoney(player.getPlayerMoney() - tT.calcCost(tType));
+					System.out.println(player.getPlayerMoney());
+					System.out.println(tType + "  " + tT.calcCost(tType));
+					backMessage = Protocol.SC_UPDATE_POSITION_TOWER + Protocol.SEPARATOR + tPosX + Protocol.SEPARATOR + tPosY;
+					this.send(pClientIP, pClientPort, backMessage);
 					// TODO: editing so you can undo the buy
 				} else {
 					int tileType = lobbyList.get(player.getLobbyIndex()).getGameFrameWork()

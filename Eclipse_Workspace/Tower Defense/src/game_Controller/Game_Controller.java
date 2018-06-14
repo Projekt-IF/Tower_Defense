@@ -54,8 +54,9 @@ public class Game_Controller {
 	 * 
 	 */
 	public void iniciateLevel() {
+		System.out.println(currentLevel);
 		changeLevel(currentLevel);
-		// getGlobalGrid().printGrid();
+		 getGlobalGrid().printGrid();
 		updateGame();
 	}
 
@@ -75,6 +76,7 @@ public class Game_Controller {
 	}
 
 	public void changeLevel(String pLevelName) {
+		System.out.println(pLevelName);
 		setGlobalGrid(this.lC.changeLevel(pLevelName));
 		this.spawnerTile = getGlobalGrid().getSpawnerTile();
 		this.baseTile = getGlobalGrid().getBaseTile();

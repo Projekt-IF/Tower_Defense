@@ -498,7 +498,7 @@ public class TextGui extends JFrame {
 		gameBuyTowerPanel.add(gameTowerBuyMapOptionsSplitPanel, BorderLayout.CENTER);
 
 		gameTowerBuyMapPanel = new JPanel();
-		gameTowerBuyMapPanel.setToolTipText("\"Hwllo\"");
+		gameTowerBuyMapPanel.setToolTipText("");
 		gameTowerBuyMapPanel.setBackground(Color.BLACK);
 		gameTowerBuyMapOptionsSplitPanel.setLeftComponent(gameTowerBuyMapPanel);
 		gameTowerBuyMapPanel.setLayout(new BorderLayout(0, 0));

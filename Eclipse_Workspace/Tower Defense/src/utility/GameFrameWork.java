@@ -40,6 +40,10 @@ public class GameFrameWork {
 		this.player_2 = null;
 		this.player_1_Game_Controller = new Game_Controller(this.server);
 		this.player_2_Game_Controller = new Game_Controller(this.server);
+		boughtEnemies_Player_1 = new ArrayList<Enemy>();
+		boughtEnemies_Player_2 = new ArrayList<Enemy>();
+		boughtTowers_Player_1 = new ArrayList<Tower>();
+		boughtTowers_Player_2 = new ArrayList<Tower>();
 		this.currentLevel = "";
 	}
 
@@ -71,11 +75,10 @@ public class GameFrameWork {
 		return mapName;
 	}
 
-	public void setLevel(String pLevel) {
-		this.currentLevel = pLevel;
-		player_1_Game_Controller.setCurrentLevel(pLevel);
+	public void setLevel() {
+		player_1_Game_Controller.setCurrentLevel(currentLevel);
 		player_1_Game_Controller.iniciateLevel();
-		player_2_Game_Controller.setCurrentLevel(pLevel);
+		player_2_Game_Controller.setCurrentLevel(currentLevel);
 		player_2_Game_Controller.iniciateLevel();
 	}
 
@@ -85,6 +88,7 @@ public class GameFrameWork {
 	 */
 	public void startGame() {
 		prepareGame();
+		setLevel();
 	}
 
 	private void prepareGame() {
