@@ -37,7 +37,12 @@ public class Lobby {
 	public void initializeGame() {
 		gameFrameWork.setPlayer_1(player_1);
 		gameFrameWork.setPlayer_2(player_2);
+		gameFrameWork.setOtherPlayer();
 		gameFrameWork.startGame();
+	}
+	
+	public void startWave() {
+		
 	}
 
 	public boolean haveSamePortIP(Player testPlayer, Player lobbyPlayer) {
@@ -47,6 +52,22 @@ public class Lobby {
 		} else {
 			return false;
 		}
+	}
+	
+	public Player getOtherPlayer(Player player) {
+		if(player.equals(player_1)) {
+			return player_2;
+		} else if(player.equals(player_2)) {
+			return player_1;
+		}
+		return null;
+	}
+	
+	public boolean allBuyDone() {
+		if(player_1.isBuyDone() && player_2.isBuyDone()) {
+			return true;
+		}
+		return false;
 	}
 
 	public void resetPlayer_1() {

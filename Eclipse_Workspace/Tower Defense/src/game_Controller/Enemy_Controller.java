@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 
 import envoirement.Grid;
+import network.Protocol;
 import network.Server_TD;
 import objects.Enemy;
 import objects.Player;
@@ -18,7 +19,7 @@ public class Enemy_Controller {
 
 	@SuppressWarnings("unused")
 	private Server_TD server;
-	
+
 	private Player player;
 
 	private Grid grid;
@@ -57,6 +58,9 @@ public class Enemy_Controller {
 		e.setPosY(grid.getSpawnerTile().getyPos());
 		enemyList.add(e);
 		generatedEnemyList.remove(e);
+		this.server.send(player.getPlayerIP(), player.getPlayerPort(),
+				Protocol.SC_UPDATE_POSITION_ENEMY + Protocol.SEPARATOR + null + Protocol.SEPARATOR + null
+						+ Protocol.SEPARATOR + e.getPosX() + Protocol.SEPARATOR + e.getPosY());
 		spawn();
 	}
 
@@ -74,6 +78,9 @@ public class Enemy_Controller {
 		int currentYPos = e.getPosY();
 		e.setPosX(grid.getGridLayer()[currentYPos][currentXPos].getNextTile().getxPos());
 		e.setPosY(grid.getGridLayer()[currentYPos][currentXPos].getNextTile().getyPos());
+		this.server.send(player.getPlayerIP(), player.getPlayerPort(),
+				Protocol.SC_UPDATE_POSITION_ENEMY + Protocol.SEPARATOR + currentXPos + Protocol.SEPARATOR + currentYPos
+						+ Protocol.SEPARATOR + e.getPosX() + Protocol.SEPARATOR + e.getPosY());
 		e.move();
 	}
 
@@ -126,10 +133,19 @@ public class Enemy_Controller {
 							&& (grid.getBaseTile().getyPos() == enemyList.get(a).getPosY())) {
 						if (player.getHealth() > 0) {
 							player.setHealth(player.getHealth() - enemyList.get(a).getDamage());
-						} else if(player.getHealth() <= 0) {
-							//TODO: BEENDE SPIEL UND SENDE NACHRICHTEN
+							this.server.send(player.getPlayerIP(), player.getPlayerPort(),
+									Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + player.getHealth()
+											+ Protocol.SEPARATOR + player.getOtherplayer().getPlayerMoney());
+						} else if (player.getHealth() <= 0) {
+							this.server.send(player.getPlayerIP(), player.getPlayerPort(),
+									Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + player.getHealth()
+											+ Protocol.SEPARATOR + player.getOtherplayer().getPlayerMoney());
 						}
 					}
+					this.server.send(player.getPlayerIP(), player.getPlayerPort(),
+							Protocol.SC_UPDATE_POSITION_ENEMY + Protocol.SEPARATOR + enemyList.get(a).getPosX()
+									+ Protocol.SEPARATOR + enemyList.get(a).getPosY() + Protocol.SEPARATOR + null
+									+ Protocol.SEPARATOR + null);
 					enemyList.remove(enemyList.get(a));
 				}
 			}

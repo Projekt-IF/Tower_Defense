@@ -8,3 +8,5 @@ Today:
 	+ NEED TO GET A WAY OF CHOOSING THE MAP!!!!!!
 	
 	- The Response to the Client when the enemies spawn and move and die
+	
+	- Change the tower color while on cool down??

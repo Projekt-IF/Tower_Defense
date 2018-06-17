@@ -16,36 +16,23 @@ public class Tower_Controller {
 	private ArrayList<Tower> towerList;
 
 	public Tower_Controller(ArrayList<Tower> pTowerList, Game_Controller pGame_Controller) {
-		// TODO:
 		this.game_Controller = pGame_Controller;
 		this.towerList = pTowerList;
 	}
 
 	public void setTowerPosition(int pPosX, int pPosY, Tower pTower) {
-		// TODO: Testing if the tower is placed on a free Tile
 		grid.getGridLayer()[pTower.getPosY()][pTower.getPosX()].setType(Tile.TYPE_UNOC);
 		grid.getGridLayer()[pPosY][pPosX].setType(Tile.TYPE_TOWER);
 		pTower.setPosX(pPosX);
 		pTower.setPosY(pPosY);
 	}
 
-	public void removeTower(int PPosX, int PPosY) {
-		// TODO:
-	}
-
 	public Tower createTower(int pPosX, int pPosY, int pType) {
-		// TODO:
 		grid.getGridLayer()[pPosY][pPosX].setType(Tile.TYPE_TOWER);
-		return new Tower(pPosX, pPosY, pType);
-	}
-
-	public void shootTower() {
-		// TODO:
+		return (new Tower(pPosX, pPosY, pType));
 	}
 
 	public void checkTowers() {
-		// TODO: Gegebenen Falls kann auch hier schon das Leben abgezogen werden
-		// Check Tiles In Range if Enemy on them
 		if (!game_Controller.getEnemyController().getEnemyList().isEmpty()) {
 			for (int w = 0; w < towerList.size(); w++) {
 				Tower current = towerList.get(w);
@@ -62,26 +49,17 @@ public class Tower_Controller {
 											tmpEnemy.setLife(tmpEnemy.getLife() - current.shoot());
 										}
 									}
-
 								}
-
 							}
 						}
-
 					}
-
 				}
 			}
 		}
 	}
 
-	public void checkRange() {
-		// TODO:
-
-	}
-
 	public void upgradeTower() {
-		// TODO:
+		// TODO: Upgrade the tower
 	}
 
 	public void clearTowerList() {

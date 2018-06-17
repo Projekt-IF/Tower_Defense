@@ -6,6 +6,7 @@ import java.util.Random;
 import envoirement.Level_1_Preset;
 import envoirement.Level_2_Preset;
 import envoirement.Level_Test_Preset;
+import envoirement.Tile;
 import game_Controller.Game_Controller;
 import network.Server_TD;
 import objects.Enemy;
@@ -45,6 +46,16 @@ public class GameFrameWork {
 		boughtTowers_Player_1 = new ArrayList<Tower>();
 		boughtTowers_Player_2 = new ArrayList<Tower>();
 		this.currentLevel = "";
+	}
+	
+	public void clear() {
+		this.player_1_Game_Controller = new Game_Controller(this.server);
+		this.player_2_Game_Controller = new Game_Controller(this.server);
+		boughtEnemies_Player_1 = new ArrayList<Enemy>();
+		boughtEnemies_Player_2 = new ArrayList<Enemy>();
+		boughtTowers_Player_1 = new ArrayList<Tower>();
+		boughtTowers_Player_2 = new ArrayList<Tower>();
+		setLevel();
 	}
 
 	public String chooseRandomMap() {
@@ -92,11 +103,15 @@ public class GameFrameWork {
 	}
 
 	private void prepareGame() {
-		// TODO
 		player_1.setPlayerMoney(startMoney);
 		player_2.setPlayerMoney(startMoney);
 		player_1.setHealth(startHealth);
 		player_2.setHealth(startHealth);
+	}
+	
+	public void setOtherPlayer() {
+		this.player_1.setOtherplayer(player_2);
+		this.player_2.setOtherplayer(player_1);
 	}
 
 	public void pushToBoughtEnemies(int positionInLobby, Enemy pEnemy) {
@@ -110,8 +125,12 @@ public class GameFrameWork {
 	public void pushToBoughtTowers(int positionInLobby, Tower pTower) {
 		if (positionInLobby == 1) {
 			this.boughtTowers_Player_1.add(pTower);
+			this.getPlayer_1_Game_Controller().getGlobalGrid().getGridLayer()[pTower.getPosY()][pTower.getPosX()].setType(Tile.TYPE_TOWER);
+			this.getPlayer_1_Game_Controller().getGlobalGrid().printGrid();
 		} else if (positionInLobby == 2) {
 			this.boughtTowers_Player_2.add(pTower);
+			this.getPlayer_2_Game_Controller().getGlobalGrid().getGridLayer()[pTower.getPosY()][pTower.getPosX()].setType(Tile.TYPE_TOWER);
+			this.getPlayer_2_Game_Controller().getGlobalGrid().printGrid();
 		}
 	}
 
@@ -149,6 +168,16 @@ public class GameFrameWork {
 				return false;
 			}
 		}
+	}
+	
+	public void startWave() {
+		this.player_1_Game_Controller.createWave();
+		this.player_2_Game_Controller.createWave();
+	}
+	
+	public void startLoop() {
+		this.player_1_Game_Controller.startLoop();
+		this.player_2_Game_Controller.startLoop();
 	}
 
 	/**
@@ -239,5 +268,4 @@ public class GameFrameWork {
 		}
 		return null;
 	}
-
 }

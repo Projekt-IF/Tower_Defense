@@ -11,16 +11,19 @@ import network.Protocol;
 
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.Component;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 
 import java.awt.Dimension;
@@ -33,12 +36,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.Color;
 import javax.swing.JSplitPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
+import java.awt.GridLayout;
 
 public class TextGui extends JFrame {
 
@@ -48,6 +50,8 @@ public class TextGui extends JFrame {
 	private Integer chosenTowerType;
 	private Integer chosenEnemyType;
 	
+	private ArrayList<JButton> pathButtonMapList;
+
 	private static final String USERNAMEPRESET = "USERNAME : ";
 	private static final long serialVersionUID = 6557422167637163832L;
 	private JPanel switchPanel;
@@ -106,7 +110,7 @@ public class TextGui extends JFrame {
 	private JPanel switchGamePanel;
 	private JPanel gameBuyTowerPanel;
 	private JPanel gameBuyEnemiesPanel;
-	private JPanel gamePlayPanel;
+	private JPanel gamePlayMapPanel;
 	private JPanel gameTowerBuyTextPanel;
 	private JPanel gameTowerBuyOptionsPanel;
 	private JLabel gameTowerBuyTextLabel;
@@ -114,7 +118,7 @@ public class TextGui extends JFrame {
 	private JPanel gameEnemyBuyChosenPanel;
 	private JPanel gameEnemyBuyOptionsPanel;
 	private JLabel gameEnemyBuyTextLabel;
-	private JSplitPane gameTowerBuyMapOptionsSplitPanel;
+	private JSplitPane gameTowerBuyMapChosenSplitPanel;
 	private JPanel gameTowerBuyMapPanel;
 	private JPanel gameTowerBuyChosenInfoPanel;
 	private JButton gameTowerBuyOptions_Tower_1_Button;
@@ -136,6 +140,24 @@ public class TextGui extends JFrame {
 	private JSpinner gameTowerBuyMapPosition_XSpinner;
 	private JLabel gameTowerBuyMapPositionYLabel;
 	private JLabel gameTowerBuyMapPositionXLabel;
+	private JPanel gameTowerBuyOptionsTypesPanel;
+	private JPanel gameTowerBuyOptionsConfirmPanel;
+	private JButton gameTowerBuyOptionsConfirm;
+	private JList<String> gameTowerBuyChosenList;
+	private JLabel gameTowerBuyChosenResponseLabel;
+	private JLabel gameTowerBuyTextMoneyLabel;
+	private JLabel gameEnemyBuyTextMoneyLabel;
+	private JList<String> gameEnemyBuyChosenList;
+	private JPanel gameEnemyBuyOptionsTypesPanel;
+	private JPanel gameEnemyBuyOptionsConfirmPanel;
+	private JButton gameEnemyBuyOptionsConfirm;
+	private JLabel gameEnemyBuyChosenResponseLabel;
+	private JPanel gameBuyWaitPanel;
+	private JLabel gameBuyWaitingLabel;
+	private JPanel gamePlayPanel;
+	private JPanel gamePlayHealthPanel;
+	private JLabel gamePlayHealthOwnLabel;
+	private JLabel gamePlayHealthOtherLabel;
 
 	/**
 	 * Launch the application.
@@ -163,8 +185,9 @@ public class TextGui extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 	public TextGui() {
-		
+
 		this.chosenTowerType = null;
 		this.chosenEnemyType = null;
 
@@ -457,21 +480,23 @@ public class TextGui extends JFrame {
 		gameTowerBuyTextLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		gameTowerBuyTextPanel.add(gameTowerBuyTextLabel);
 
+		gameTowerBuyTextMoneyLabel = new JLabel("               Money: ");
+		gameTowerBuyTextMoneyLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gameTowerBuyTextPanel.add(gameTowerBuyTextMoneyLabel);
+
 		gameTowerBuyOptionsPanel = new JPanel();
 		gameBuyTowerPanel.add(gameTowerBuyOptionsPanel, BorderLayout.SOUTH);
+		gameTowerBuyOptionsPanel.setLayout(new BorderLayout(0, 0));
+
+		gameTowerBuyOptionsTypesPanel = new JPanel();
+		gameTowerBuyOptionsPanel.add(gameTowerBuyOptionsTypesPanel);
 
 		gameTowerBuyOptions_Tower_1_Button = new JButton("T-Type 1");
+		gameTowerBuyOptionsTypesPanel.add(gameTowerBuyOptions_Tower_1_Button);
 		gameTowerBuyOptions_Tower_1_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		gameTowerBuyOptions_Tower_1_Button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				chosenTowerType = 1;
-				buyTower();
-			}
-		});
-		gameTowerBuyOptionsPanel.add(gameTowerBuyOptions_Tower_1_Button);
 
 		gameTowerBuyOptions_Tower_2_Button = new JButton("T-Type 2");
+		gameTowerBuyOptionsTypesPanel.add(gameTowerBuyOptions_Tower_2_Button);
 		gameTowerBuyOptions_Tower_2_Button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -480,9 +505,9 @@ public class TextGui extends JFrame {
 			}
 		});
 		gameTowerBuyOptions_Tower_2_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		gameTowerBuyOptionsPanel.add(gameTowerBuyOptions_Tower_2_Button);
 
 		gameTowerBuyOptions_Tower_3_Button = new JButton("T-Type 3");
+		gameTowerBuyOptionsTypesPanel.add(gameTowerBuyOptions_Tower_3_Button);
 		gameTowerBuyOptions_Tower_3_Button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -491,50 +516,70 @@ public class TextGui extends JFrame {
 			}
 		});
 		gameTowerBuyOptions_Tower_3_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		gameTowerBuyOptionsPanel.add(gameTowerBuyOptions_Tower_3_Button);
 
-		gameTowerBuyMapOptionsSplitPanel = new JSplitPane();
-		gameTowerBuyMapOptionsSplitPanel.setResizeWeight(0.5);
-		gameBuyTowerPanel.add(gameTowerBuyMapOptionsSplitPanel, BorderLayout.CENTER);
+		gameTowerBuyOptionsConfirmPanel = new JPanel();
+		gameTowerBuyOptionsPanel.add(gameTowerBuyOptionsConfirmPanel, BorderLayout.EAST);
+
+		gameTowerBuyOptionsConfirm = new JButton("Confirm");
+		gameTowerBuyOptionsConfirm.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				sendToServer(Protocol.CS_READY_TOWERPLACING);
+			}
+		});
+		gameTowerBuyOptionsConfirm.setBackground(Color.BLACK);
+		gameTowerBuyOptionsConfirm.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		gameTowerBuyOptionsConfirmPanel.add(gameTowerBuyOptionsConfirm);
+		gameTowerBuyOptions_Tower_1_Button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				chosenTowerType = 1;
+				buyTower();
+			}
+		});
+
+		gameTowerBuyMapChosenSplitPanel = new JSplitPane();
+		gameTowerBuyMapChosenSplitPanel.setResizeWeight(0.5);
+		gameBuyTowerPanel.add(gameTowerBuyMapChosenSplitPanel, BorderLayout.CENTER);
 
 		gameTowerBuyMapPanel = new JPanel();
 		gameTowerBuyMapPanel.setToolTipText("");
 		gameTowerBuyMapPanel.setBackground(Color.BLACK);
-		gameTowerBuyMapOptionsSplitPanel.setLeftComponent(gameTowerBuyMapPanel);
+		gameTowerBuyMapChosenSplitPanel.setLeftComponent(gameTowerBuyMapPanel);
 		gameTowerBuyMapPanel.setLayout(new BorderLayout(0, 0));
-		
+
 		gameTowerBuyMapPicturePanel = new JPanel();
 		gameTowerBuyMapPicturePanel.setBackground(Color.BLACK);
 		gameTowerBuyMapPicturePanel.setForeground(Color.WHITE);
 		gameTowerBuyMapPanel.add(gameTowerBuyMapPicturePanel, BorderLayout.CENTER);
-		
+
 		gameTowerBuyMapPictureLabel = new JLabel("_MAP_PICTURE_");
 		gameTowerBuyMapPicturePanel.add(gameTowerBuyMapPictureLabel);
 		gameTowerBuyMapPictureLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		gameTowerBuyMapPictureLabel.setForeground(Color.WHITE);
-		
+
 		gameTowerBuyMapPositionPanel = new JPanel();
 		gameTowerBuyMapPositionPanel.setForeground(Color.WHITE);
 		gameTowerBuyMapPositionPanel.setBackground(Color.BLACK);
 		gameTowerBuyMapPanel.add(gameTowerBuyMapPositionPanel, BorderLayout.SOUTH);
-		
+
 		gameTowerBuyMapPositionYLabel = new JLabel("Y: ");
 		gameTowerBuyMapPositionYLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		gameTowerBuyMapPositionYLabel.setBackground(Color.BLACK);
 		gameTowerBuyMapPositionYLabel.setForeground(Color.WHITE);
 		gameTowerBuyMapPositionPanel.add(gameTowerBuyMapPositionYLabel);
-		
+
 		gameTowerBuyMapPosition_YSpinner = new JSpinner();
 		gameTowerBuyMapPosition_YSpinner.setModel(new SpinnerNumberModel(1, 1, 9, 1));
 		gameTowerBuyMapPosition_YSpinner.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		gameTowerBuyMapPositionPanel.add(gameTowerBuyMapPosition_YSpinner);
-		
+
 		gameTowerBuyMapPositionXLabel = new JLabel("X: ");
 		gameTowerBuyMapPositionXLabel.setForeground(Color.WHITE);
 		gameTowerBuyMapPositionXLabel.setBackground(Color.BLACK);
 		gameTowerBuyMapPositionXLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		gameTowerBuyMapPositionPanel.add(gameTowerBuyMapPositionXLabel);
-		
+
 		gameTowerBuyMapPosition_XSpinner = new JSpinner();
 		gameTowerBuyMapPosition_XSpinner.setModel(new SpinnerNumberModel(1, 1, 9, 1));
 		gameTowerBuyMapPosition_XSpinner.setForeground(Color.WHITE);
@@ -544,7 +589,27 @@ public class TextGui extends JFrame {
 
 		gameTowerBuyChosenInfoPanel = new JPanel();
 		gameTowerBuyChosenInfoPanel.setBackground(Color.WHITE);
-		gameTowerBuyMapOptionsSplitPanel.setRightComponent(gameTowerBuyChosenInfoPanel);
+		gameTowerBuyMapChosenSplitPanel.setRightComponent(gameTowerBuyChosenInfoPanel);
+		gameTowerBuyChosenInfoPanel.setLayout(new BorderLayout(0, 0));
+
+		gameTowerBuyChosenList = new JList();
+		gameTowerBuyChosenList.setModel(new AbstractListModel() {
+			String[] values = new String[] { "Towers:" };
+
+			public int getSize() {
+				return values.length;
+			}
+
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		gameTowerBuyChosenList.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		gameTowerBuyChosenInfoPanel.add(gameTowerBuyChosenList);
+
+		gameTowerBuyChosenResponseLabel = new JLabel("_ERROR_");
+		gameTowerBuyChosenResponseLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		gameTowerBuyChosenInfoPanel.add(gameTowerBuyChosenResponseLabel, BorderLayout.SOUTH);
 
 		gameBuyEnemiesPanel = new JPanel();
 		switchGamePanel.add(gameBuyEnemiesPanel, "gameBuyEnemiesPanel");
@@ -557,13 +622,42 @@ public class TextGui extends JFrame {
 		gameEnemyBuyTextLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		gameEnemyBuyTextPanel.add(gameEnemyBuyTextLabel);
 
+		gameEnemyBuyTextMoneyLabel = new JLabel("               Money: ");
+		gameEnemyBuyTextMoneyLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gameEnemyBuyTextPanel.add(gameEnemyBuyTextMoneyLabel);
+
 		gameEnemyBuyChosenPanel = new JPanel();
 		gameBuyEnemiesPanel.add(gameEnemyBuyChosenPanel, BorderLayout.CENTER);
+		gameEnemyBuyChosenPanel.setLayout(new BorderLayout(0, 0));
+
+		gameEnemyBuyChosenList = new JList();
+		gameEnemyBuyChosenList.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		gameEnemyBuyChosenList.setModel(new AbstractListModel() {
+			String[] values = new String[] { "Next Wave : " };
+
+			public int getSize() {
+				return values.length;
+			}
+
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		gameEnemyBuyChosenPanel.add(gameEnemyBuyChosenList);
+
+		gameEnemyBuyChosenResponseLabel = new JLabel("_ERROR_");
+		gameEnemyBuyChosenResponseLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		gameEnemyBuyChosenPanel.add(gameEnemyBuyChosenResponseLabel, BorderLayout.SOUTH);
 
 		gameEnemyBuyOptionsPanel = new JPanel();
 		gameBuyEnemiesPanel.add(gameEnemyBuyOptionsPanel, BorderLayout.SOUTH);
+		gameEnemyBuyOptionsPanel.setLayout(new BorderLayout(0, 0));
+
+		gameEnemyBuyOptionsTypesPanel = new JPanel();
+		gameEnemyBuyOptionsPanel.add(gameEnemyBuyOptionsTypesPanel, BorderLayout.CENTER);
 
 		gameEnemyBuyOptions_Enemy_1_Button = new JButton("E-Type 1");
+		gameEnemyBuyOptionsTypesPanel.add(gameEnemyBuyOptions_Enemy_1_Button);
 		gameEnemyBuyOptions_Enemy_1_Button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -572,9 +666,9 @@ public class TextGui extends JFrame {
 			}
 		});
 		gameEnemyBuyOptions_Enemy_1_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		gameEnemyBuyOptionsPanel.add(gameEnemyBuyOptions_Enemy_1_Button);
 
 		gameEnemyBuyOptions_Enemy_2_Button = new JButton("E-Type 2");
+		gameEnemyBuyOptionsTypesPanel.add(gameEnemyBuyOptions_Enemy_2_Button);
 		gameEnemyBuyOptions_Enemy_2_Button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -583,9 +677,9 @@ public class TextGui extends JFrame {
 			}
 		});
 		gameEnemyBuyOptions_Enemy_2_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		gameEnemyBuyOptionsPanel.add(gameEnemyBuyOptions_Enemy_2_Button);
 
 		gameEnemyBuyOptions_Enemy_3_Button = new JButton("E-Type 3");
+		gameEnemyBuyOptionsTypesPanel.add(gameEnemyBuyOptions_Enemy_3_Button);
 		gameEnemyBuyOptions_Enemy_3_Button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -594,10 +688,53 @@ public class TextGui extends JFrame {
 			}
 		});
 		gameEnemyBuyOptions_Enemy_3_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		gameEnemyBuyOptionsPanel.add(gameEnemyBuyOptions_Enemy_3_Button);
 
+		gameEnemyBuyOptionsConfirmPanel = new JPanel();
+		gameEnemyBuyOptionsPanel.add(gameEnemyBuyOptionsConfirmPanel, BorderLayout.EAST);
+
+		gameEnemyBuyOptionsConfirm = new JButton("Confirm");
+		gameEnemyBuyOptionsConfirm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		gameEnemyBuyOptionsConfirm.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				sendToServer(Protocol.CS_READY_ENEMIESPURCHASED);
+			}
+		});
+		gameEnemyBuyOptionsConfirm.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		gameEnemyBuyOptionsConfirm.setBackground(Color.BLACK);
+		gameEnemyBuyOptionsConfirmPanel.add(gameEnemyBuyOptionsConfirm);
+		
+		gameBuyWaitPanel = new JPanel();
+		switchGamePanel.add(gameBuyWaitPanel, "gameBuyWaitPanel");
+		
+		gameBuyWaitingLabel = new JLabel("Waiting...");
+		gameBuyWaitingLabel.setBackground(Color.BLACK);
+		gameBuyWaitingLabel.setFont(new Font("Tahoma", Font.PLAIN, 50));
+		gameBuyWaitPanel.add(gameBuyWaitingLabel);
+		
 		gamePlayPanel = new JPanel();
-		switchGamePanel.add(gamePlayPanel, "gamePlayPanel");
+		switchGamePanel.add(gamePlayPanel, "name_283052575513135");
+		gamePlayPanel.setLayout(new BorderLayout(0, 0));
+
+		gamePlayMapPanel = new JPanel();
+		gamePlayPanel.add(gamePlayMapPanel);
+		gamePlayMapPanel.setBackground(Color.ORANGE);
+		gamePlayMapPanel.setLayout(new GridLayout(6, 6, 1, 1));
+		
+		gamePlayHealthPanel = new JPanel();
+		gamePlayPanel.add(gamePlayHealthPanel, BorderLayout.NORTH);
+		gamePlayHealthPanel.setLayout(new BorderLayout(0, 0));
+		
+		gamePlayHealthOwnLabel = new JLabel("Your Health: ");
+		gamePlayHealthOwnLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gamePlayHealthPanel.add(gamePlayHealthOwnLabel, BorderLayout.WEST);
+		
+		gamePlayHealthOtherLabel = new JLabel("Other Health: ");
+		gamePlayHealthOtherLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gamePlayHealthPanel.add(gamePlayHealthOtherLabel, BorderLayout.EAST);
 	}
 
 	public void switchPanelLoginUsername() {
@@ -628,24 +765,50 @@ public class TextGui extends JFrame {
 		CardLayout cl = (CardLayout) switchablePanel.getLayout();
 		cl.show(switchablePanel, "lobbyPanel");
 	}
-	
+
 	public void switchPanelGame() {
 		CardLayout cl = (CardLayout) switchablePanel.getLayout();
 		cl.show(switchablePanel, "gamePanel");
 	}
-	
+
 	public void switchPanelGameBuyTowers() {
 		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
 		cl.show(switchGamePanel, "gameBuyTowerPanel");
+		this.clearGameTowerBuyChosenList();
+		this.setErrorTowerBuy("");
 	}
+
 	public void switchPanelGameBuyEnemies() {
 		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
 		cl.show(switchGamePanel, "gameBuyEnemiesPanel");
+		this.clearGameEnemyBuyChosenList();
+		this.setErrorEnemyBuy("");
 	}
 	
+	public void clearGameEnemyBuyChosenList() {
+		DefaultListModel<String> dListModel = new DefaultListModel<String>();
+		dListModel.addElement("Next Wave : ");
+		gameEnemyBuyChosenList.setModel(dListModel);
+	}
+	
+	public void clearGameTowerBuyChosenList() {
+		DefaultListModel<String> dListModel = new DefaultListModel<String>();
+		dListModel.addElement("Towers:");
+		gameTowerBuyChosenList.setModel(dListModel);
+	}
+	
+	public void switchPanelGameBuyWait() {
+		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
+		cl.show(switchGamePanel, "gameBuyWaitPanel");
+	}
+
 	public void switchPanelGamePlay() {
 		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
 		cl.show(switchGamePanel, "gamePlayPanel");
+	}
+	
+	public void createMapLayout(int height, int length, String[][] tileTypes) {
+		gamePlayMapPanel.setLayout(new GridLayout(height, length, 0, 0));
 	}
 
 	public void ausgeben(String message) {
@@ -679,19 +842,19 @@ public class TextGui extends JFrame {
 			readyPlayerButton.setForeground(Color.RED);
 		}
 	}
-	
+
 	public void setTowerBuyModelYSpinner(int maximum) {
 		gameTowerBuyMapPosition_YSpinner.setModel(new SpinnerNumberModel(1, 1, maximum, 1));
 	}
-	
+
 	public void setTowerBuyModelXSpinner(int maximum) {
 		gameTowerBuyMapPosition_XSpinner.setModel(new SpinnerNumberModel(1, 1, maximum, 1));
 	}
-	
+
 	public void setMapName(String pMapName) {
 		this.readyPlayerMap_Name_Label.setText(pMapName);
 	}
-	
+
 	public void setMapPicture(String pMapPictureName) {
 		readyPlayerMap_Picture_Label.setText("");
 		gameTowerBuyMapPictureLabel.setText("");
@@ -718,19 +881,118 @@ public class TextGui extends JFrame {
 		this.usernameResponseLabel.setText(pString);
 	}
 
-	public void buyTower(){
+	public void buyTower() {
 		int type = chosenTowerType;
 		int posY = Integer.parseInt(gameTowerBuyMapPosition_YSpinner.getValue().toString());
 		int posX = Integer.parseInt(gameTowerBuyMapPosition_XSpinner.getValue().toString());
 		System.out.println(posY + "  " + posX);
-		this.sendToServer(Protocol.CS_PURCHASE_TOWER + Protocol.SEPARATOR + posX + Protocol.SEPARATOR + posY + Protocol.SEPARATOR + type);
+		this.sendToServer(Protocol.CS_PURCHASE_TOWER + Protocol.SEPARATOR + posX + Protocol.SEPARATOR + posY
+				+ Protocol.SEPARATOR + type);
+	}
+
+	public void addTowerChosen(String string) {
+		ListModel<String> listModel = gameTowerBuyChosenList.getModel();
+		ArrayList<String> elements = new ArrayList<String>();
+		for (int i = 0; i < listModel.getSize(); i++) {
+			elements.add(listModel.getElementAt(i));
+		}
+		DefaultListModel<String> dListModel = new DefaultListModel<String>();
+		for (int j = 0; j < listModel.getSize(); j++) {
+			dListModel.addElement(elements.get(j));
+		}
+		dListModel.addElement(string);
+		gameTowerBuyChosenList.setModel(dListModel);
+	}
+	
+	public void addEnemyChosen(String string) {
+		ListModel<String> listModel = gameEnemyBuyChosenList.getModel();
+		ArrayList<String> elements = new ArrayList<String>();
+		for (int i = 0; i < listModel.getSize(); i++) {
+			elements.add(listModel.getElementAt(i));
+		}
+		DefaultListModel<String> dListModel = new DefaultListModel<String>();
+		for (int j = 0; j < listModel.getSize(); j++) {
+			dListModel.addElement(elements.get(j));
+		}
+		dListModel.addElement(string);
+		gameEnemyBuyChosenList.setModel(dListModel);
+	}
+
+	public void updateMoney(String string) {
+		this.gameTowerBuyTextMoneyLabel.setText("				Money: " + string);
+		this.gameEnemyBuyTextMoneyLabel.setText("				Money: " + string);
+	}
+
+	public void setErrorTowerBuy(String string) {
+		this.gameTowerBuyChosenResponseLabel.setText(string);
+	}
+	
+	public void setErrorEnemyBuy(String string) {
+		this.gameEnemyBuyChosenResponseLabel.setText(string);
 	}
 
 	public void buyEnemy() {
 		int type = chosenEnemyType;
 		this.sendToServer(Protocol.CS_PURCHASE_ENEMY + Protocol.SEPARATOR + type);
 	}
+	
+	public void setGameMapBoundries(int height, int length) {
+		this.gamePlayMapPanel.setLayout(new GridLayout(height, length, 1, 1));
+	}
 
+	public void setGameMapType(int type) {
+		JButton newButton = new JButton();
+		newButton.setBackground(generateGameMapButtonColor(type , newButton));
+		this.gamePlayMapPanel.add(newButton);
+	}
+	
+	public void increaseEnemyCount(int x, int y) {
+		JButton button = (JButton) this.gamePlayMapPanel.getComponentAt(x, y);
+		button.setText(((Integer)(Integer.parseInt(button.getText()) + 1)).toString());
+	}
+	
+	public void decreaseEnemyCount(int x, int y) {
+		JButton button = (JButton) this.gamePlayMapPanel.getComponentAt(x, y);
+		button.setText(((Integer)(Integer.parseInt(button.getText()) - 1)).toString());
+	}
+	
+	private Color generateGameMapButtonColor(int type, JButton newButton) {
+		Color color;
+		switch(type) {
+		case 0:
+			color = Color.GREEN;
+			break;
+		case 1:
+			color = Color.BLUE;
+			break;
+		case 2:
+			color = Color.ORANGE;
+			break;
+		case 3:
+			color = Color.RED;
+			break;
+		case 4:
+			color = Color.DARK_GRAY;
+			break;
+		default:
+			color = Color.WHITE;
+			break;
+		}
+		return color;
+	}
+
+	public void resetGameMap() {
+		this.gamePlayMapPanel.removeAll();
+	}
+	
+	public void updateOwnHealth(int health) {
+		this.gamePlayHealthOwnLabel.setText("Your Health: "  + health);
+	}
+	
+	public void updateOtherHealth(int health) {
+		this.gamePlayHealthOtherLabel.setText("Other Health: "  + health + "        ");
+	}
+	
 	public void sendToServer(String pMessage) {
 		this.myClient.send(pMessage);
 	}

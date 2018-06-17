@@ -1,9 +1,6 @@
 package graphical_Interface;
 
-
 import java.util.ArrayList;
-
-import javax.swing.SpinnerNumberModel;
 
 import network.Protocol;
 import objects.Enemy;
@@ -12,7 +9,7 @@ import objects.Tower;
 public class TD_Client extends Client {
 
 	private Integer positionInLobby;
-	
+
 	private ArrayList<Tower> baughtTowers;
 	private ArrayList<Enemy> baughtEnemies;
 
@@ -88,27 +85,28 @@ public class TD_Client extends Client {
 
 		case Protocol.SC_PLAYER_READY:
 			this.setPlayerReady(tags[1], tags[2]);
-			if (tags[2].equals("true")) {
-				this.myGui.ausgeben("The Player: " + tags[1] + " is ready!");
-			} else {
-				this.myGui.ausgeben("The Player: " + tags[1] + " is not ready!");
-			}
 			break;
 
 		case Protocol.SC_ALL_PLAYER_READY:
-			this.send(Protocol.CS_GO);
+			System.out.println("Test 1");
 			this.myGui.switchPanelGame();
+			this.myGui.switchPanelGameBuyTowers();
+			System.out.println("Test 2");
+			this.send(Protocol.CS_GO);
+			break;
+
+		case Protocol.SC_LOBBY_DISCONNECT:
+			String position = tags[1];
+			reinitializeLobby(position);
 			break;
 
 		// In-Game communication
 
 		case Protocol.SC_GAME_STARTING:
+			this.myGui.switchPanelGameBuyTowers();
 			break;
 
 		case Protocol.SC_LOAD_ENEMIES:
-			break;
-
-		case Protocol.SC_LOAD_MAP:
 			break;
 
 		case Protocol.SC_LOAD_TOWER:
@@ -117,16 +115,68 @@ public class TD_Client extends Client {
 		// Graphical Changes to be made by the Client
 
 		case Protocol.SC_UPDATE_PLAYER_MONEY:
-			break;
-
-		case Protocol.SC_UPDATE_POSITION_ENEMY:
+			String money = tags[1];
+			updatePlayerMoney(money);
 			break;
 
 		case Protocol.SC_UPDATE_POSITION_TOWER:
+			int tPosX = Integer.parseInt(tags[1]);
+			int tPosY = Integer.parseInt(tags[2]);
+			String tType = tags[3];
+			String towerListEntry = "Y: " + (tPosY + 1) + "  X: " + (tPosX + 1) + "  Type: " + tType;
+			addTowerChosen(towerListEntry);
 			break;
 
-		case Protocol.SC_CHANGE_MAP:
+		case Protocol.SC_TOWER_NOT_AFFORDABLE:
+			String cost = tags[1];
+			String pMoney = tags[2];
+			String towerBuyErrorAffordable = "Not Affordable! Cost: " + cost + "  Money: " + pMoney;
+			setErrorTowerBuy(towerBuyErrorAffordable);
 			break;
+
+		case Protocol.SC_TOWER_NOT_PLACEABLE:
+			String towerX = tags[1];
+			String towerY = tags[2];
+			String tileType = tags[3];
+			String towerBuyErrorPlaceable = generateErrorResponsePlaceable(towerX, towerY, tileType);
+			setErrorTowerBuy(towerBuyErrorPlaceable);
+			break;
+
+		case Protocol.SC_ENEMY_BUY_SWAP:
+			this.myGui.switchPanelGameBuyEnemies();
+			break;
+			
+		case Protocol.SC_ENEMY_BUY_ADD:
+			String eType = tags[1];
+			String enemyListEntry = "	Type: " + eType;
+			addEnemyChosen(enemyListEntry);
+			break;
+			
+		case Protocol.SC_BUY_DONE:
+			this.myGui.switchPanelGameBuyWait();
+			break;
+			
+		case Protocol.SC_BUY_ALL_READY:
+			this.myGui.switchPanelGamePlay();
+			break;
+			
+		case Protocol.SC_LOAD_MAP_DIMENSIONS:
+			int height = Integer.parseInt(tags[1]);
+			int length = Integer.parseInt(tags[2]);
+			this.setGameMapBoundries(height, length);
+			break;
+			
+		case Protocol.SC_LOAD_MAP_TYPE:
+			int type = Integer.parseInt(tags[1]);
+			this.setGameMapType(type);
+			break;
+			
+		case Protocol.SC_UPDATE_POSITION_ENEMY:
+			this.myGui.decreaseEnemyCount(Integer.parseInt(tags[1]), Integer.parseInt(tags[2]));
+			this.myGui.increaseEnemyCount(Integer.parseInt(tags[3]), Integer.parseInt(tags[4]));
+			break;
+			
+		case Protocol.SC_UPDATE_PLAYER_HEALTH:
 
 		case Protocol.SC_REMOVE_ENEMY:
 			break;
@@ -172,10 +222,10 @@ public class TD_Client extends Client {
 		}
 		return 2;
 	}
-	
+
 	private void setSpinnerMaximum(String mapName) {
-		switch(mapName) {
-		
+		switch (mapName) {
+
 		case "Level_Test_Preset":
 			this.myGui.setTowerBuyModelXSpinner(5);
 			this.myGui.setTowerBuyModelYSpinner(5);
@@ -219,10 +269,66 @@ public class TD_Client extends Client {
 			}
 
 		}
-		if(playerPosition.equals(this.positionInLobby.toString())) {
+		if (playerPosition.equals(this.positionInLobby.toString())) {
 			this.myGui.setReadyButton(playerStatus);
 		}
+	}
 
+	public void reinitializeLobby(String playerPosition) {
+		this.setPlayerReady(playerPosition, "false");
+		this.myGui.resetGameMap();
+		this.myGui.switchPanelLobby();
+	}
+
+	public void addTowerChosen(String string) {
+		this.myGui.addTowerChosen(string);
+	}
+	
+	public void addEnemyChosen(String string) {
+		this.myGui.addEnemyChosen(string);
+	}
+
+	public void updatePlayerMoney(String string) {
+		this.myGui.updateMoney(string);
+	}
+
+	public void setErrorTowerBuy(String string) {
+		this.myGui.setErrorTowerBuy(string);
+	}
+	
+	public void setErrorEnemyBuy(String string) {
+		this.myGui.setErrorEnemyBuy(string);
+	}
+
+	public String generateErrorResponsePlaceable(String pPosX, String pPosY, String tileType) {
+		String message = "";
+		switch (tileType) {
+
+		case "1":
+			message = "Not Placeable! On PosX: " + pPosX + " PosY: " + pPosY + " is the Base!";
+			break;
+		case "2":
+			message = "Not Placeable! On PosX: " + pPosX + " PosY: " + pPosY + " is the Path!";
+			break;
+		case "3":
+			message = "Not Placeable! On PosX: " + pPosX + " PosY: " + pPosY + " is the Spawn!";
+			break;
+		case "4":
+			message = "Not Placeable! On PosX: " + pPosX + " PosY: " + pPosY + " is another Tower!";
+			break;
+		default:
+			message = "Not Placeable!";
+			break;
+		}
+		return message;
+	}
+	
+	private void setGameMapBoundries(int height, int length) {
+		this.myGui.setGameMapBoundries(height, length);
+	}
+	
+	private void setGameMapType(int type) {
+		this.myGui.setGameMapType(type);
 	}
 
 	/**
@@ -233,7 +339,8 @@ public class TD_Client extends Client {
 	}
 
 	/**
-	 * @param baughtTowers the baughtTowers to set
+	 * @param baughtTowers
+	 *            the baughtTowers to set
 	 */
 	public void setBaughtTowers(ArrayList<Tower> baughtTowers) {
 		this.baughtTowers = baughtTowers;
@@ -247,7 +354,8 @@ public class TD_Client extends Client {
 	}
 
 	/**
-	 * @param baughtEnemies the baughtEnemies to set
+	 * @param baughtEnemies
+	 *            the baughtEnemies to set
 	 */
 	public void setBaughtEnemies(ArrayList<Enemy> baughtEnemies) {
 		this.baughtEnemies = baughtEnemies;

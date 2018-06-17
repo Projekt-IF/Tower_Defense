@@ -2,6 +2,8 @@ package network;
 
 import java.util.ArrayList;
 
+import envoirement.Grid;
+import envoirement.Tile;
 import network.Protocol;
 import objects.Enemy;
 import objects.EnemyTypes;
@@ -13,8 +15,8 @@ import utility.Lobby;
 ///Server
 public class Server_TD extends Server {
 
-	public static final String globalPassword = "password";
-	public static final String globalUsername = "user";
+	public static final String globalPassword = "p";
+	public static final String globalUsername = "u";
 
 	private ArrayList<Player> playerList;
 	private ArrayList<Lobby> lobbyList;
@@ -33,6 +35,7 @@ public class Server_TD extends Server {
 	public void processNewConnection(String pClientIP, int pClientPort) {
 		Player newPlayer = new Player(pClientIP, pClientPort);
 		newPlayer.setConnected(true);
+		newPlayer.setBuyDone(false);
 		playerList.add(newPlayer);
 		System.out.println("Connected new Player! \n IP: " + pClientIP + " Port: " + pClientPort + " !");
 	}
@@ -83,7 +86,8 @@ public class Server_TD extends Server {
 		case Protocol.CS_SEARCH_LOBBY:
 			sortInLobby(player);
 			String mapName = lobbyList.get(player.getLobbyIndex()).getMapName();
-			backMessage = Protocol.SC_LOBBY_FOUND + Protocol.SEPARATOR + player.getPositionInLobby() + Protocol.SEPARATOR + mapName;
+			backMessage = Protocol.SC_LOBBY_FOUND + Protocol.SEPARATOR + player.getPositionInLobby()
+					+ Protocol.SEPARATOR + mapName;
 			this.send(pClientIP, pClientPort, backMessage);
 			backMessage = Protocol.SC_LOBBY_USERS + Protocol.SEPARATOR + createLobbyUsersResponse(player);
 			this.sendToLobby(player.getLobbyIndex(), backMessage);
@@ -106,8 +110,9 @@ public class Server_TD extends Server {
 		case Protocol.CS_GO:
 			lobbyList.get(player.getLobbyIndex()).setInGame(true);
 			lobbyList.get(player.getLobbyIndex()).initializeGame();
-			backMessage = Protocol.SC_GAME_STARTING + Protocol.SEPARATOR + lobbyList.get(player.getLobbyIndex()).getMapName();
+			backMessage = Protocol.SC_GAME_STARTING;
 			this.sendToLobby(player.getLobbyIndex(), backMessage);
+			updateMoney(player);
 			break;
 		/* CS_PURCHASE_TOWER:<TowerPosX>:<TowerPosY>:<TowerType> */
 		case Protocol.CS_PURCHASE_TOWER:
@@ -117,57 +122,66 @@ public class Server_TD extends Server {
 			int tType = Integer.parseInt(token[3]);
 			System.out.println(checkTowerAffordable(player, tType));
 			if (checkTowerAffordable(player, tType)) {
-				System.out.println(lobbyList.get(player.getLobbyIndex()).getGameFrameWork());
-				System.out.println(lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
-						.getGameController(player.getPositionInLobby()));
-				System.out.println(lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
-						.getGameController(player.getPositionInLobby()).getGlobalGrid());
-				System.out.println(lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
-						.getGameController(player.getPositionInLobby()).getGlobalGrid().getGridLayer()[tPosY][tPosX].getType());
 				if (lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
 						.getGameController(player.getPositionInLobby()).getGlobalGrid().getGridLayer()[tPosY][tPosX]
 								.getType() == 0) {
 					Tower t = new Tower(tPosX, tPosY, tType);
-					lobbyList.get(player.getLobbyIndex()).getGameFrameWork().pushToBoughtTowers(player.getPositionInLobby(), t);
+					lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
+							.pushToBoughtTowers(player.getPositionInLobby(), t);
 					player.setPlayerMoney(player.getPlayerMoney() - tT.calcCost(tType));
-					System.out.println(player.getPlayerMoney());
-					System.out.println(tType + "  " + tT.calcCost(tType));
-					backMessage = Protocol.SC_UPDATE_POSITION_TOWER + Protocol.SEPARATOR + tPosX + Protocol.SEPARATOR + tPosY;
+					backMessage = Protocol.SC_UPDATE_POSITION_TOWER + Protocol.SEPARATOR + tPosX + Protocol.SEPARATOR
+							+ tPosY + Protocol.SEPARATOR + tType;
+					this.send(pClientIP, pClientPort, backMessage);
+					backMessage = Protocol.SC_UPDATE_PLAYER_MONEY + Protocol.SEPARATOR + player.getPlayerMoney();
 					this.send(pClientIP, pClientPort, backMessage);
 					// TODO: editing so you can undo the buy
 				} else {
 					int tileType = lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
 							.getGameController(player.getPositionInLobby()).getGlobalGrid().getGridLayer()[tPosY][tPosX]
 									.getType();
-					backMessage = Protocol.SC_TOWER_NOT_PLACEABLE + Protocol.SEPARATOR + tPosX + Protocol.SEPARATOR + tPosY + Protocol.SEPARATOR + tileType;
+					backMessage = Protocol.SC_TOWER_NOT_PLACEABLE + Protocol.SEPARATOR + tPosX + Protocol.SEPARATOR
+							+ tPosY + Protocol.SEPARATOR + tileType;
 					this.send(pClientIP, pClientPort, backMessage);
 				}
 			} else {
-				backMessage = Protocol.SC_TOWER_NOT_AFFORDABLE + Protocol.SEPARATOR + tT.calcCost(tType) + Protocol.SEPARATOR + player.getPlayerMoney();
+				backMessage = Protocol.SC_TOWER_NOT_AFFORDABLE + Protocol.SEPARATOR + tT.calcCost(tType)
+						+ Protocol.SEPARATOR + player.getPlayerMoney();
 				this.send(pClientIP, pClientPort, backMessage);
 			}
 			break;
 		/* CS_READY_TOWERPLACING */
 		case Protocol.CS_READY_TOWERPLACING:
 			lobbyList.get(player.getLobbyIndex()).getGameFrameWork().placeNewTowers(player.getPositionInLobby());
+			backMessage = Protocol.SC_ENEMY_BUY_SWAP;
+			this.send(pClientIP, pClientPort, backMessage);
 			break;
 		/* CS_PURCHASE_ENEMY:<EnemyPosX>:<EnemyPosY>:<EnemyType> */
 		case Protocol.CS_PURCHASE_ENEMY:
 			EnemyTypes eT = new EnemyTypes();
 			int eType = Integer.parseInt(token[1]);
 			if (checkEnemyAffordable(player, eType)) {
-				Enemy e = new Enemy(null, null, eType);
-				lobbyList.get(player.getLobbyIndex()).getGameFrameWork().pushToBoughtEnemies(player.getPositionInLobby(), e);
+				for (int i = 0; i < 3; i++) {
+					Enemy e = new Enemy(null, null, eType);
+					lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
+							.pushToBoughtEnemies(player.getPositionInLobby(), e);
+				}
 				player.setPlayerMoney(player.getPlayerMoney() - eT.calcCost(eType));
+				backMessage = Protocol.SC_ENEMY_BUY_ADD + Protocol.SEPARATOR + eType;
+				this.send(pClientIP, pClientPort, backMessage);
+				backMessage = Protocol.SC_UPDATE_PLAYER_MONEY + Protocol.SEPARATOR + player.getPlayerMoney();
+				this.send(pClientIP, pClientPort, backMessage);
 				// TODO: editing so you can undo the buy
 			} else {
-				backMessage = Protocol.SC_ENEMY_NOT_AFFORDABLE + Protocol.SEPARATOR + eT.calcCost(eType) + Protocol.SEPARATOR + player.getPlayerMoney();
+				backMessage = Protocol.SC_ENEMY_NOT_AFFORDABLE + Protocol.SEPARATOR + eT.calcCost(eType)
+						+ Protocol.SEPARATOR + player.getPlayerMoney();
 				this.send(pClientIP, pClientPort, backMessage);
 			}
 			break;
 		/* CS_READY_ENEMIESPURCHASED */
 		case Protocol.CS_READY_ENEMIESPURCHASED:
-			lobbyList.get(player.getLobbyIndex()).getGameFrameWork().assembleWaves(player.getPositionInLobby());;
+			lobbyList.get(player.getLobbyIndex()).getGameFrameWork().assembleWaves(player.getPositionInLobby());
+			player.setBuyDone(true);
+			generateBuyPhaseDoneResponse(player);
 			break;
 		/* CS_LOGOUT:<Username> */
 		case Protocol.CS_LOGOUT:
@@ -211,9 +225,14 @@ public class Server_TD extends Server {
 		removePlayer.setReady(false);
 		String removeMessage = Protocol.SC_LOBBY_USERS + Protocol.SEPARATOR + createLobbyUsersResponse(removePlayer);
 		this.sendToLobby(removePlayer.getLobbyIndex(), removeMessage);
+		this.sendToLobby(removePlayer.getLobbyIndex(),
+				Protocol.SC_LOBBY_USERS + Protocol.SEPARATOR + createLobbyUsersResponse(removePlayer));
+		this.sendToLobby(removePlayer.getLobbyIndex(),
+				Protocol.SC_LOBBY_DISCONNECT + Protocol.SEPARATOR + removePlayer.getPositionInLobby());
 		removeFromLobby(removePlayer);
 		removeFromPlayers(removePlayer);
 		removePlayer.setConnected(false);
+		lobbyList.get(removePlayer.getLobbyIndex()).getGameFrameWork().clear();
 		this.closeConnection(pClientIP, pClientPort);
 
 	}
@@ -263,6 +282,42 @@ public class Server_TD extends Server {
 					+ Protocol.SEPARATOR + lobby.getPlayer_2().isReady();
 		}
 		return pMessage;
+	}
+
+	private void generateBuyPhaseDoneResponse(Player player) {
+		Lobby lobby = lobbyList.get(player.getLobbyIndex());
+		String backMessage = "";
+		if (lobby.allBuyDone()) {
+			loadMapClient(player);
+			loadMapClient(lobby.getOtherPlayer(player));
+			backMessage = Protocol.SC_BUY_ALL_READY;
+			this.sendToLobby(player.getLobbyIndex(), backMessage);
+			// TODO: now the wave has to be played.
+			lobby.getGameFrameWork().startGame();
+			lobby.getGameFrameWork().startLoop();
+		} else {
+			backMessage = Protocol.SC_BUY_DONE;
+			this.send(player.getPlayerIP(), player.getPlayerPort(), backMessage);
+		}
+	}
+
+	private void updateMoney(Player player) {
+		Lobby lobby = lobbyList.get(player.getLobbyIndex());
+		this.send(player.getPlayerIP(), player.getPlayerPort(),
+				Protocol.SC_UPDATE_PLAYER_MONEY + Protocol.SEPARATOR + player.getPlayerMoney());
+		this.send(lobby.getOtherPlayer(player).getPlayerIP(), lobby.getOtherPlayer(player).getPlayerPort(),
+				Protocol.SC_UPDATE_PLAYER_MONEY + Protocol.SEPARATOR + lobby.getOtherPlayer(player).getPlayerMoney());
+	}
+	
+	public void loadMapClient(Player player) {
+		Grid grid = lobbyList.get(player.getLobbyIndex()).getGameFrameWork().getGameController(player.getPositionInLobby()).getGlobalGrid();
+		Tile[][] layer = grid.getGridLayer();
+		this.send(player.getPlayerIP(), player.getPlayerPort(), Protocol.SC_LOAD_MAP_DIMENSIONS + Protocol.SEPARATOR + grid.getHeight() + Protocol.SEPARATOR + grid.getLength());
+		for(int y = 0; y < grid.getLength(); y++) {
+			for(int x = 0; x < grid.getHeight(); x++) {
+				this.send(player.getPlayerIP(), player.getPlayerPort(), Protocol.SC_LOAD_MAP_TYPE + Protocol.SEPARATOR + layer[y][x].getType());
+			}
+		}
 	}
 
 	private boolean lobbyReady(Player player) {

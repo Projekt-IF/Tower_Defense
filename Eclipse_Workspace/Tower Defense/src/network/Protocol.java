@@ -35,7 +35,9 @@ public class Protocol {
 			/* SC_ALL_PLAYER_READY:<String> */
 			SC_ALL_PLAYER_READY = "llplyrrdy",
 
-			/* SC_GAME_STARTING:<Level> */
+			/* SC_LOBBY_DISCONNECT:<Position> */
+			SC_LOBBY_DISCONNECT = "lbbydscnnct",
+			/* SC_GAME_STARTING */
 			SC_GAME_STARTING = "gmstrtng",
 
 			// In-Game communication
@@ -45,20 +47,38 @@ public class Protocol {
 			SC_TOWER_NOT_PLACEABLE = "twrntplcbl",
 			/* SC_ENEMY_NOT_AFFORDABLE:<Cost>:<Money> */
 			SC_ENEMY_NOT_AFFORDABLE = "nmyntffrdbl",
-			/* SC_LOAD_MAP:<Level> */
-			SC_LOAD_MAP = "ldmp",
+			/* SC_LOAD_MAP_TYPE:<Type> */
+			SC_LOAD_MAP_TYPE = "ldmptyp",
+			/* SC_LOAD_MAP_DIMENSIONS:<Hight>:<Length> */
+			SC_LOAD_MAP_DIMENSIONS = "ldmpdmnsns",
 			/* SC_LOAD_ENEMIES:<ArrayList<Enemy>> */
 			SC_LOAD_ENEMIES = "ldnms",
 			/* SC_LOAD_TOWER:<ArrayList<Tower>> */
 			SC_LOAD_TOWER = "ldtwr",
 
 			// Graphical Changes to be made by the Client
-			/* SC_UPDATE_PLAYER_MONEY:<Integer> */
+			/* SC_UPDATE_PLAYER_MONEY:<Money> */
 			SC_UPDATE_PLAYER_MONEY = "pdtplyrmny",
-			/* SC_UPDATE_POSITION_ENEMY:<PositionInList><PosX><PosY> */
+			/*
+			 * SC_UPDATE_POSITION_ENEMY:<PreviousPosX>:<PreviousPosY>:<CurrentPosX>:<
+			 * CurrentPosY>
+			 */
 			SC_UPDATE_POSITION_ENEMY = "pdtpstnnmy",
-			/* SC_UPDATE_POSITION_TOWER:<PosX><PosY> */
+			/* SC_UPDATE_POSITION_TOWER:<PosX>:<PosY>:<Type> */
 			SC_UPDATE_POSITION_TOWER = "pdtpstntwr",
+			/* SC_UPDATE_PLAYER_HEALTH:<Health> */
+			SC_UPDATE_PLAYER_HEALTH = "pdtplyrhlth",
+			/* SC_ENEMY_BUY_SWAP */
+			SC_ENEMY_BUY_SWAP = "nmybyswp",
+			/* SC_ENEMY_BUY_ADD */
+			SC_ENEMY_BUY_ADD = "nmybydd",
+
+			/* SC_BUY_DONE */
+			SC_BUY_DONE = "bydn",
+
+			/* SC_BUY_ALL_READY */
+			SC_BUY_ALL_READY = "byllrdy",
+
 			/* SC_ROUND_OVER */
 			SC_ROUND_OVER = "rndvr",
 			/* SC_CHANGE_MAP:<Level> */

@@ -5,6 +5,7 @@ import java.util.Timer;
 
 import envoirement.Grid;
 import envoirement.Tile;
+import network.Protocol;
 import network.Server_TD;
 import objects.Enemy;
 import objects.Player;
@@ -56,7 +57,6 @@ public class Game_Controller {
 	public void iniciateLevel() {
 		System.out.println(currentLevel);
 		changeLevel(currentLevel);
-		 getGlobalGrid().printGrid();
 		updateGame();
 	}
 
@@ -64,8 +64,6 @@ public class Game_Controller {
 		this.getGeneratedEnemyList().clear();
 		this.setGeneratedEnemyList(wC.generateWave());
 		this.currentWaveIndex = wC.getCurrentWaveIndex();
-		// updateGame();
-		// TODO: ändern, sodass die Gegner einzeln gespawned werden
 	}
 
 	public void spawnEnemy() {
@@ -98,6 +96,10 @@ public class Game_Controller {
 		for (int i = 0; i < enemyList.size(); i++) {
 			if (enemyList.get(i).getLife() <= 0) {
 				removeEnemyFromList(enemyList.get(i));
+				this.server.send(player.getPlayerIP(), player.getPlayerPort(),
+						Protocol.SC_UPDATE_POSITION_ENEMY + Protocol.SEPARATOR + enemyList.get(i).getPosX()
+								+ Protocol.SEPARATOR + enemyList.get(i).getPosY() + Protocol.SEPARATOR + null
+								+ Protocol.SEPARATOR + null);
 			}
 		}
 	}
@@ -124,11 +126,20 @@ public class Game_Controller {
 	}
 
 	public void startLoop() {
-
+		//TODO:LOOP IT!!
+		while (true) {
+			if (getEnemyController().getGeneratedEnemyList().isEmpty()) {
+				spawnEnemy();
+			}
+			if (!getEnemyList().isEmpty()) {
+				getTowerController().checkTowers();
+				getEnemyController().checkMoveEnemies();
+				checkEnemiesLife();
+			}
+		}
 	}
 
 	public void updateGame() {
-		// TODO: Updates The game
 		this.setCurrentLevel(this.getCurrentLevel());
 		this.setGlobalGrid(this.getGlobalGrid());
 		this.setSpawnerTile(this.getSpawnerTile());
@@ -349,8 +360,6 @@ public class Game_Controller {
 			while (!gC.getEnemyList().isEmpty()) {
 				// System.out.println(enemyList.get(enemyList.size()-1));
 				// If Tower in Range
-				// TODO: Gegebenen Falls kann im überprüfen auf die Range der enemy gedamaged
-				// werden
 				// Check Towers
 				gC.getTowerController().checkTowers();
 				// Move The Enemies

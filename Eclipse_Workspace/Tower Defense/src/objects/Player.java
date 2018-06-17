@@ -7,6 +7,7 @@ public class Player {
 	private String playerIP;
 	private Integer playerPort;
 
+	private Player otherplayer;
 	private int lobbyIndex;
 	private int positionInLobby;
 
@@ -14,6 +15,8 @@ public class Player {
 	private long health;
 
 	private boolean isReady;
+	
+	private boolean isBuyDone;
 
 	private boolean isConnected;
 	private boolean isInLobby;
@@ -195,6 +198,34 @@ public class Player {
 	 */
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	/**
+	 * @return the isBuyDone
+	 */
+	public boolean isBuyDone() {
+		return isBuyDone;
+	}
+
+	/**
+	 * @param isBuyDone the isBuyDone to set
+	 */
+	public void setBuyDone(boolean isBuyDone) {
+		this.isBuyDone = isBuyDone;
+	}
+
+	/**
+	 * @return the otherplayer
+	 */
+	public Player getOtherplayer() {
+		return otherplayer;
+	}
+
+	/**
+	 * @param otherplayer the otherplayer to set
+	 */
+	public void setOtherplayer(Player otherplayer) {
+		this.otherplayer = otherplayer;
 	}
 
 }
