@@ -47,7 +47,7 @@ public class Protocol {
 			SC_TOWER_NOT_PLACEABLE = "twrntplcbl",
 			/* SC_ENEMY_NOT_AFFORDABLE:<Cost>:<Money> */
 			SC_ENEMY_NOT_AFFORDABLE = "nmyntffrdbl",
-			/* SC_LOAD_MAP_TYPE:<Type> */
+			/* SC_LOAD_MAP_TYPE:<PosY>:<PosX>:<Type> */
 			SC_LOAD_MAP_TYPE = "ldmptyp",
 			/* SC_LOAD_MAP_DIMENSIONS:<Hight>:<Length> */
 			SC_LOAD_MAP_DIMENSIONS = "ldmpdmnsns",

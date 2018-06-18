@@ -4,10 +4,17 @@ import java.util.ArrayList;
 
 import envoirement.Grid;
 import envoirement.Tile;
+import network.Protocol;
+import network.Server_TD;
 import objects.Enemy;
+import objects.Player;
 import objects.Tower;
 
 public class Tower_Controller {
+
+	private Server_TD server;
+
+	private Player player;
 
 	private Game_Controller game_Controller;
 
@@ -15,7 +22,8 @@ public class Tower_Controller {
 
 	private ArrayList<Tower> towerList;
 
-	public Tower_Controller(ArrayList<Tower> pTowerList, Game_Controller pGame_Controller) {
+	public Tower_Controller(Server_TD pServer, ArrayList<Tower> pTowerList, Game_Controller pGame_Controller) {
+		this.server = pServer;
 		this.game_Controller = pGame_Controller;
 		this.towerList = pTowerList;
 	}
@@ -47,6 +55,14 @@ public class Tower_Controller {
 										Enemy tmpEnemy = game_Controller.getEnemyList().get(z);
 										if ((tmpEnemy.getPosY() == currentY) && (tmpEnemy.getPosX() == currentX)) {
 											tmpEnemy.setLife(tmpEnemy.getLife() - current.shoot());
+											if(!tmpEnemy.checkAlife()) {
+												this.server.send(player.getPlayerIP(), player.getPlayerPort(),
+														Protocol.SC_UPDATE_POSITION_ENEMY + Protocol.SEPARATOR
+																+ tmpEnemy.getPosX() + Protocol.SEPARATOR
+																+ tmpEnemy.getPosY() + Protocol.SEPARATOR + "null"
+																+ Protocol.SEPARATOR + "null");
+												this.game_Controller.getEnemyList().remove(tmpEnemy);
+											}
 										}
 									}
 								}
@@ -87,5 +103,20 @@ public class Tower_Controller {
 	 */
 	public void setTowerList(ArrayList<Tower> towerList) {
 		this.towerList = towerList;
+	}
+
+	/**
+	 * @return the player
+	 */
+	public Player getPlayer() {
+		return player;
+	}
+
+	/**
+	 * @param player
+	 *            the player to set
+	 */
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 }

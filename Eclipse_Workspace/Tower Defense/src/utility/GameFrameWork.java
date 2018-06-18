@@ -64,27 +64,21 @@ public class GameFrameWork {
 		Random rand = new Random();
 		String mapName = "";
 		int number = rand.nextInt(3);
-		System.out.println("NUMBER: " + number);
 		switch (number) {
 		case 0:
-			System.out.println("NUMBER: " + number);
 			mapName = Level_Test_Preset.NAME;
 			break;
 		case 1:
-			System.out.println("NUMBER: " + number);
 			mapName = Level_1_Preset.NAME;
 			break;
 		case 2:
-			System.out.println("NUMBER: " + number);
 			mapName = Level_2_Preset.NAME;
 			break;
 		default:
-			System.out.println("NUMBER: " + number);
 			mapName = "";
 			break;
 		}
 		this.currentLevel = mapName;
-		System.out.println("Map: " + number + "CURRENT: " + currentLevel);
 		return mapName;
 	}
 

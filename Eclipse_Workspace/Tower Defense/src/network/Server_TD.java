@@ -120,7 +120,6 @@ public class Server_TD extends Server {
 			int tPosX = Integer.parseInt(token[1]) - 1;
 			int tPosY = Integer.parseInt(token[2]) - 1;
 			int tType = Integer.parseInt(token[3]);
-			System.out.println(checkTowerAffordable(player, tType));
 			if (checkTowerAffordable(player, tType)) {
 				if (lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
 						.getGameController(player.getPositionInLobby()).getGlobalGrid().getGridLayer()[tPosY][tPosX]
@@ -290,8 +289,8 @@ public class Server_TD extends Server {
 			loadMapClient(player);
 			loadMapClient(lobby.getOtherPlayer(player));
 			this.send(player.getPlayerIP(), player.getPlayerPort(),
-					Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + player.getHealth()
-							+ Protocol.SEPARATOR + player.getOtherplayer().getHealth());
+					Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + player.getHealth() + Protocol.SEPARATOR
+							+ player.getOtherplayer().getHealth());
 			this.send(player.getOtherplayer().getPlayerIP(), player.getOtherplayer().getPlayerPort(),
 					Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + player.getOtherplayer().getHealth()
 							+ Protocol.SEPARATOR + player.getHealth());
@@ -312,14 +311,17 @@ public class Server_TD extends Server {
 		this.send(lobby.getOtherPlayer(player).getPlayerIP(), lobby.getOtherPlayer(player).getPlayerPort(),
 				Protocol.SC_UPDATE_PLAYER_MONEY + Protocol.SEPARATOR + lobby.getOtherPlayer(player).getPlayerMoney());
 	}
-	
+
 	public void loadMapClient(Player player) {
-		Grid grid = lobbyList.get(player.getLobbyIndex()).getGameFrameWork().getGameController(player.getPositionInLobby()).getGlobalGrid();
+		Grid grid = lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
+				.getGameController(player.getPositionInLobby()).getGlobalGrid();
 		Tile[][] layer = grid.getGridLayer();
-		this.send(player.getPlayerIP(), player.getPlayerPort(), Protocol.SC_LOAD_MAP_DIMENSIONS + Protocol.SEPARATOR + grid.getHeight() + Protocol.SEPARATOR + grid.getLength());
-		for(int y = 0; y < grid.getLength(); y++) {
-			for(int x = 0; x < grid.getHeight(); x++) {
-				this.send(player.getPlayerIP(), player.getPlayerPort(), Protocol.SC_LOAD_MAP_TYPE + Protocol.SEPARATOR + layer[y][x].getType());
+		this.send(player.getPlayerIP(), player.getPlayerPort(), Protocol.SC_LOAD_MAP_DIMENSIONS + Protocol.SEPARATOR
+				+ grid.getHeight() + Protocol.SEPARATOR + grid.getLength());
+		for (int y = 0; y < grid.getLength(); y++) {
+			for (int x = 0; x < grid.getHeight(); x++) {
+				this.send(player.getPlayerIP(), player.getPlayerPort(), Protocol.SC_LOAD_MAP_TYPE + Protocol.SEPARATOR
+						+ y + Protocol.SEPARATOR + x + Protocol.SEPARATOR + layer[y][x].getType());
 			}
 		}
 	}

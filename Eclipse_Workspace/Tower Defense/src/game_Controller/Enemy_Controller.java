@@ -44,8 +44,8 @@ public class Enemy_Controller {
 
 	public void startTimer() {
 		Timer timer = new Timer();
-		System.out.println("TIMER FOR: " + 5000 / 1000 + "Seconds");
-		timer.schedule(new EnemySpawnTimer(this, timer), (long) (5000));
+		System.out.println("SPAWN_TIMER FOR: " + 2000 / 1000 + "Seconds");
+		timer.schedule(new EnemySpawnTimer(this, timer), (long) (2000));
 	}
 
 	/**
@@ -89,27 +89,25 @@ public class Enemy_Controller {
 	 * @return
 	 */
 	public Boolean isMovable(Enemy e) {
-		if (e.checkAlife()) {
-			if (!e.isOnCooldown()) {
-				if (!enemyList.isEmpty()) {
-					for (int i = 0; i < enemyList.size(); i++) {
-						Enemy current = enemyList.get(i);
-						// System.out.println(current + " " + e);
-						// System.out.print("C " + current.getPosX() + " N: ");
-						// System.out.println(grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getxPos());
-						// System.out.print("C " + current.getPosY() + " N: ");
-						// System.out.println(grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getyPos());
-						// System.out.println(current.getPosX() !=
-						// grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getxPos());
-						// System.out.println(current.getPosY() !=
-						// grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getyPos());
-						if (grid.getGridLayer()[e.getPosY()][e.getPosX()].getHasNextTile()) {
-							if (!((current.getPosX() == grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile()
-									.getxPos())
-									&& (current.getPosY() == grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile()
-											.getyPos()))) {
-								return true;
-							}
+		if (!e.isOnCooldown()) {
+			if (!enemyList.isEmpty()) {
+				for (int i = 0; i < enemyList.size(); i++) {
+					Enemy current = enemyList.get(i);
+					// System.out.println(current + " " + e);
+					// System.out.print("C " + current.getPosX() + " N: ");
+					// System.out.println(grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getxPos());
+					// System.out.print("C " + current.getPosY() + " N: ");
+					// System.out.println(grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getyPos());
+					// System.out.println(current.getPosX() !=
+					// grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getxPos());
+					// System.out.println(current.getPosY() !=
+					// grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getyPos());
+					if (grid.getGridLayer()[e.getPosY()][e.getPosX()].getHasNextTile()) {
+						if (!((current.getPosX() == grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile()
+								.getxPos())
+								&& (current.getPosY() == grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile()
+										.getyPos()))) {
+							return true;
 						}
 					}
 				}
@@ -133,14 +131,15 @@ public class Enemy_Controller {
 						if (player.getHealth() > 0) {
 							player.setHealth(player.getHealth() - enemyList.get(a).getDamage());
 						} else if (player.getHealth() <= 0) {
-							//TODO: END GAME
+							// TODO: END GAME
 						}
 						this.server.send(player.getPlayerIP(), player.getPlayerPort(),
 								Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + player.getHealth()
 										+ Protocol.SEPARATOR + player.getOtherplayer().getHealth());
 						this.server.send(player.getOtherplayer().getPlayerIP(), player.getOtherplayer().getPlayerPort(),
-								Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + player.getOtherplayer().getHealth()
-										+ Protocol.SEPARATOR + player.getHealth());
+								Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR
+										+ player.getOtherplayer().getHealth() + Protocol.SEPARATOR
+										+ player.getHealth());
 					}
 					this.server.send(player.getPlayerIP(), player.getPlayerPort(),
 							Protocol.SC_UPDATE_POSITION_ENEMY + Protocol.SEPARATOR + enemyList.get(a).getPosX()

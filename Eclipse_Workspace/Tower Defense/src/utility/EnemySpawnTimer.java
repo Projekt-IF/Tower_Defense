@@ -27,10 +27,6 @@ public class EnemySpawnTimer extends TimerTask {
 			count = 0;
 		}
 		this.enemyController.setOnSpawnCooldown(false);
-		System.out.println("SPAWN TIMER FALSE");
-		System.out.println(!enemyController.getGeneratedEnemyList().isEmpty());
-		System.out.println("GEN: " + enemyController.getGeneratedEnemyList().size());
-		System.out.println("SPAWNED: " + enemyController.getEnemyList().size());
 	}
 
 }

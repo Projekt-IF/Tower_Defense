@@ -49,6 +49,8 @@ public class TextGui extends JFrame {
 	 */
 	private Integer chosenTowerType;
 	private Integer chosenEnemyType;
+	
+	private JButton[][] buttonArray;
 
 	private static final String USERNAMEPRESET = "USERNAME : ";
 	private static final long serialVersionUID = 6557422167637163832L;
@@ -168,7 +170,8 @@ public class TextGui extends JFrame {
 					frame.setVisible(true);
 					TD_Client tdc = new TD_Client(args[0], Integer.parseInt(args[1]), frame);
 					frame.setClient(tdc);
-
+					tdc.send(Protocol.CS_LOGIN_USERNAME + Protocol.SEPARATOR + "u");
+					tdc.send(Protocol.CS_LOGIN_PASSWORD + Protocol.SEPARATOR + "p");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -883,7 +886,6 @@ public class TextGui extends JFrame {
 		int type = chosenTowerType;
 		int posY = Integer.parseInt(gameTowerBuyMapPosition_YSpinner.getValue().toString());
 		int posX = Integer.parseInt(gameTowerBuyMapPosition_XSpinner.getValue().toString());
-		System.out.println(posY + "  " + posX);
 		this.sendToServer(Protocol.CS_PURCHASE_TOWER + Protocol.SEPARATOR + posX + Protocol.SEPARATOR + posY
 				+ Protocol.SEPARATOR + type);
 	}
@@ -936,20 +938,20 @@ public class TextGui extends JFrame {
 
 	public void setGameMapBoundries(int height, int length) {
 		this.gamePlayMapPanel.setLayout(new GridLayout(height, length, 1, 1));
+		this.buttonArray = new JButton[height][length];
 	}
 
-	public void setGameMapType(int type) {
+	public void setGameMapType(int posY, int posX, int type) {
 		JButton newButton = new JButton();
 		newButton.setBackground(generateGameMapButtonColor(type, newButton));
-		newButton.setText("10");
+		buttonArray[posY][posX] = newButton;
 		this.gamePlayMapPanel.add(newButton);
 	}
 
 	public void increaseEnemyCount(Integer x, Integer y) {
 		// TODO: The Grid does not really save the location and error for not casting
 		// panel to button on pc but not laptop
-		JButton button = (JButton) this.gamePlayMapPanel.getComponentAt(y, x);
-		System.out.println(button.getText());
+		JButton button = buttonArray[y][x];
 		Integer number = Integer.parseInt(button.getText()) + 1;
 		button.setText(number.toString());
 	}
@@ -957,8 +959,7 @@ public class TextGui extends JFrame {
 	public void decreaseEnemyCount(Integer x, Integer y) {
 		// TODO: The Grid does not really save the location and error for not casting
 		// panel to button on pc but not laptop
-		JButton button = (JButton) this.gamePlayMapPanel.getComponentAt(y, x);
-		System.out.println(button.getText());
+		JButton button = buttonArray[y][x];
 		Integer number = Integer.parseInt(button.getText()) - 1;
 		button.setText(number.toString());
 	}

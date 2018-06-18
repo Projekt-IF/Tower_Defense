@@ -56,8 +56,8 @@ public class Enemy {
 
 	public void startTimer() {
 		Timer timer = new Timer();
-		System.out.println(this.speed * 2500);
-		timer.schedule(new EnemyCooldownTimer(this, timer), (long) (this.speed * 2500));
+		System.out.println("MOVE_COOLDOWN: " + (this.speed * 1000));
+		timer.schedule(new EnemyCooldownTimer(this, timer), (long) (this.speed * 1000));
 	}
 	
 	public void move() {

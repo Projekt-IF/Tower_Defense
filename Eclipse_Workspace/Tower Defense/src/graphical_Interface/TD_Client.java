@@ -88,10 +88,8 @@ public class TD_Client extends Client {
 			break;
 
 		case Protocol.SC_ALL_PLAYER_READY:
-			System.out.println("Test 1");
 			this.myGui.switchPanelGame();
 			this.myGui.switchPanelGameBuyTowers();
-			System.out.println("Test 2");
 			this.send(Protocol.CS_GO);
 			break;
 
@@ -167,8 +165,10 @@ public class TD_Client extends Client {
 			break;
 
 		case Protocol.SC_LOAD_MAP_TYPE:
-			int type = Integer.parseInt(tags[1]);
-			this.setGameMapType(type);
+			int tilePosY = Integer.parseInt(tags[1]);
+			int tilePosX = Integer.parseInt(tags[2]);
+			int type = Integer.parseInt(tags[3]);
+			this.setGameMapType(tilePosY, tilePosX, type);
 			break;
 
 		case Protocol.SC_UPDATE_POSITION_ENEMY:
@@ -347,8 +347,8 @@ public class TD_Client extends Client {
 		this.myGui.setGameMapBoundries(height, length);
 	}
 
-	private void setGameMapType(int type) {
-		this.myGui.setGameMapType(type);
+	private void setGameMapType(int posY, int posX, int type) {
+		this.myGui.setGameMapType(posY, posX, type);
 	}
 
 	/**

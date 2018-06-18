@@ -46,8 +46,8 @@ public class Tower {
 
 	public void startTimer() {
 		Timer timer = new Timer();
-		System.out.println(this.cooldownTime * 5000);
-		timer.schedule(new TowerCooldownTimer(this, timer), (long) (this.cooldownTime * 5000));
+		System.out.println("SHOOT_COOLDOWN: " + (this.cooldownTime * 1000));
+		timer.schedule(new TowerCooldownTimer(this, timer), (long) (this.cooldownTime * 1000));
 	}
 
 	public int shoot() {
