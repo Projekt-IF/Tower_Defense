@@ -40,10 +40,6 @@ public class Lobby {
 		gameFrameWork.setOtherPlayer();
 		gameFrameWork.startGame();
 	}
-	
-	public void startWave() {
-		
-	}
 
 	public boolean haveSamePortIP(Player testPlayer, Player lobbyPlayer) {
 		if ((testPlayer.getPlayerIP().equals(lobbyPlayer.getPlayerIP()))

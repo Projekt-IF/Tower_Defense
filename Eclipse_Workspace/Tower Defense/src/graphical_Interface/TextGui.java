@@ -49,8 +49,6 @@ public class TextGui extends JFrame {
 	 */
 	private Integer chosenTowerType;
 	private Integer chosenEnemyType;
-	
-	private ArrayList<JButton> pathButtonMapList;
 
 	private static final String USERNAMEPRESET = "USERNAME : ";
 	private static final long serialVersionUID = 6557422167637163832L;
@@ -716,7 +714,7 @@ public class TextGui extends JFrame {
 		gameBuyWaitPanel.add(gameBuyWaitingLabel);
 		
 		gamePlayPanel = new JPanel();
-		switchGamePanel.add(gamePlayPanel, "name_283052575513135");
+		switchGamePanel.add(gamePlayPanel, "gamePlayPanel");
 		gamePlayPanel.setLayout(new BorderLayout(0, 0));
 
 		gamePlayMapPanel = new JPanel();
@@ -943,17 +941,24 @@ public class TextGui extends JFrame {
 	public void setGameMapType(int type) {
 		JButton newButton = new JButton();
 		newButton.setBackground(generateGameMapButtonColor(type , newButton));
+		newButton.setText("10");
 		this.gamePlayMapPanel.add(newButton);
 	}
 	
-	public void increaseEnemyCount(int x, int y) {
-		JButton button = (JButton) this.gamePlayMapPanel.getComponentAt(x, y);
-		button.setText(((Integer)(Integer.parseInt(button.getText()) + 1)).toString());
+	public void increaseEnemyCount(Integer x, Integer y) {
+		//TODO: The Grid does not realy save the location
+		JButton button = (JButton) this.gamePlayMapPanel.getComponentAt(y, x);
+		System.out.println(button.getText());
+		Integer number = Integer.parseInt(button.getText()) + 1;
+		button.setText(number.toString());
 	}
 	
-	public void decreaseEnemyCount(int x, int y) {
-		JButton button = (JButton) this.gamePlayMapPanel.getComponentAt(x, y);
-		button.setText(((Integer)(Integer.parseInt(button.getText()) - 1)).toString());
+	public void decreaseEnemyCount(Integer x, Integer y) {
+		//TODO: The Grid does not realy save the location
+		JButton button = (JButton) this.gamePlayMapPanel.getComponentAt(y, x);
+		System.out.println(button.getText());
+		Integer number = Integer.parseInt(button.getText()) - 1;
+		button.setText(number.toString());
 	}
 	
 	private Color generateGameMapButtonColor(int type, JButton newButton) {
@@ -964,12 +969,15 @@ public class TextGui extends JFrame {
 			break;
 		case 1:
 			color = Color.BLUE;
+			newButton.setText("0");
 			break;
 		case 2:
 			color = Color.ORANGE;
+			newButton.setText("0");
 			break;
 		case 3:
 			color = Color.RED;
+			newButton.setText("0");
 			break;
 		case 4:
 			color = Color.DARK_GRAY;
@@ -985,12 +993,12 @@ public class TextGui extends JFrame {
 		this.gamePlayMapPanel.removeAll();
 	}
 	
-	public void updateOwnHealth(int health) {
-		this.gamePlayHealthOwnLabel.setText("Your Health: "  + health);
+	public void updateOwnHealth(Integer health) {
+		this.gamePlayHealthOwnLabel.setText("Your Health: "  + health.toString());
 	}
 	
-	public void updateOtherHealth(int health) {
-		this.gamePlayHealthOtherLabel.setText("Other Health: "  + health + "        ");
+	public void updateOtherHealth(Integer health) {
+		this.gamePlayHealthOtherLabel.setText("Other Health: "  + health.toString() + "        ");
 	}
 	
 	public void sendToServer(String pMessage) {

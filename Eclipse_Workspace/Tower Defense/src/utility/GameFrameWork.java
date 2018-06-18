@@ -34,6 +34,8 @@ public class GameFrameWork {
 
 	private ArrayList<Tower> boughtTowers_Player_1;
 	private ArrayList<Tower> boughtTowers_Player_2;
+	
+	private boolean loopStopped;
 
 	public GameFrameWork(Server_TD pServer) {
 		this.server = pServer;
@@ -47,7 +49,7 @@ public class GameFrameWork {
 		boughtTowers_Player_2 = new ArrayList<Tower>();
 		this.currentLevel = "";
 	}
-	
+
 	public void clear() {
 		this.player_1_Game_Controller = new Game_Controller(this.server);
 		this.player_2_Game_Controller = new Game_Controller(this.server);
@@ -102,13 +104,32 @@ public class GameFrameWork {
 		setLevel();
 	}
 
+	public void startWave() {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				player_1_Game_Controller.createWave();
+				player_1_Game_Controller.startLoop();
+			}
+		}).start();;
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				player_2_Game_Controller.createWave();
+				player_2_Game_Controller.startLoop();
+			}
+		}).start();;
+	}
+
 	private void prepareGame() {
 		player_1.setPlayerMoney(startMoney);
 		player_2.setPlayerMoney(startMoney);
 		player_1.setHealth(startHealth);
 		player_2.setHealth(startHealth);
 	}
-	
+
 	public void setOtherPlayer() {
 		this.player_1.setOtherplayer(player_2);
 		this.player_2.setOtherplayer(player_1);
@@ -125,11 +146,13 @@ public class GameFrameWork {
 	public void pushToBoughtTowers(int positionInLobby, Tower pTower) {
 		if (positionInLobby == 1) {
 			this.boughtTowers_Player_1.add(pTower);
-			this.getPlayer_1_Game_Controller().getGlobalGrid().getGridLayer()[pTower.getPosY()][pTower.getPosX()].setType(Tile.TYPE_TOWER);
+			this.getPlayer_1_Game_Controller().getGlobalGrid().getGridLayer()[pTower.getPosY()][pTower.getPosX()]
+					.setType(Tile.TYPE_TOWER);
 			this.getPlayer_1_Game_Controller().getGlobalGrid().printGrid();
 		} else if (positionInLobby == 2) {
 			this.boughtTowers_Player_2.add(pTower);
-			this.getPlayer_2_Game_Controller().getGlobalGrid().getGridLayer()[pTower.getPosY()][pTower.getPosX()].setType(Tile.TYPE_TOWER);
+			this.getPlayer_2_Game_Controller().getGlobalGrid().getGridLayer()[pTower.getPosY()][pTower.getPosX()]
+					.setType(Tile.TYPE_TOWER);
 			this.getPlayer_2_Game_Controller().getGlobalGrid().printGrid();
 		}
 	}
@@ -168,16 +191,6 @@ public class GameFrameWork {
 				return false;
 			}
 		}
-	}
-	
-	public void startWave() {
-		this.player_1_Game_Controller.createWave();
-		this.player_2_Game_Controller.createWave();
-	}
-	
-	public void startLoop() {
-		this.player_1_Game_Controller.startLoop();
-		this.player_2_Game_Controller.startLoop();
 	}
 
 	/**
@@ -267,5 +280,21 @@ public class GameFrameWork {
 			return boughtEnemies_Player_2;
 		}
 		return null;
+	}
+
+	/**
+	 * @return the loopStopped
+	 */
+	public boolean isLoopStopped() {
+		return loopStopped;
+	}
+
+	/**
+	 * @param loopStopped the loopStopped to set
+	 */
+	public void setLoopStopped(boolean loopStopped) {
+		this.loopStopped = loopStopped;
+		this.player_1_Game_Controller.setLoopStopped(loopStopped);
+		this.player_2_Game_Controller.setLoopStopped(loopStopped);
 	}
 }

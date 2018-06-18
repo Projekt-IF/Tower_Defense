@@ -192,8 +192,6 @@ public class Server_TD extends Server {
 			backMessage = Protocol.SC_SENDERRORMESSAGE + Protocol.SEPARATOR + "Error!";
 			break;
 		}
-		System.out.println("Server: Gesendet :<" + backMessage + ">");
-
 		// this.send(pClientIP, pClientPort, backMessage);
 		// if (prefix.equals(Protocol.CS_LOGOUT)) {
 		// this.closeConnection(pClientIP, pClientPort);
@@ -223,6 +221,7 @@ public class Server_TD extends Server {
 		Player removePlayer = getPlayer(pClientIP, pClientPort);
 		removePlayer.setUsername("EMPTY");
 		removePlayer.setReady(false);
+		lobbyList.get(removePlayer.getLobbyIndex()).getGameFrameWork().setLoopStopped(true);
 		String removeMessage = Protocol.SC_LOBBY_USERS + Protocol.SEPARATOR + createLobbyUsersResponse(removePlayer);
 		this.sendToLobby(removePlayer.getLobbyIndex(), removeMessage);
 		this.sendToLobby(removePlayer.getLobbyIndex(),
@@ -290,11 +289,16 @@ public class Server_TD extends Server {
 		if (lobby.allBuyDone()) {
 			loadMapClient(player);
 			loadMapClient(lobby.getOtherPlayer(player));
+			this.send(player.getPlayerIP(), player.getPlayerPort(),
+					Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + player.getHealth()
+							+ Protocol.SEPARATOR + player.getOtherplayer().getHealth());
+			this.send(player.getOtherplayer().getPlayerIP(), player.getOtherplayer().getPlayerPort(),
+					Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + player.getOtherplayer().getHealth()
+							+ Protocol.SEPARATOR + player.getHealth());
 			backMessage = Protocol.SC_BUY_ALL_READY;
 			this.sendToLobby(player.getLobbyIndex(), backMessage);
 			// TODO: now the wave has to be played.
-			lobby.getGameFrameWork().startGame();
-			lobby.getGameFrameWork().startLoop();
+			lobby.getGameFrameWork().startWave();
 		} else {
 			backMessage = Protocol.SC_BUY_DONE;
 			this.send(player.getPlayerIP(), player.getPlayerPort(), backMessage);

@@ -17,7 +17,6 @@ public class Enemy_Controller {
 
 	// private Game_Controller game_Controller;
 
-	@SuppressWarnings("unused")
 	private Server_TD server;
 
 	private Player player;
@@ -59,7 +58,7 @@ public class Enemy_Controller {
 		enemyList.add(e);
 		generatedEnemyList.remove(e);
 		this.server.send(player.getPlayerIP(), player.getPlayerPort(),
-				Protocol.SC_UPDATE_POSITION_ENEMY + Protocol.SEPARATOR + null + Protocol.SEPARATOR + null
+				Protocol.SC_UPDATE_POSITION_ENEMY + Protocol.SEPARATOR + "null" + Protocol.SEPARATOR + "null"
 						+ Protocol.SEPARATOR + e.getPosX() + Protocol.SEPARATOR + e.getPosY());
 		spawn();
 	}
@@ -135,17 +134,17 @@ public class Enemy_Controller {
 							player.setHealth(player.getHealth() - enemyList.get(a).getDamage());
 							this.server.send(player.getPlayerIP(), player.getPlayerPort(),
 									Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + player.getHealth()
-											+ Protocol.SEPARATOR + player.getOtherplayer().getPlayerMoney());
+											+ Protocol.SEPARATOR + player.getOtherplayer().getHealth());
 						} else if (player.getHealth() <= 0) {
 							this.server.send(player.getPlayerIP(), player.getPlayerPort(),
 									Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + player.getHealth()
-											+ Protocol.SEPARATOR + player.getOtherplayer().getPlayerMoney());
+											+ Protocol.SEPARATOR + player.getOtherplayer().getHealth());
 						}
 					}
 					this.server.send(player.getPlayerIP(), player.getPlayerPort(),
 							Protocol.SC_UPDATE_POSITION_ENEMY + Protocol.SEPARATOR + enemyList.get(a).getPosX()
-									+ Protocol.SEPARATOR + enemyList.get(a).getPosY() + Protocol.SEPARATOR + null
-									+ Protocol.SEPARATOR + null);
+									+ Protocol.SEPARATOR + enemyList.get(a).getPosY() + Protocol.SEPARATOR + "null"
+									+ Protocol.SEPARATOR + "null");
 					enemyList.remove(enemyList.get(a));
 				}
 			}
@@ -184,6 +183,14 @@ public class Enemy_Controller {
 
 	public void setGrid(Grid grid) {
 		this.grid = grid;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 
 	/**

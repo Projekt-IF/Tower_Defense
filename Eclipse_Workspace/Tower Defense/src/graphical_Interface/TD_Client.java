@@ -145,38 +145,43 @@ public class TD_Client extends Client {
 		case Protocol.SC_ENEMY_BUY_SWAP:
 			this.myGui.switchPanelGameBuyEnemies();
 			break;
-			
+
 		case Protocol.SC_ENEMY_BUY_ADD:
 			String eType = tags[1];
 			String enemyListEntry = "	Type: " + eType;
 			addEnemyChosen(enemyListEntry);
 			break;
-			
+
 		case Protocol.SC_BUY_DONE:
 			this.myGui.switchPanelGameBuyWait();
 			break;
-			
+
 		case Protocol.SC_BUY_ALL_READY:
 			this.myGui.switchPanelGamePlay();
 			break;
-			
+
 		case Protocol.SC_LOAD_MAP_DIMENSIONS:
 			int height = Integer.parseInt(tags[1]);
 			int length = Integer.parseInt(tags[2]);
 			this.setGameMapBoundries(height, length);
 			break;
-			
+
 		case Protocol.SC_LOAD_MAP_TYPE:
 			int type = Integer.parseInt(tags[1]);
 			this.setGameMapType(type);
 			break;
-			
+
 		case Protocol.SC_UPDATE_POSITION_ENEMY:
-			this.myGui.decreaseEnemyCount(Integer.parseInt(tags[1]), Integer.parseInt(tags[2]));
-			this.myGui.increaseEnemyCount(Integer.parseInt(tags[3]), Integer.parseInt(tags[4]));
+			updatePositionEnemy(tags[1], tags[2], tags[3], tags[4]);
+			System.out.println("PREVIOUS X: " + tags[1] + " Y: " + tags[2] + "  CURRENT X: " + tags[3] + " Y: " + tags[4]);
 			break;
-			
+
 		case Protocol.SC_UPDATE_PLAYER_HEALTH:
+			Integer ownHealth = Integer.parseInt(tags[1]);
+			Integer otherHealth = Integer.parseInt(tags[2]);
+			this.myGui.updateOwnHealth(ownHealth);
+			this.myGui.updateOtherHealth(otherHealth);
+			break;
 
 		case Protocol.SC_REMOVE_ENEMY:
 			break;
@@ -213,6 +218,21 @@ public class TD_Client extends Client {
 			this.myGui.ausgeben(pMessage);
 			break;
 
+		}
+	}
+
+	private void updatePositionEnemy(String PreviousPosX, String PreviousPosY, String CurrentPosX, String CurrentPosY) {
+		//Was on a Tile before
+		if(!PreviousPosX.equals("null")&&!PreviousPosY.equals("null")) {
+			//Is on another Tile
+			if(!CurrentPosX.equals("null")&&!CurrentPosY.equals("null")) {
+				this.myGui.decreaseEnemyCount(Integer.parseInt(PreviousPosX), Integer.parseInt(PreviousPosY));
+				this.myGui.increaseEnemyCount(Integer.parseInt(CurrentPosX), Integer.parseInt(CurrentPosY));
+			} else {
+				this.myGui.decreaseEnemyCount(Integer.parseInt(PreviousPosX), Integer.parseInt(PreviousPosY));
+			}
+		} else {
+			this.myGui.increaseEnemyCount(Integer.parseInt(CurrentPosX), Integer.parseInt(CurrentPosY));
 		}
 	}
 
@@ -283,7 +303,7 @@ public class TD_Client extends Client {
 	public void addTowerChosen(String string) {
 		this.myGui.addTowerChosen(string);
 	}
-	
+
 	public void addEnemyChosen(String string) {
 		this.myGui.addEnemyChosen(string);
 	}
@@ -295,7 +315,7 @@ public class TD_Client extends Client {
 	public void setErrorTowerBuy(String string) {
 		this.myGui.setErrorTowerBuy(string);
 	}
-	
+
 	public void setErrorEnemyBuy(String string) {
 		this.myGui.setErrorEnemyBuy(string);
 	}
@@ -322,11 +342,11 @@ public class TD_Client extends Client {
 		}
 		return message;
 	}
-	
+
 	private void setGameMapBoundries(int height, int length) {
 		this.myGui.setGameMapBoundries(height, length);
 	}
-	
+
 	private void setGameMapType(int type) {
 		this.myGui.setGameMapType(type);
 	}

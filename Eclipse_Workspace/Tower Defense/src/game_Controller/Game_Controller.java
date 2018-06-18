@@ -1,7 +1,6 @@
 package game_Controller;
 
 import java.util.ArrayList;
-import java.util.Timer;
 
 import envoirement.Grid;
 import envoirement.Tile;
@@ -16,8 +15,6 @@ public class Game_Controller {
 	private Server_TD server;
 
 	private Player player;
-
-	private Timer timer;
 
 	private String currentLevel;
 
@@ -37,6 +34,8 @@ public class Game_Controller {
 	private Tile spawnerTile;
 
 	private Tile baseTile;
+	
+	private boolean loopStopped;
 
 	public Game_Controller(Server_TD pServer) {
 		this.server = pServer;
@@ -48,7 +47,7 @@ public class Game_Controller {
 		this.wC = new Wave_Controller(this.generatedEnemyList/* this */);
 		this.eC = new Enemy_Controller(this.server, this.enemyList, this.generatedEnemyList, this.player/* , this */);
 		this.tC = new Tower_Controller(this.towerList, this);
-		this.timer = new Timer();
+		this.loopStopped = false;
 	}
 
 	/**
@@ -64,6 +63,28 @@ public class Game_Controller {
 		this.getGeneratedEnemyList().clear();
 		this.setGeneratedEnemyList(wC.generateWave());
 		this.currentWaveIndex = wC.getCurrentWaveIndex();
+	}
+	
+	public void startLoop() {
+		//TODO:LOOP IT!!
+		System.out.println("In Function");
+		System.out.println(!getEnemyController().getGeneratedEnemyList().isEmpty());
+		System.out.println(!getEnemyList().isEmpty());
+		loopStopped = false;
+		System.out.println(!loopStopped);
+		while (!loopStopped) {
+			if (!getEnemyController().getGeneratedEnemyList().isEmpty()) {
+				spawnEnemy();
+			}
+			if (!getEnemyList().isEmpty()) {
+				getTowerController().checkTowers();
+				getEnemyController().checkMoveEnemies();
+				checkEnemiesLife();
+			} else {
+				loopStopped = true;
+				System.out.println(loopStopped);
+			}
+		}
 	}
 
 	public void spawnEnemy() {
@@ -98,8 +119,8 @@ public class Game_Controller {
 				removeEnemyFromList(enemyList.get(i));
 				this.server.send(player.getPlayerIP(), player.getPlayerPort(),
 						Protocol.SC_UPDATE_POSITION_ENEMY + Protocol.SEPARATOR + enemyList.get(i).getPosX()
-								+ Protocol.SEPARATOR + enemyList.get(i).getPosY() + Protocol.SEPARATOR + null
-								+ Protocol.SEPARATOR + null);
+								+ Protocol.SEPARATOR + enemyList.get(i).getPosY() + Protocol.SEPARATOR + "null"
+								+ Protocol.SEPARATOR + "null");
 			}
 		}
 	}
@@ -123,20 +144,6 @@ public class Game_Controller {
 		eC.printEnemyLists();
 		wC.setNumbers();
 		pAddedEnemies.clear();
-	}
-
-	public void startLoop() {
-		//TODO:LOOP IT!!
-		while (true) {
-			if (getEnemyController().getGeneratedEnemyList().isEmpty()) {
-				spawnEnemy();
-			}
-			if (!getEnemyList().isEmpty()) {
-				getTowerController().checkTowers();
-				getEnemyController().checkMoveEnemies();
-				checkEnemiesLife();
-			}
-		}
 	}
 
 	public void updateGame() {
@@ -264,21 +271,6 @@ public class Game_Controller {
 	}
 
 	/**
-	 * @return the timer
-	 */
-	public Timer getTimer() {
-		return timer;
-	}
-
-	/**
-	 * @param timer
-	 *            the timer to set
-	 */
-	public void setTimer(Timer timer) {
-		this.timer = timer;
-	}
-
-	/**
 	 * @return the currentWaveIndex
 	 */
 	public int getCurrentWaveIndex() {
@@ -322,6 +314,15 @@ public class Game_Controller {
 	 */
 	public void setPlayer(Player player) {
 		this.player = player;
+		this.eC.setPlayer(player);
+	}
+
+	public boolean isLoopStopped() {
+		return loopStopped;
+	}
+
+	public void setLoopStopped(boolean loopStopped) {
+		this.loopStopped = loopStopped;
 	}
 
 	public void test(Server_TD pServer, Player pPlayer) {
