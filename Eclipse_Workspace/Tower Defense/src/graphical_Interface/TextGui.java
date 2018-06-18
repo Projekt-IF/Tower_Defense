@@ -704,15 +704,15 @@ public class TextGui extends JFrame {
 		gameEnemyBuyOptionsConfirm.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		gameEnemyBuyOptionsConfirm.setBackground(Color.BLACK);
 		gameEnemyBuyOptionsConfirmPanel.add(gameEnemyBuyOptionsConfirm);
-		
+
 		gameBuyWaitPanel = new JPanel();
 		switchGamePanel.add(gameBuyWaitPanel, "gameBuyWaitPanel");
-		
+
 		gameBuyWaitingLabel = new JLabel("Waiting...");
 		gameBuyWaitingLabel.setBackground(Color.BLACK);
 		gameBuyWaitingLabel.setFont(new Font("Tahoma", Font.PLAIN, 50));
 		gameBuyWaitPanel.add(gameBuyWaitingLabel);
-		
+
 		gamePlayPanel = new JPanel();
 		switchGamePanel.add(gamePlayPanel, "gamePlayPanel");
 		gamePlayPanel.setLayout(new BorderLayout(0, 0));
@@ -721,15 +721,15 @@ public class TextGui extends JFrame {
 		gamePlayPanel.add(gamePlayMapPanel);
 		gamePlayMapPanel.setBackground(Color.ORANGE);
 		gamePlayMapPanel.setLayout(new GridLayout(6, 6, 1, 1));
-		
+
 		gamePlayHealthPanel = new JPanel();
 		gamePlayPanel.add(gamePlayHealthPanel, BorderLayout.NORTH);
 		gamePlayHealthPanel.setLayout(new BorderLayout(0, 0));
-		
+
 		gamePlayHealthOwnLabel = new JLabel("Your Health: ");
 		gamePlayHealthOwnLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		gamePlayHealthPanel.add(gamePlayHealthOwnLabel, BorderLayout.WEST);
-		
+
 		gamePlayHealthOtherLabel = new JLabel("Other Health: ");
 		gamePlayHealthOtherLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		gamePlayHealthPanel.add(gamePlayHealthOtherLabel, BorderLayout.EAST);
@@ -782,19 +782,19 @@ public class TextGui extends JFrame {
 		this.clearGameEnemyBuyChosenList();
 		this.setErrorEnemyBuy("");
 	}
-	
+
 	public void clearGameEnemyBuyChosenList() {
 		DefaultListModel<String> dListModel = new DefaultListModel<String>();
 		dListModel.addElement("Next Wave : ");
 		gameEnemyBuyChosenList.setModel(dListModel);
 	}
-	
+
 	public void clearGameTowerBuyChosenList() {
 		DefaultListModel<String> dListModel = new DefaultListModel<String>();
 		dListModel.addElement("Towers:");
 		gameTowerBuyChosenList.setModel(dListModel);
 	}
-	
+
 	public void switchPanelGameBuyWait() {
 		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
 		cl.show(switchGamePanel, "gameBuyWaitPanel");
@@ -804,7 +804,7 @@ public class TextGui extends JFrame {
 		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
 		cl.show(switchGamePanel, "gamePlayPanel");
 	}
-	
+
 	public void createMapLayout(int height, int length, String[][] tileTypes) {
 		gamePlayMapPanel.setLayout(new GridLayout(height, length, 0, 0));
 	}
@@ -901,7 +901,7 @@ public class TextGui extends JFrame {
 		dListModel.addElement(string);
 		gameTowerBuyChosenList.setModel(dListModel);
 	}
-	
+
 	public void addEnemyChosen(String string) {
 		ListModel<String> listModel = gameEnemyBuyChosenList.getModel();
 		ArrayList<String> elements = new ArrayList<String>();
@@ -924,7 +924,7 @@ public class TextGui extends JFrame {
 	public void setErrorTowerBuy(String string) {
 		this.gameTowerBuyChosenResponseLabel.setText(string);
 	}
-	
+
 	public void setErrorEnemyBuy(String string) {
 		this.gameEnemyBuyChosenResponseLabel.setText(string);
 	}
@@ -933,37 +933,39 @@ public class TextGui extends JFrame {
 		int type = chosenEnemyType;
 		this.sendToServer(Protocol.CS_PURCHASE_ENEMY + Protocol.SEPARATOR + type);
 	}
-	
+
 	public void setGameMapBoundries(int height, int length) {
 		this.gamePlayMapPanel.setLayout(new GridLayout(height, length, 1, 1));
 	}
 
 	public void setGameMapType(int type) {
 		JButton newButton = new JButton();
-		newButton.setBackground(generateGameMapButtonColor(type , newButton));
+		newButton.setBackground(generateGameMapButtonColor(type, newButton));
 		newButton.setText("10");
 		this.gamePlayMapPanel.add(newButton);
 	}
-	
+
 	public void increaseEnemyCount(Integer x, Integer y) {
-		//TODO: The Grid does not realy save the location
+		// TODO: The Grid does not really save the location and error for not casting
+		// panel to button on pc but not laptop
 		JButton button = (JButton) this.gamePlayMapPanel.getComponentAt(y, x);
 		System.out.println(button.getText());
 		Integer number = Integer.parseInt(button.getText()) + 1;
 		button.setText(number.toString());
 	}
-	
+
 	public void decreaseEnemyCount(Integer x, Integer y) {
-		//TODO: The Grid does not realy save the location
+		// TODO: The Grid does not really save the location and error for not casting
+		// panel to button on pc but not laptop
 		JButton button = (JButton) this.gamePlayMapPanel.getComponentAt(y, x);
 		System.out.println(button.getText());
 		Integer number = Integer.parseInt(button.getText()) - 1;
 		button.setText(number.toString());
 	}
-	
+
 	private Color generateGameMapButtonColor(int type, JButton newButton) {
 		Color color;
-		switch(type) {
+		switch (type) {
 		case 0:
 			color = Color.GREEN;
 			break;
@@ -992,15 +994,15 @@ public class TextGui extends JFrame {
 	public void resetGameMap() {
 		this.gamePlayMapPanel.removeAll();
 	}
-	
+
 	public void updateOwnHealth(Integer health) {
-		this.gamePlayHealthOwnLabel.setText("Your Health: "  + health.toString());
+		this.gamePlayHealthOwnLabel.setText("Your Health: " + health.toString());
 	}
-	
+
 	public void updateOtherHealth(Integer health) {
-		this.gamePlayHealthOtherLabel.setText("Other Health: "  + health.toString() + "        ");
+		this.gamePlayHealthOtherLabel.setText("Other Health: " + health.toString() + "        ");
 	}
-	
+
 	public void sendToServer(String pMessage) {
 		this.myClient.send(pMessage);
 	}
