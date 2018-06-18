@@ -132,14 +132,15 @@ public class Enemy_Controller {
 							&& (grid.getBaseTile().getyPos() == enemyList.get(a).getPosY())) {
 						if (player.getHealth() > 0) {
 							player.setHealth(player.getHealth() - enemyList.get(a).getDamage());
-							this.server.send(player.getPlayerIP(), player.getPlayerPort(),
-									Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + player.getHealth()
-											+ Protocol.SEPARATOR + player.getOtherplayer().getHealth());
 						} else if (player.getHealth() <= 0) {
-							this.server.send(player.getPlayerIP(), player.getPlayerPort(),
-									Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + player.getHealth()
-											+ Protocol.SEPARATOR + player.getOtherplayer().getHealth());
+							//TODO: END GAME
 						}
+						this.server.send(player.getPlayerIP(), player.getPlayerPort(),
+								Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + player.getHealth()
+										+ Protocol.SEPARATOR + player.getOtherplayer().getHealth());
+						this.server.send(player.getOtherplayer().getPlayerIP(), player.getOtherplayer().getPlayerPort(),
+								Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + player.getOtherplayer().getHealth()
+										+ Protocol.SEPARATOR + player.getHealth());
 					}
 					this.server.send(player.getPlayerIP(), player.getPlayerPort(),
 							Protocol.SC_UPDATE_POSITION_ENEMY + Protocol.SEPARATOR + enemyList.get(a).getPosX()
