@@ -96,6 +96,7 @@ public class TD_Client extends Client {
 		case Protocol.SC_LOBBY_DISCONNECT:
 			String position = tags[1];
 			reinitializeLobby(position);
+			this.myGui.clearGameTowerBuyChosenList();
 			break;
 
 		// In-Game communication
@@ -182,11 +183,21 @@ public class TD_Client extends Client {
 			this.myGui.updateOwnHealth(ownHealth);
 			this.myGui.updateOtherHealth(otherHealth);
 			break;
-
-		case Protocol.SC_REMOVE_ENEMY:
+			
+		case Protocol.SC_ROUND_OVER:
+			this.send(Protocol.CS_ARE_ALL_ROUND_OVER);
 			break;
-
-		case Protocol.SC_REMOVE_TOWER:
+			
+		case Protocol.SC_ALL_ROUND_OVER_FALSE:
+			this.myGui.switchPanelGameBuyWait();
+			break;
+			
+		case Protocol.SC_ALL_ROUND_OVER_TRUE:
+			this.myGui.resetGameMap();
+			this.myGui.switchPanelGame();
+			this.myGui.switchPanelGameBuyTowers();
+			send(Protocol.CS_READY_TOWERPLACING);
+			send(Protocol.CS_READY_ENEMIESPURCHASED);
 			break;
 
 		// End of game messages

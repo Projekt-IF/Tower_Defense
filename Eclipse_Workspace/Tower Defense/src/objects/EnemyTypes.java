@@ -14,10 +14,10 @@ public class EnemyTypes {
 
 		switch (pType) {
 		case 1:
-			calcedSpeed = 4;
+			calcedSpeed = 1;
 			break;
 		case 2:
-			calcedSpeed = 3;
+			calcedSpeed = 1;
 			break;
 		case 3:
 			calcedSpeed = 1;
@@ -35,13 +35,13 @@ public class EnemyTypes {
 
 		switch (pType) {
 		case 1:
-			calcedLife = 10;
+			calcedLife = 5;
 			break;
 		case 2:
-			calcedLife = 30;
+			calcedLife = 10;
 			break;
 		case 3:
-			calcedLife = 50;
+			calcedLife = 15;
 			break;
 		default:
 			calcedLife = 0;
@@ -89,6 +89,26 @@ public class EnemyTypes {
 			break;
 		}
 		return calcedCost;
+	}
+	
+	public int calcBounty(int pType) {
+		int calcedBounty = 0;
+
+		switch (pType) {
+		case 1:
+			calcedBounty = 25;
+			break;
+		case 2:
+			calcedBounty = 50;
+			break;
+		case 3:
+			calcedBounty = 75;
+			break;
+		default:
+			calcedBounty = 0;
+			break;
+		}
+		return calcedBounty;
 	}
 
 }

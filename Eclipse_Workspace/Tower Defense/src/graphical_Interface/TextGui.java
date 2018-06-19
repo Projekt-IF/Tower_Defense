@@ -694,10 +694,6 @@ public class TextGui extends JFrame {
 		gameEnemyBuyOptionsPanel.add(gameEnemyBuyOptionsConfirmPanel, BorderLayout.EAST);
 
 		gameEnemyBuyOptionsConfirm = new JButton("Confirm");
-		gameEnemyBuyOptionsConfirm.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
 		gameEnemyBuyOptionsConfirm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -775,7 +771,7 @@ public class TextGui extends JFrame {
 	public void switchPanelGameBuyTowers() {
 		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
 		cl.show(switchGamePanel, "gameBuyTowerPanel");
-		this.clearGameTowerBuyChosenList();
+//		this.clearGameTowerBuyChosenList();
 		this.setErrorTowerBuy("");
 	}
 

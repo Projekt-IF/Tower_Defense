@@ -81,13 +81,12 @@ public class Protocol {
 
 			/* SC_ROUND_OVER */
 			SC_ROUND_OVER = "rndvr",
+			/* SC_ALL_ROUND_OVER_TRUE */
+			SC_ALL_ROUND_OVER_TRUE = "llrndvrtr",
+			/* SC_ALL_ROUND_OVER_FALSE */
+			SC_ALL_ROUND_OVER_FALSE = "llrndvrfls",
 			/* SC_CHANGE_MAP:<Level> */
 			SC_CHANGE_MAP = "chngmp",
-
-			/* SC_REMOVE_ENEMY:<PositionInList> */
-			SC_REMOVE_ENEMY = "rmvnmy",
-			/* SC_REMOVE_TOWER:<PosotionInList> */
-			SC_REMOVE_TOWER = "rmvtwr",
 
 			// End of game messages
 			/* SC_VICTORY:<String> */
@@ -136,6 +135,8 @@ public class Protocol {
 			/* CS_READY_TOWERPLACING */
 			CS_READY_TOWERPLACING = "rdytwrplcng",
 			/* CS_READY_ENEMIESPURCHASED */
-			CS_READY_ENEMIESPURCHASED = "rdynmsprchsd";
+			CS_READY_ENEMIESPURCHASED = "rdynmsprchsd",
+			/* SC_ARE_ALL_ROUND_OVER */
+			CS_ARE_ALL_ROUND_OVER = "rllrndvr";
 
 }

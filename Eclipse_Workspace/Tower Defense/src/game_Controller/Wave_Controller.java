@@ -20,7 +20,7 @@ public class Wave_Controller {
 
 	public Wave_Controller(ArrayList<Enemy> generatedEnemyList/* Game_Controller pGame_Controller */) {
 		// this.game_Controller = pGame_Controller;
-		wG = new WaveGenerator(generatedEnemyList);
+		wG = new WaveGenerator();
 	}
 	
 	public ArrayList<Enemy> generateWave() {

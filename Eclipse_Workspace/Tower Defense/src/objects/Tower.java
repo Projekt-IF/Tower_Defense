@@ -15,8 +15,8 @@ public class Tower {
 	private int cost;
 
 	private int range;
-
-	private Shot shot;
+	
+	private int damage;
 
 	private boolean onCooldown;
 
@@ -31,17 +31,7 @@ public class Tower {
 		this.type = pType;
 		this.range = types.calcRange(pType);
 		this.cost = types.calcCost(pType);
-		this.shot = new Shot(types.calcStrength(pType), types.calcSpeed(pType));
-	}
-
-	public void upgradeShot(int strength, int speed, int velocity) {
-		this.shot.setStrength(strength);
-		this.shot.setSpeed(speed);
-	}
-
-	public void degradeShot(int strength, int speed, int velocity) {
-		this.shot.setStrength(strength);
-		this.shot.setSpeed(speed);
+		this.damage = types.calcStrength(pType);
 	}
 
 	public void startTimer() {
@@ -53,7 +43,7 @@ public class Tower {
 	public int shoot() {
 		this.onCooldown = true;
 		startTimer();
-		return this.shot.getStrength();
+		return damage;
 	}
 
 	public int getPosX() {

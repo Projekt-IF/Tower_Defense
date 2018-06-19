@@ -103,7 +103,9 @@ public class GameFrameWork {
 
 			@Override
 			public void run() {
+				player_1.setRoundOver(false);
 				player_1_Game_Controller.createWave();
+				System.out.println("NOW LOOP");
 				player_1_Game_Controller.startLoop();
 			}
 		}).start();;
@@ -111,7 +113,9 @@ public class GameFrameWork {
 
 			@Override
 			public void run() {
+				player_2.setRoundOver(false);
 				player_2_Game_Controller.createWave();
+				System.out.println("NOW LOOP");
 				player_2_Game_Controller.startLoop();
 			}
 		}).start();;
@@ -132,8 +136,10 @@ public class GameFrameWork {
 	public void pushToBoughtEnemies(int positionInLobby, Enemy pEnemy) {
 		if (positionInLobby == 1) {
 			this.boughtEnemies_Player_1.add(pEnemy);
+			System.out.println(pEnemy);
 		} else if (positionInLobby == 2) {
 			this.boughtEnemies_Player_2.add(pEnemy);
+			System.out.println(pEnemy);
 		}
 	}
 
@@ -151,11 +157,13 @@ public class GameFrameWork {
 		}
 	}
 
-	public void assembleWaves(int positionInLobby) {
+	public void assambleWaves(int positionInLobby) {
 		if (positionInLobby == 1) {
-			player_1_Game_Controller.addPurchasedEnemies(boughtEnemies_Player_2);
+			player_1_Game_Controller.addEnemies(boughtEnemies_Player_2);
+			System.out.println("Assamble 1");
 		} else if (positionInLobby == 2) {
-			player_2_Game_Controller.addPurchasedEnemies(boughtEnemies_Player_1);
+			player_2_Game_Controller.addEnemies(boughtEnemies_Player_1);
+			System.out.println("Assamble 2");
 		}
 	}
 

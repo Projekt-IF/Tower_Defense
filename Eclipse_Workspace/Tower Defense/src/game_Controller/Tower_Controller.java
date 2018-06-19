@@ -53,15 +53,22 @@ public class Tower_Controller {
 								if ((currentX >= 0) && (currentX < grid.getLength())) {
 									for (int z = 0; z < this.game_Controller.getEnemyList().size(); z++) {
 										Enemy tmpEnemy = game_Controller.getEnemyList().get(z);
-										if ((tmpEnemy.getPosY() == currentY) && (tmpEnemy.getPosX() == currentX)) {
-											tmpEnemy.setLife(tmpEnemy.getLife() - current.shoot());
-											if(!tmpEnemy.checkAlife()) {
-												this.server.send(player.getPlayerIP(), player.getPlayerPort(),
-														Protocol.SC_UPDATE_POSITION_ENEMY + Protocol.SEPARATOR
-																+ tmpEnemy.getPosX() + Protocol.SEPARATOR
-																+ tmpEnemy.getPosY() + Protocol.SEPARATOR + "null"
-																+ Protocol.SEPARATOR + "null");
-												this.game_Controller.getEnemyList().remove(tmpEnemy);
+										if (!current.isOnCooldown()) {
+											if ((tmpEnemy.getPosY() == currentY) && (tmpEnemy.getPosX() == currentX)) {
+												tmpEnemy.setLife(tmpEnemy.getLife() - current.shoot());
+												if (!tmpEnemy.checkAlife()) {
+													player.setPlayerMoney(
+															player.getPlayerMoney() + tmpEnemy.getBounty());
+													this.server.send(player.getPlayerIP(), player.getPlayerPort(),
+															Protocol.SC_UPDATE_PLAYER_MONEY + Protocol.SEPARATOR
+																	+ player.getPlayerMoney());
+													this.server.send(player.getPlayerIP(), player.getPlayerPort(),
+															Protocol.SC_UPDATE_POSITION_ENEMY + Protocol.SEPARATOR
+																	+ tmpEnemy.getPosX() + Protocol.SEPARATOR
+																	+ tmpEnemy.getPosY() + Protocol.SEPARATOR + "null"
+																	+ Protocol.SEPARATOR + "null");
+													this.game_Controller.getEnemyList().remove(tmpEnemy);
+												}
 											}
 										}
 									}

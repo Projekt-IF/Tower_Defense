@@ -17,6 +17,7 @@ public class Player {
 	private boolean isReady;
 	
 	private boolean isBuyDone;
+	private boolean isRoundOver;
 
 	private boolean isConnected;
 	private boolean isInLobby;
@@ -226,6 +227,20 @@ public class Player {
 	 */
 	public void setOtherplayer(Player otherplayer) {
 		this.otherplayer = otherplayer;
+	}
+
+	/**
+	 * @return the isRoundOver
+	 */
+	public boolean isRoundOver() {
+		return isRoundOver;
+	}
+
+	/**
+	 * @param isRoundOver the isRoundOver to set
+	 */
+	public void setRoundOver(boolean isRoundOver) {
+		this.isRoundOver = isRoundOver;
 	}
 
 }

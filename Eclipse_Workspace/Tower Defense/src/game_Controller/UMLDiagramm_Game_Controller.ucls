@@ -3,7 +3,7 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="game_Controller.Clock" project="Tower Defense" 
     file="/Tower Defense/src/game_Controller/Clock.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="207" width="117" x="489" y="37"/>    
+    <position height="207" width="117" x="702" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="game_Controller.Enemy_Controller" project="Tower Defense" 
     file="/Tower Defense/src/game_Controller/Enemy_Controller.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="333" width="210" x="42" y="1377"/>    
+    <position height="531" width="387" x="243" y="1467"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,87 +21,98 @@
   </class>  
   <class id="3" language="java" name="game_Controller.Game_Controller" project="Tower Defense" 
     file="/Tower Defense/src/game_Controller/Game_Controller.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="927" width="256" x="161" y="410"/>    
+    <position height="999" width="261" x="243" y="428"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="game_Controller.Ingame_Clock" project="Tower Defense" 
-    file="/Tower Defense/src/game_Controller/Ingame_Clock.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="207" width="125" x="646" y="37"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="5" language="java" name="game_Controller.Level_Controller" project="Tower Defense" 
+  <class id="4" language="java" name="game_Controller.Level_Controller" project="Tower Defense" 
     file="/Tower Defense/src/game_Controller/Level_Controller.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="153" width="162" x="534" y="1377"/>    
+    <position height="153" width="162" x="41" y="1467"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="game_Controller.Tower_Controller" project="Tower Defense" 
+  <class id="5" language="java" name="game_Controller.Tower_Controller" project="Tower Defense" 
     file="/Tower Defense/src/game_Controller/Tower_Controller.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="333" width="288" x="161" y="37"/>    
+    <position height="351" width="343" x="243" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="game_Controller.Wave_Controller" project="Tower Defense" 
+  <class id="6" language="java" name="game_Controller.Wave_Controller" project="Tower Defense" 
     file="/Tower Defense/src/game_Controller/Wave_Controller.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="279" width="202" x="292" y="1377"/>    
+    <position height="315" width="225" x="670" y="1467"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="8">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="9" name="tC"/>      
-      <multiplicity id="10" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="11">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="12" name="game_Controller"/>      
-      <multiplicity id="13" minimum="0" maximum="1"/>    
+  <association id="7">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="8" name="game_Controller">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="9" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="14">    
+  <association id="10">    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="15" name="eC"/>      
-      <multiplicity id="16" minimum="0" maximum="1"/>    
+      <attribute id="11" name="wC">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="12" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="13">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="14" name="lC">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="15" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="16">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="17" name="eC">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="18" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="17">    
+  <association id="19">    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="18" name="lC"/>      
-      <multiplicity id="19" minimum="0" maximum="1"/>    
+      <attribute id="20" name="tC">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="21" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="20">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="21" name="wC"/>      
-      <multiplicity id="22" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

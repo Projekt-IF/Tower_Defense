@@ -19,8 +19,8 @@ public class WaveGenerator {
 	private int currentType2;
 	private int currentType3;
 
-	public WaveGenerator(ArrayList<Enemy> pGeneratedEnemyList) {
-		generatedEnemies = pGeneratedEnemyList;
+	public WaveGenerator() {
+		generatedEnemies = new ArrayList<Enemy>();
 		currentMaxNumber = 5;
 		currentWaveIndex = 0;
 		currentType3 = 0;

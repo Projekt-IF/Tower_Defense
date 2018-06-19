@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import envoirement.Grid;
 import envoirement.Tile;
+import network.Protocol;
 import network.Server_TD;
 import objects.Enemy;
 import objects.Player;
@@ -59,23 +60,28 @@ public class Game_Controller {
 	}
 
 	public void createWave() {
-		this.getGeneratedEnemyList().clear();
-		this.setGeneratedEnemyList(wC.generateWave());
+//		this.getGeneratedEnemyList().clear();
+		addEnemies(wC.generateWave());
+		eC.printEnemyLists();
+		wC.setNumbers();
 		this.currentWaveIndex = wC.getCurrentWaveIndex();
 	}
 	
 	public void startLoop() {
 		//TODO:LOOP IT!!
+		System.out.println(towerList.size());
 		loopStopped = false;
 		while (!loopStopped) {
 			if (!getEnemyController().getGeneratedEnemyList().isEmpty()) {
 				spawnEnemy();
 			}
-			if (!getEnemyList().isEmpty()) {
+			if ((!getEnemyList().isEmpty() || !getGeneratedEnemyList().isEmpty()) && !loopStopped) {
 				getTowerController().checkTowers();
 				getEnemyController().checkMoveEnemies();
 			} else {
 				loopStopped = true;
+				player.setRoundOver(true);
+				this.server.send(player.getPlayerIP(), player.getPlayerPort(), Protocol.SC_ROUND_OVER);
 			}
 		}
 	}
@@ -118,7 +124,7 @@ public class Game_Controller {
 		getTowerList().add(getTowerController().createTower(pPosX, pPosY, pType));
 	}
 
-	public void addPurchasedEnemies(ArrayList<Enemy> pAddedEnemies) {
+	public void addEnemies(ArrayList<Enemy> pAddedEnemies) {
 		for (int i = 0; i < pAddedEnemies.size(); i++) {
 			getGeneratedEnemyList().add(pAddedEnemies.get(i));
 		}
@@ -368,7 +374,7 @@ public class Game_Controller {
 			Enemy e = new Enemy(null, null, 3);
 			eL.add(e);
 		}
-		gC.addPurchasedEnemies(eL);
+		gC.addEnemies(eL);
 		// gC.spawnEnemy();
 		// gC.spawnEnemy();
 		// gC.spawnEnemy();

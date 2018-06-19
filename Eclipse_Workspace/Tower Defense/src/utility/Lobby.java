@@ -65,6 +65,13 @@ public class Lobby {
 		}
 		return false;
 	}
+	
+	public boolean allRoundOver() {
+		if(player_1.isRoundOver() && player_2.isRoundOver()) {
+			return true;
+		}
+		return false;
+	}
 
 	public void resetPlayer_1() {
 		this.player_1 = null;

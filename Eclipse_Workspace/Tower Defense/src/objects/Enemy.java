@@ -28,6 +28,7 @@ public class Enemy {
 	private int damage;
 
 	private int cost;
+	private int bounty;
 
 	private boolean onCooldown;
 
@@ -43,6 +44,7 @@ public class Enemy {
 		this.speed = types.calcSpeed(pType);
 		this.damage = types.calcDamage(pType);
 		this.cost = types.calcCost(pType);
+		this.bounty = types.calcBounty(pType);
 		this.onCooldown = false;
 	}
 
@@ -168,6 +170,20 @@ public class Enemy {
 	 */
 	public void setNumber(int number) {
 		this.number = number;
+	}
+
+	/**
+	 * @return the bounty
+	 */
+	public int getBounty() {
+		return bounty;
+	}
+
+	/**
+	 * @param bounty the bounty to set
+	 */
+	public void setBounty(int bounty) {
+		this.bounty = bounty;
 	}
 
 }

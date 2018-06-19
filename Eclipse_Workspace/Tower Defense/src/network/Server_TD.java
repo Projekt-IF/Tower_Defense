@@ -178,9 +178,13 @@ public class Server_TD extends Server {
 			break;
 		/* CS_READY_ENEMIESPURCHASED */
 		case Protocol.CS_READY_ENEMIESPURCHASED:
-			lobbyList.get(player.getLobbyIndex()).getGameFrameWork().assembleWaves(player.getPositionInLobby());
+			lobbyList.get(player.getLobbyIndex()).getGameFrameWork().assambleWaves(player.getPositionInLobby());
 			player.setBuyDone(true);
 			generateBuyPhaseDoneResponse(player);
+			break;
+		/* SC_ARE_ALL_ROUND_OVER */
+		case Protocol.CS_ARE_ALL_ROUND_OVER:
+			generateRoundOverResponse(player);
 			break;
 		/* CS_LOGOUT:<Username> */
 		case Protocol.CS_LOGOUT:
@@ -296,10 +300,24 @@ public class Server_TD extends Server {
 							+ Protocol.SEPARATOR + player.getHealth());
 			backMessage = Protocol.SC_BUY_ALL_READY;
 			this.sendToLobby(player.getLobbyIndex(), backMessage);
+			lobby.getPlayer_1().setBuyDone(false);
+			lobby.getPlayer_2().setBuyDone(false);
 			// TODO: now the wave has to be played.
 			lobby.getGameFrameWork().startWave();
 		} else {
 			backMessage = Protocol.SC_BUY_DONE;
+			this.send(player.getPlayerIP(), player.getPlayerPort(), backMessage);
+		}
+	}
+
+	private void generateRoundOverResponse(Player player) {
+		Lobby lobby = lobbyList.get(player.getLobbyIndex());
+		String backMessage = "";
+		if (lobby.allRoundOver()) {
+			backMessage = Protocol.SC_ALL_ROUND_OVER_TRUE;
+			this.sendToLobby(player.getLobbyIndex(), backMessage);
+		} else {
+			backMessage = Protocol.SC_ALL_ROUND_OVER_FALSE;
 			this.send(player.getPlayerIP(), player.getPlayerPort(), backMessage);
 		}
 	}
