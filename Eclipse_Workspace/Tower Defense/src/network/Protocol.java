@@ -89,12 +89,18 @@ public class Protocol {
 			SC_CHANGE_MAP = "chngmp",
 
 			// End of game messages
-			/* SC_VICTORY:<String> */
-			SC_VICTORY = "vctry",
-			/* SC_LOSS:<String> */
-			SC_LOSS = "lss",
-			/* SC_ENDOFGAMESTATS:<Minutes><Points><Money> */
-			SC_ENDOFGAMESTATS = "ndfgmstts",
+			/* SC_CHANGE_ENDSCREEN */
+			SC_CHANGE_ENDSCREEN = "chngndscrn",
+			/* SC_UPDATE_ENDSCREEN_LEVEL:<Level> */
+			SC_UPDATE_ENDSCREEN_LEVEL = "pdtndscrnlvl",
+			/* SC_EXIT_ENDSCREEN */
+			SC_EXIT_ENDSCREEN = "xtndscrn",
+			/* SC_UPDATE_ENDSCREEN_OWN:<State>:<Name>:<Health>:<Money>:<Enemies>:<Towers> */
+			SC_UPDATE_ENDSCREEN_OWN = "pdtndscrnwn",
+			/*
+			 * SC_UPDATE_ENDSCREEN_OTHER:<State>:<Name>:<Health>:<Money>:<Enemies>:<Towers>
+			 */
+			SC_UPDATE_ENDSCREEN_OTHER = "pdtndscrnthr",
 
 			// Universal
 			/* SC_SENDERRORMESSAGE:<String> */
@@ -137,6 +143,8 @@ public class Protocol {
 			/* CS_READY_ENEMIESPURCHASED */
 			CS_READY_ENEMIESPURCHASED = "rdynmsprchsd",
 			/* SC_ARE_ALL_ROUND_OVER */
-			CS_ARE_ALL_ROUND_OVER = "rllrndvr";
+			CS_ARE_ALL_ROUND_OVER = "rllrndvr",
+			/* CS_EXIT_ENDSCREEN */
+			CS_EXIT_ENDSCREEN = "xtndscrn";
 
 }

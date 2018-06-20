@@ -174,7 +174,8 @@ public class TD_Client extends Client {
 
 		case Protocol.SC_UPDATE_POSITION_ENEMY:
 			updatePositionEnemy(tags[1], tags[2], tags[3], tags[4]);
-			System.out.println("PREVIOUS X: " + tags[1] + " Y: " + tags[2] + "  CURRENT X: " + tags[3] + " Y: " + tags[4]);
+			System.out.println(
+					"PREVIOUS X: " + tags[1] + " Y: " + tags[2] + "  CURRENT X: " + tags[3] + " Y: " + tags[4]);
 			break;
 
 		case Protocol.SC_UPDATE_PLAYER_HEALTH:
@@ -183,32 +184,53 @@ public class TD_Client extends Client {
 			this.myGui.updateOwnHealth(ownHealth);
 			this.myGui.updateOtherHealth(otherHealth);
 			break;
-			
+
 		case Protocol.SC_ROUND_OVER:
 			this.send(Protocol.CS_ARE_ALL_ROUND_OVER);
 			break;
-			
+
 		case Protocol.SC_ALL_ROUND_OVER_FALSE:
 			this.myGui.switchPanelGameBuyWait();
 			break;
-			
+
 		case Protocol.SC_ALL_ROUND_OVER_TRUE:
 			this.myGui.resetGameMap();
 			this.myGui.switchPanelGame();
 			this.myGui.switchPanelGameBuyTowers();
-			send(Protocol.CS_READY_TOWERPLACING);
-			send(Protocol.CS_READY_ENEMIESPURCHASED);
 			break;
 
 		// End of game messages
-
-		case Protocol.SC_VICTORY:
+			
+		case Protocol.SC_CHANGE_ENDSCREEN:
+			this.myGui.switchPanelGameEndScreen();
 			break;
 
-		case Protocol.SC_LOSS:
+		case Protocol.SC_UPDATE_ENDSCREEN_OWN:
+			String ownState = tags[1];
+			String ownName = tags[2];
+			String own_Health = tags[3];
+			String ownMoney = tags[4];
+			String ownEnemies = tags[5];
+			String ownTowers = tags[6];
+			this.myGui.updateEndScreenOwn(ownState, ownName, own_Health, ownMoney, ownEnemies, ownTowers);
 			break;
 
-		case Protocol.SC_ENDOFGAMESTATS:
+		case Protocol.SC_UPDATE_ENDSCREEN_OTHER:
+			String otherState = tags[1];
+			String otherName = tags[2];
+			String other_Health = tags[3];
+			String otherMoney = tags[4];
+			String otherEnemies = tags[5];
+			String otherTowers = tags[6];
+			this.myGui.updateEndScreenOther(otherState, otherName, other_Health, otherMoney, otherEnemies, otherTowers);
+			break;
+			
+		case Protocol.SC_EXIT_ENDSCREEN:
+			this.myGui.clearEndScreen();
+			this.myGui.clearGameEnemyBuyChosenList();
+			this.myGui.clearGameTowerBuyChosenList();
+			this.myGui.resetGameMap();
+			this.myGui.switchPanelLoggedIn(tags[1]);
 			break;
 
 		// Universal
@@ -233,10 +255,10 @@ public class TD_Client extends Client {
 	}
 
 	private void updatePositionEnemy(String PreviousPosX, String PreviousPosY, String CurrentPosX, String CurrentPosY) {
-		//Was on a Tile before
-		if(!PreviousPosX.equals("null")&&!PreviousPosY.equals("null")) {
-			//Is on another Tile
-			if(!CurrentPosX.equals("null")&&!CurrentPosY.equals("null")) {
+		// Was on a Tile before
+		if (!PreviousPosX.equals("null") && !PreviousPosY.equals("null")) {
+			// Is on another Tile
+			if (!CurrentPosX.equals("null") && !CurrentPosY.equals("null")) {
 				this.myGui.decreaseEnemyCount(Integer.parseInt(PreviousPosX), Integer.parseInt(PreviousPosY));
 				this.myGui.increaseEnemyCount(Integer.parseInt(CurrentPosX), Integer.parseInt(CurrentPosY));
 			} else {

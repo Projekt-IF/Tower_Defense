@@ -37,6 +37,7 @@ public class Tower_Controller {
 
 	public Tower createTower(int pPosX, int pPosY, int pType) {
 		grid.getGridLayer()[pPosY][pPosX].setType(Tile.TYPE_TOWER);
+		player.setTowersPlaced(player.getTowersPlaced() + 1);
 		return (new Tower(pPosX, pPosY, pType));
 	}
 
@@ -67,6 +68,7 @@ public class Tower_Controller {
 																	+ tmpEnemy.getPosX() + Protocol.SEPARATOR
 																	+ tmpEnemy.getPosY() + Protocol.SEPARATOR + "null"
 																	+ Protocol.SEPARATOR + "null");
+													player.setEnemiesKilled(player.getEnemiesKilled() + 1);
 													this.game_Controller.getEnemyList().remove(tmpEnemy);
 												}
 											}

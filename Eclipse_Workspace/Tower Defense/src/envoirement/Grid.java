@@ -27,6 +27,7 @@ public class Grid {
 		gc = new GridCreator();
 		this.gridLayer = null;
 		loadLevel(level);
+		printGrid();
 	}
 
 	/**

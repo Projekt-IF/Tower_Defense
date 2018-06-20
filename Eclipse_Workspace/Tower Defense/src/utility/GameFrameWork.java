@@ -8,6 +8,7 @@ import envoirement.Level_2_Preset;
 import envoirement.Level_Test_Preset;
 import envoirement.Tile;
 import game_Controller.Game_Controller;
+import network.Protocol;
 import network.Server_TD;
 import objects.Enemy;
 import objects.Player;
@@ -15,7 +16,7 @@ import objects.Tower;
 
 public class GameFrameWork {
 
-	public static final int startMoney = 500;
+	public static final int startMoney = 10000;
 
 	public static final int startHealth = 100;
 
@@ -34,15 +35,15 @@ public class GameFrameWork {
 
 	private ArrayList<Tower> boughtTowers_Player_1;
 	private ArrayList<Tower> boughtTowers_Player_2;
-	
+
 	private boolean loopStopped;
 
 	public GameFrameWork(Server_TD pServer) {
 		this.server = pServer;
 		this.player_1 = null;
 		this.player_2 = null;
-		this.player_1_Game_Controller = new Game_Controller(this.server);
-		this.player_2_Game_Controller = new Game_Controller(this.server);
+		this.player_1_Game_Controller = new Game_Controller(this.server, this);
+		this.player_2_Game_Controller = new Game_Controller(this.server, this);
 		boughtEnemies_Player_1 = new ArrayList<Enemy>();
 		boughtEnemies_Player_2 = new ArrayList<Enemy>();
 		boughtTowers_Player_1 = new ArrayList<Tower>();
@@ -51,13 +52,64 @@ public class GameFrameWork {
 	}
 
 	public void clear() {
-		this.player_1_Game_Controller = new Game_Controller(this.server);
-		this.player_2_Game_Controller = new Game_Controller(this.server);
+		this.player_1_Game_Controller = new Game_Controller(this.server, this);
+		this.player_2_Game_Controller = new Game_Controller(this.server, this);
 		boughtEnemies_Player_1 = new ArrayList<Enemy>();
 		boughtEnemies_Player_2 = new ArrayList<Enemy>();
 		boughtTowers_Player_1 = new ArrayList<Tower>();
 		boughtTowers_Player_2 = new ArrayList<Tower>();
 		setLevel();
+	}
+
+	public void stopGame() {
+		this.player_1_Game_Controller.setLoopStopped(true);
+		this.player_2_Game_Controller.setLoopStopped(true);
+	}
+
+	public void evaluateGameResults() {
+		// SC_UPDATE_ENDSCREEN_OWN:<State>:<Name>:<Health>:<Money>:<Enemies>:<Towers>
+		int health_player_1 = player_1.getHealth();
+		int health_player_2 = player_2.getHealth();
+		if ((health_player_1 <= 0) && (health_player_2 <= 0)) {
+			// BOTH LOST
+			sendEndOfGameResults("LOST", "LOST");
+		} else if ((health_player_1 <= 0) && (health_player_2 > 0)) {
+			// PLAYER ONE LOST
+			sendEndOfGameResults("LOST", "WON");
+		} else if ((health_player_1 > 0) && (health_player_2 <= 0)) {
+			// PLAYER TWO LOST
+			sendEndOfGameResults("WON", "LOST");
+		}
+		this.server.sendToLobby(player_1.getLobbyIndex(), Protocol.SC_CHANGE_ENDSCREEN);
+		this.server.exitGame(player_1.getPlayerIP(), player_1.getPlayerPort());
+		this.server.exitGame(player_2.getPlayerIP(), player_2.getPlayerPort());
+	}
+
+	public void sendEndOfGameResults(String player_1_placing, String player_2_placing) {
+		this.server.send(player_1.getPlayerIP(), player_1.getPlayerPort(),
+				Protocol.SC_UPDATE_ENDSCREEN_LEVEL + Protocol.SEPARATOR + player_1_Game_Controller.getCurrentWaveIndex());
+		this.server.send(player_2.getPlayerIP(), player_2.getPlayerPort(),
+				Protocol.SC_UPDATE_ENDSCREEN_LEVEL + Protocol.SEPARATOR + player_2_Game_Controller.getCurrentWaveIndex());
+		this.server.send(player_1.getPlayerIP(), player_1.getPlayerPort(),
+				Protocol.SC_UPDATE_ENDSCREEN_OWN + Protocol.SEPARATOR + player_1_placing + Protocol.SEPARATOR
+						+ player_1.getUsername() + Protocol.SEPARATOR + player_1.getHealth() + Protocol.SEPARATOR
+						+ player_1.getPlayerMoney() + Protocol.SEPARATOR + player_1.getEnemiesKilled()
+						+ Protocol.SEPARATOR + player_1.getTowersPlaced());
+		this.server.send(player_2.getPlayerIP(), player_2.getPlayerPort(),
+				Protocol.SC_UPDATE_ENDSCREEN_OWN + Protocol.SEPARATOR + player_2_placing + Protocol.SEPARATOR
+						+ player_2.getUsername() + Protocol.SEPARATOR + player_2.getHealth() + Protocol.SEPARATOR
+						+ player_2.getPlayerMoney() + Protocol.SEPARATOR + player_2.getEnemiesKilled()
+						+ Protocol.SEPARATOR + player_2.getTowersPlaced());
+		this.server.send(player_1.getPlayerIP(), player_1.getPlayerPort(),
+				Protocol.SC_UPDATE_ENDSCREEN_OTHER + Protocol.SEPARATOR + player_2_placing + Protocol.SEPARATOR
+						+ player_2.getUsername() + Protocol.SEPARATOR + player_2.getHealth() + Protocol.SEPARATOR
+						+ player_2.getPlayerMoney() + Protocol.SEPARATOR + player_2.getEnemiesKilled()
+						+ Protocol.SEPARATOR + player_2.getTowersPlaced());
+		this.server.send(player_2.getPlayerIP(), player_2.getPlayerPort(),
+				Protocol.SC_UPDATE_ENDSCREEN_OTHER + Protocol.SEPARATOR + player_1_placing + Protocol.SEPARATOR
+						+ player_1.getUsername() + Protocol.SEPARATOR + player_1.getHealth() + Protocol.SEPARATOR
+						+ player_1.getPlayerMoney() + Protocol.SEPARATOR + player_1.getEnemiesKilled()
+						+ Protocol.SEPARATOR + player_1.getTowersPlaced());
 	}
 
 	public String chooseRandomMap() {
@@ -108,7 +160,8 @@ public class GameFrameWork {
 				System.out.println("NOW LOOP");
 				player_1_Game_Controller.startLoop();
 			}
-		}).start();;
+		}).start();
+		;
 		new Thread(new Runnable() {
 
 			@Override
@@ -118,7 +171,8 @@ public class GameFrameWork {
 				System.out.println("NOW LOOP");
 				player_2_Game_Controller.startLoop();
 			}
-		}).start();;
+		}).start();
+		;
 	}
 
 	private void prepareGame() {
@@ -292,7 +346,8 @@ public class GameFrameWork {
 	}
 
 	/**
-	 * @param loopStopped the loopStopped to set
+	 * @param loopStopped
+	 *            the loopStopped to set
 	 */
 	public void setLoopStopped(boolean loopStopped) {
 		this.loopStopped = loopStopped;

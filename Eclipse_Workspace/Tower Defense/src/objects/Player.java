@@ -3,6 +3,9 @@ package objects;
 public class Player {
 	
 	private String username;
+	
+	private int enemiesKilled;
+	private int towersPlaced;
 
 	private String playerIP;
 	private Integer playerPort;
@@ -12,7 +15,7 @@ public class Player {
 	private int positionInLobby;
 
 	private long playerMoney;
-	private long health;
+	private int health;
 
 	private boolean isReady;
 	
@@ -145,7 +148,7 @@ public class Player {
 	/**
 	 * @return the health
 	 */
-	public long getHealth() {
+	public int getHealth() {
 		return health;
 	}
 
@@ -153,7 +156,7 @@ public class Player {
 	 * @param health
 	 *            the health to set
 	 */
-	public void setHealth(long health) {
+	public void setHealth(int health) {
 		this.health = health;
 	}
 
@@ -241,6 +244,34 @@ public class Player {
 	 */
 	public void setRoundOver(boolean isRoundOver) {
 		this.isRoundOver = isRoundOver;
+	}
+
+	/**
+	 * @return the enemiesKilled
+	 */
+	public int getEnemiesKilled() {
+		return enemiesKilled;
+	}
+
+	/**
+	 * @param enemiesKilled the enemiesKilled to set
+	 */
+	public void setEnemiesKilled(int enemiesKilled) {
+		this.enemiesKilled = enemiesKilled;
+	}
+
+	/**
+	 * @return the towersPlaced
+	 */
+	public int getTowersPlaced() {
+		return towersPlaced;
+	}
+
+	/**
+	 * @param towersPlaced the towersPlaced to set
+	 */
+	public void setTowersPlaced(int towersPlaced) {
+		this.towersPlaced = towersPlaced;
 	}
 
 }

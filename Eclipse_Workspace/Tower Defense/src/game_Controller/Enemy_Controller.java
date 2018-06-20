@@ -15,7 +15,7 @@ import utility.EnemySpawnTimer;
  */
 public class Enemy_Controller {
 
-	// private Game_Controller game_Controller;
+	private Game_Controller game_Controller;
 
 	private Server_TD server;
 
@@ -32,8 +32,8 @@ public class Enemy_Controller {
 	 * 
 	 */
 	public Enemy_Controller(Server_TD pServer, ArrayList<Enemy> pEnemyList, ArrayList<Enemy> pGeneratedEnemyList,
-			Player pPlayer/* , Game_Controller pGame_Controller */) {
-		// this.game_Controller = pGame_Controller;
+			Player pPlayer, Game_Controller pGame_Controller) {
+		this.game_Controller = pGame_Controller;
 		this.server = pServer;
 		this.generatedEnemyList = pGeneratedEnemyList;
 		this.enemyList = pEnemyList;
@@ -130,8 +130,11 @@ public class Enemy_Controller {
 							&& (grid.getBaseTile().getyPos() == enemyList.get(a).getPosY())) {
 						if (player.getHealth() > 0) {
 							player.setHealth(player.getHealth() - enemyList.get(a).getDamage());
-						} else if (player.getHealth() <= 0) {
+						}
+						if (player.getHealth() <= 0) {
 							// TODO: END GAME
+							this.game_Controller.getGameFrameWork().stopGame();
+							this.game_Controller.getGameFrameWork().evaluateGameResults();
 						}
 						this.server.send(player.getPlayerIP(), player.getPlayerPort(),
 								Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + player.getHealth()

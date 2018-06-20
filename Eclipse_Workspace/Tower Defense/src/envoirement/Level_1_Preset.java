@@ -17,6 +17,8 @@ public class Level_1_Preset {
 	 * 	 	2 B P O P O
 	 *	 	3 O O O P S
 	 * 	 	4 O O O O O
+	 * 
+	 * 		O O O O O O O O O O
 	 * 				 		*/
 	
 	//The Array represents the type of the Tiles in the Grid

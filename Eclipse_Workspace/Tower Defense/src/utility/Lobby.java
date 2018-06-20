@@ -31,7 +31,9 @@ public class Lobby {
 	}
 	
 	public void chooseRandomMap() {
+		System.out.println(mapName);
 		setMapName(gameFrameWork.chooseRandomMap());
+		System.out.println(mapName);
 	}
 	
 	public void initializeGame() {

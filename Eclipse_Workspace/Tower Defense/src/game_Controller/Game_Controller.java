@@ -9,12 +9,15 @@ import network.Server_TD;
 import objects.Enemy;
 import objects.Player;
 import objects.Tower;
+import utility.GameFrameWork;
 
 public class Game_Controller {
 
 	private Server_TD server;
 
 	private Player player;
+	
+	private GameFrameWork gameFrameWork;
 
 	private String currentLevel;
 
@@ -37,15 +40,16 @@ public class Game_Controller {
 	
 	private boolean loopStopped;
 
-	public Game_Controller(Server_TD pServer) {
+	public Game_Controller(Server_TD pServer, GameFrameWork gFW) {
 		this.server = pServer;
+		this.setGameFrameWork(gFW);
 		this.currentLevel = "";
 		this.enemyList = new ArrayList<Enemy>();
 		this.generatedEnemyList = new ArrayList<Enemy>();
 		this.towerList = new ArrayList<Tower>();
 		this.lC = new Level_Controller(this.currentLevel/* , this */);
 		this.wC = new Wave_Controller(this.generatedEnemyList/* this */);
-		this.eC = new Enemy_Controller(this.server, this.enemyList, this.generatedEnemyList, this.player/* , this */);
+		this.eC = new Enemy_Controller(this.server, this.enemyList, this.generatedEnemyList, this.player, this);
 		this.tC = new Tower_Controller(this.server, this.towerList, this);
 		this.loopStopped = false;
 	}
@@ -313,85 +317,17 @@ public class Game_Controller {
 		this.loopStopped = loopStopped;
 	}
 
-	public void test(Server_TD pServer, Player pPlayer) {
-		Game_Controller gC = new Game_Controller(pServer);
-		String[] waves = new String[3];
-		waves[0] = "src/Waves/Wave_Test.txt";
-		waves[1] = "src/Waves/Wave_One.txt";
-		waves[2] = "src/Waves/Wave_Two.txt";
-		// Setting the Grid
-		gC.iniciateLevel();
-		for (int a = 0; a < waves.length; a++) {
-			// Setting up tower
-			// System.out.println();
-			// System.out.println();
-			// System.out.println();
-			// System.out.println();
-			// Loading Waves
-			// System.out.println("TEst2");
-			// System.out.println(
-			// "The Length " + gC.getWaveList().size() + " " +
-			// gC.getWaveController().getWaveList().size());
-			// gC.getWaveController().loadWaves(waves[a]);
-			// System.out.println(
-			// "The Length " + gC.getWaveList().size() + " " +
-			// gC.getWaveController().getWaveList().size());
-			// System.out.println("TEst3");
-			// Go Through Wave List
-			// while (!gC.getWaveController().getWaveList().isEmpty()) {
-			// gC.setCurrentWave(gC.getCurrentWave() + 1);
-			// Create Wave
-			// gC.createWave(gC.getWaveController().getCurrentWave().getEnemyNumber(),
-			// gC.getWaveController().getCurrentWave().getEnemyType(),
-			// gC.getWaveController().getCurrentWave().getEnemyLevel());
-			gC.spawnEnemy();
-			while (!gC.getEnemyList().isEmpty()) {
-				// System.out.println(enemyList.get(enemyList.size()-1));
-				// If Tower in Range
-				// Check Towers
-				gC.getTowerController().checkTowers();
-				// Move The Enemies
-				gC.getEnemyController().checkMoveEnemies();
-			}
-			gC.getWaveController().setNextWave();
-			// System.out.println(gC.getWaveController().getWaveList().size());
-		}
-		// System.out.println("Elle Weg");
-		gC.getWaveController().setNextWave();
-		// if (waves[a].toString().contains("Test")) {
-		gC.changeLevel("one");
-		// } else if (waves[a].toString().contains("One")) {
-		gC.changeLevel("two");
+	/**
+	 * @return the gameFrameWork
+	 */
+	public GameFrameWork getGameFrameWork() {
+		return gameFrameWork;
 	}
-	// }
 
-	public static void main(String[] args) {
-		Game_Controller gC = new Game_Controller(new Server_TD(15679));
-		gC.iniciateLevel();
-		gC.createWave();
-		ArrayList<Enemy> eL = new ArrayList<Enemy>();
-		for (int i = 0; i < 5; i++) {
-			Enemy e = new Enemy(null, null, 3);
-			eL.add(e);
-		}
-		gC.addEnemies(eL);
-		// gC.spawnEnemy();
-		// gC.spawnEnemy();
-		// gC.spawnEnemy();
-		// gC.spawnEnemy();
-		// while (true) {
-		// if (!gC.getEnemyController().getGeneratedEnemyList().isEmpty()) {
-		// gC.spawnEnemy();
-		// }
-		// }
-		while (true) {
-			if (!gC.getEnemyController().getGeneratedEnemyList().isEmpty()) {
-				gC.spawnEnemy();
-			}
-			if (!gC.getEnemyList().isEmpty()) {
-				gC.getTowerController().checkTowers();
-				gC.getEnemyController().checkMoveEnemies();
-			}
-		}
+	/**
+	 * @param gameFrameWork the gameFrameWork to set
+	 */
+	public void setGameFrameWork(GameFrameWork gameFrameWork) {
+		this.gameFrameWork = gameFrameWork;
 	}
 }

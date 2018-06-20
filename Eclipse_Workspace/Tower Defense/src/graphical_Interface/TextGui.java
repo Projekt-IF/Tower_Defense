@@ -49,7 +49,7 @@ public class TextGui extends JFrame {
 	 */
 	private Integer chosenTowerType;
 	private Integer chosenEnemyType;
-	
+
 	private JButton[][] buttonArray;
 
 	private static final String USERNAMEPRESET = "USERNAME : ";
@@ -158,6 +158,48 @@ public class TextGui extends JFrame {
 	private JPanel gamePlayHealthPanel;
 	private JLabel gamePlayHealthOwnLabel;
 	private JLabel gamePlayHealthOtherLabel;
+	private JLabel gameTowerBuyTextHealthLabel;
+	private JLabel gameEnemyBuyTextHealthLabel;
+	private JPanel gameEndScreenPanel;
+	private JLabel gameEndScreenThisPlayer_PlacingLabel;
+	private JPanel gameEndScreenLevelPanel;
+	private JLabel gameEndScreenLevelLabel;
+	private JLabel gameEndScreenText_PlayerLabel;
+	private JLabel gameEndScreenThisPlayer_NameLabel;
+	private JLabel gameEndScreenThisPlayer_HealthLabel;
+	private JLabel gameEndScreenThisPlayer_MoneyLabel;
+	private JLabel gameEndScreenThisPlayer_EnemyLabel;
+	private JLabel gameEndScreenThisPlayer_TowerLabel;
+	private Component gameEndScreenThisPlayer_PlacingName_VerticalStrut;
+	private Component gameEndScreenThisPlayer_HealthMoney_VerticalStrut;
+	private Component gameEndScreenThisPlayer_EnemyTower_VerticalStrut;
+	private Box gameEndScreenText_VerticalBox;
+	private Box gameEndScreenThisPlayer_VerticalBox;
+	private Component gameEndScreenThisPlayer_NameHealth_VerticalStrut;
+	private Component gameEndScreenThisPlayer_MoneyEnemy_VerticalStrut;
+	private Box gameEndScreenOtherPlayer_VerticalBox;
+	private JLabel gameEndScreenOtherPlayer_PlacingLabel;
+	private Component gameEndScreenOtherPlayer_PlacingName_VerticalStrut;
+	private JLabel gameEndScreenOtherPlayer_NameLabel;
+	private Component gameEndScreenOtherPlayer_NameHealth_VerticalStrut;
+	private JLabel gameEndScreenOtherPlayer_HealthLabel;
+	private Component gameEndScreenOtherPlayer_HealthMoney_VerticalStrut;
+	private JLabel gameEndScreenOtherPlayer_MoneyLabel;
+	private Component gameEndScreenOtherPlayer_MoneyEnemy_VerticalStrut;
+	private JLabel gameEndScreenOtherPlayer_EnemyLabel;
+	private Component gameEndScreenOtherPlayer_EnemyTower_VerticalStrut;
+	private JLabel gameEndScreenOtherPlayer_TowerLabel;
+	private Component gameEndScreenText_Player_VerticalStrut;
+	private Component gameEndScreenText_PlayerHealth_VerticalStrut;
+	private JLabel gameEndScreenText_HealthLabel;
+	private Component gameEndScreenText_HealthMoney_VerticalStrut;
+	private JLabel gameEndScreenText_MoneyLabel;
+	private Component gameEndScreenText_MoneyEnemy_VerticalStrut;
+	private JLabel gameEndScreenText_EnemyLabel;
+	private JLabel gameEndScreenText_TowerLabel;
+	private Component gameEndScreenText_EnemyTower_VerticalStrut;
+	private JPanel gameEndScreenExitPanel;
+	private JButton gameEndScreenExitButton;
 
 	/**
 	 * Launch the application.
@@ -200,7 +242,7 @@ public class TextGui extends JFrame {
 		}
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 547, 376);
+		setBounds(100, 100, 595, 450);
 		setIconImage(image);
 		switchPanel = new JPanel();
 		switchPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -485,6 +527,10 @@ public class TextGui extends JFrame {
 		gameTowerBuyTextMoneyLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		gameTowerBuyTextPanel.add(gameTowerBuyTextMoneyLabel);
 
+		gameTowerBuyTextHealthLabel = new JLabel("               Health:");
+		gameTowerBuyTextHealthLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gameTowerBuyTextPanel.add(gameTowerBuyTextHealthLabel);
+
 		gameTowerBuyOptionsPanel = new JPanel();
 		gameBuyTowerPanel.add(gameTowerBuyOptionsPanel, BorderLayout.SOUTH);
 		gameTowerBuyOptionsPanel.setLayout(new BorderLayout(0, 0));
@@ -627,6 +673,10 @@ public class TextGui extends JFrame {
 		gameEnemyBuyTextMoneyLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		gameEnemyBuyTextPanel.add(gameEnemyBuyTextMoneyLabel);
 
+		gameEnemyBuyTextHealthLabel = new JLabel("               Health:");
+		gameEnemyBuyTextHealthLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gameEnemyBuyTextPanel.add(gameEnemyBuyTextHealthLabel);
+
 		gameEnemyBuyChosenPanel = new JPanel();
 		gameBuyEnemiesPanel.add(gameEnemyBuyChosenPanel, BorderLayout.CENTER);
 		gameEnemyBuyChosenPanel.setLayout(new BorderLayout(0, 0));
@@ -732,6 +782,175 @@ public class TextGui extends JFrame {
 		gamePlayHealthOtherLabel = new JLabel("Other Health: ");
 		gamePlayHealthOtherLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		gamePlayHealthPanel.add(gamePlayHealthOtherLabel, BorderLayout.EAST);
+
+		gameEndScreenPanel = new JPanel();
+		switchGamePanel.add(gameEndScreenPanel, "gameEndScreenPanel");
+		gameEndScreenPanel.setLayout(new BorderLayout(0, 0));
+
+		gameEndScreenLevelPanel = new JPanel();
+		gameEndScreenPanel.add(gameEndScreenLevelPanel, BorderLayout.NORTH);
+
+		gameEndScreenLevelLabel = new JLabel("Level: ");
+		gameEndScreenLevelLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gameEndScreenLevelPanel.add(gameEndScreenLevelLabel);
+
+		gameEndScreenThisPlayer_VerticalBox = Box.createVerticalBox();
+		gameEndScreenPanel.add(gameEndScreenThisPlayer_VerticalBox, BorderLayout.WEST);
+
+		gameEndScreenThisPlayer_PlacingLabel = new JLabel("_PLACE_");
+		gameEndScreenThisPlayer_PlacingLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		gameEndScreenThisPlayer_VerticalBox.add(gameEndScreenThisPlayer_PlacingLabel);
+		gameEndScreenThisPlayer_PlacingLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+
+		gameEndScreenThisPlayer_PlacingName_VerticalStrut = Box.createVerticalStrut(30);
+		gameEndScreenThisPlayer_VerticalBox.add(gameEndScreenThisPlayer_PlacingName_VerticalStrut);
+
+		gameEndScreenThisPlayer_NameLabel = new JLabel("_USERNAME_");
+		gameEndScreenThisPlayer_NameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		gameEndScreenThisPlayer_VerticalBox.add(gameEndScreenThisPlayer_NameLabel);
+		gameEndScreenThisPlayer_NameLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+
+		gameEndScreenThisPlayer_NameHealth_VerticalStrut = Box.createVerticalStrut(30);
+		gameEndScreenThisPlayer_VerticalBox.add(gameEndScreenThisPlayer_NameHealth_VerticalStrut);
+
+		gameEndScreenThisPlayer_HealthLabel = new JLabel("_HEALTH_");
+		gameEndScreenThisPlayer_HealthLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		gameEndScreenThisPlayer_VerticalBox.add(gameEndScreenThisPlayer_HealthLabel);
+		gameEndScreenThisPlayer_HealthLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+
+		gameEndScreenThisPlayer_HealthMoney_VerticalStrut = Box.createVerticalStrut(30);
+		gameEndScreenThisPlayer_VerticalBox.add(gameEndScreenThisPlayer_HealthMoney_VerticalStrut);
+
+		gameEndScreenThisPlayer_MoneyLabel = new JLabel("_Money_");
+		gameEndScreenThisPlayer_MoneyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		gameEndScreenThisPlayer_VerticalBox.add(gameEndScreenThisPlayer_MoneyLabel);
+		gameEndScreenThisPlayer_MoneyLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+
+		gameEndScreenThisPlayer_MoneyEnemy_VerticalStrut = Box.createVerticalStrut(30);
+		gameEndScreenThisPlayer_VerticalBox.add(gameEndScreenThisPlayer_MoneyEnemy_VerticalStrut);
+
+		gameEndScreenThisPlayer_EnemyLabel = new JLabel("_ENEMY_");
+		gameEndScreenThisPlayer_EnemyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		gameEndScreenThisPlayer_VerticalBox.add(gameEndScreenThisPlayer_EnemyLabel);
+		gameEndScreenThisPlayer_EnemyLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+
+		gameEndScreenThisPlayer_EnemyTower_VerticalStrut = Box.createVerticalStrut(30);
+		gameEndScreenThisPlayer_VerticalBox.add(gameEndScreenThisPlayer_EnemyTower_VerticalStrut);
+
+		gameEndScreenThisPlayer_TowerLabel = new JLabel("_TOWER_");
+		gameEndScreenThisPlayer_TowerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		gameEndScreenThisPlayer_VerticalBox.add(gameEndScreenThisPlayer_TowerLabel);
+		gameEndScreenThisPlayer_TowerLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+
+		gameEndScreenOtherPlayer_VerticalBox = Box.createVerticalBox();
+		gameEndScreenPanel.add(gameEndScreenOtherPlayer_VerticalBox, BorderLayout.EAST);
+
+		gameEndScreenOtherPlayer_PlacingLabel = new JLabel("_PLACE_");
+		gameEndScreenOtherPlayer_PlacingLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gameEndScreenOtherPlayer_PlacingLabel.setAlignmentX(0.5f);
+		gameEndScreenOtherPlayer_VerticalBox.add(gameEndScreenOtherPlayer_PlacingLabel);
+
+		gameEndScreenOtherPlayer_PlacingName_VerticalStrut = Box.createVerticalStrut(30);
+		gameEndScreenOtherPlayer_VerticalBox.add(gameEndScreenOtherPlayer_PlacingName_VerticalStrut);
+
+		gameEndScreenOtherPlayer_NameLabel = new JLabel("_USERNAME_");
+		gameEndScreenOtherPlayer_NameLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gameEndScreenOtherPlayer_NameLabel.setAlignmentX(0.5f);
+		gameEndScreenOtherPlayer_VerticalBox.add(gameEndScreenOtherPlayer_NameLabel);
+
+		gameEndScreenOtherPlayer_NameHealth_VerticalStrut = Box.createVerticalStrut(30);
+		gameEndScreenOtherPlayer_VerticalBox.add(gameEndScreenOtherPlayer_NameHealth_VerticalStrut);
+
+		gameEndScreenOtherPlayer_HealthLabel = new JLabel("_HEALTH_");
+		gameEndScreenOtherPlayer_HealthLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gameEndScreenOtherPlayer_HealthLabel.setAlignmentX(0.5f);
+		gameEndScreenOtherPlayer_VerticalBox.add(gameEndScreenOtherPlayer_HealthLabel);
+
+		gameEndScreenOtherPlayer_HealthMoney_VerticalStrut = Box.createVerticalStrut(30);
+		gameEndScreenOtherPlayer_VerticalBox.add(gameEndScreenOtherPlayer_HealthMoney_VerticalStrut);
+
+		gameEndScreenOtherPlayer_MoneyLabel = new JLabel("_Money_");
+		gameEndScreenOtherPlayer_MoneyLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gameEndScreenOtherPlayer_MoneyLabel.setAlignmentX(0.5f);
+		gameEndScreenOtherPlayer_VerticalBox.add(gameEndScreenOtherPlayer_MoneyLabel);
+
+		gameEndScreenOtherPlayer_MoneyEnemy_VerticalStrut = Box.createVerticalStrut(30);
+		gameEndScreenOtherPlayer_VerticalBox.add(gameEndScreenOtherPlayer_MoneyEnemy_VerticalStrut);
+
+		gameEndScreenOtherPlayer_EnemyLabel = new JLabel("_ENEMY_");
+		gameEndScreenOtherPlayer_EnemyLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gameEndScreenOtherPlayer_EnemyLabel.setAlignmentX(0.5f);
+		gameEndScreenOtherPlayer_VerticalBox.add(gameEndScreenOtherPlayer_EnemyLabel);
+
+		gameEndScreenOtherPlayer_EnemyTower_VerticalStrut = Box.createVerticalStrut(30);
+		gameEndScreenOtherPlayer_VerticalBox.add(gameEndScreenOtherPlayer_EnemyTower_VerticalStrut);
+
+		gameEndScreenOtherPlayer_TowerLabel = new JLabel("_TOWER_");
+		gameEndScreenOtherPlayer_TowerLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gameEndScreenOtherPlayer_TowerLabel.setAlignmentX(0.5f);
+		gameEndScreenOtherPlayer_VerticalBox.add(gameEndScreenOtherPlayer_TowerLabel);
+
+		gameEndScreenText_VerticalBox = Box.createVerticalBox();
+		gameEndScreenPanel.add(gameEndScreenText_VerticalBox, BorderLayout.CENTER);
+
+		gameEndScreenText_Player_VerticalStrut = Box.createVerticalStrut(60);
+		gameEndScreenText_VerticalBox.add(gameEndScreenText_Player_VerticalStrut);
+
+		gameEndScreenText_PlayerLabel = new JLabel("Player");
+		gameEndScreenText_PlayerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		gameEndScreenText_VerticalBox.add(gameEndScreenText_PlayerLabel);
+		gameEndScreenText_PlayerLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+
+		gameEndScreenText_PlayerHealth_VerticalStrut = Box.createVerticalStrut(30);
+		gameEndScreenText_VerticalBox.add(gameEndScreenText_PlayerHealth_VerticalStrut);
+
+		gameEndScreenText_HealthLabel = new JLabel("Health");
+		gameEndScreenText_HealthLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		gameEndScreenText_HealthLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gameEndScreenText_VerticalBox.add(gameEndScreenText_HealthLabel);
+
+		gameEndScreenText_HealthMoney_VerticalStrut = Box.createVerticalStrut(30);
+		gameEndScreenText_VerticalBox.add(gameEndScreenText_HealthMoney_VerticalStrut);
+
+		gameEndScreenText_MoneyLabel = new JLabel("Money");
+		gameEndScreenText_MoneyLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gameEndScreenText_MoneyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		gameEndScreenText_VerticalBox.add(gameEndScreenText_MoneyLabel);
+
+		gameEndScreenText_MoneyEnemy_VerticalStrut = Box.createVerticalStrut(30);
+		gameEndScreenText_VerticalBox.add(gameEndScreenText_MoneyEnemy_VerticalStrut);
+
+		gameEndScreenText_EnemyLabel = new JLabel("Enemies Killed");
+		gameEndScreenText_EnemyLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gameEndScreenText_EnemyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		gameEndScreenText_VerticalBox.add(gameEndScreenText_EnemyLabel);
+
+		gameEndScreenText_EnemyTower_VerticalStrut = Box.createVerticalStrut(30);
+		gameEndScreenText_VerticalBox.add(gameEndScreenText_EnemyTower_VerticalStrut);
+
+		gameEndScreenText_TowerLabel = new JLabel("Towers Placed");
+		gameEndScreenText_TowerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		gameEndScreenText_TowerLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gameEndScreenText_VerticalBox.add(gameEndScreenText_TowerLabel);
+
+		gameEndScreenExitPanel = new JPanel();
+		gameEndScreenPanel.add(gameEndScreenExitPanel, BorderLayout.SOUTH);
+
+		gameEndScreenExitButton = new JButton("EXIT");
+		gameEndScreenExitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		gameEndScreenExitButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				sendToServer(Protocol.CS_EXIT_ENDSCREEN);
+			}
+		});
+		gameEndScreenExitButton.setBackground(Color.DARK_GRAY);
+		gameEndScreenExitButton.setForeground(Color.RED);
+		gameEndScreenExitButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gameEndScreenExitPanel.add(gameEndScreenExitButton);
 	}
 
 	public void switchPanelLoginUsername() {
@@ -771,7 +990,7 @@ public class TextGui extends JFrame {
 	public void switchPanelGameBuyTowers() {
 		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
 		cl.show(switchGamePanel, "gameBuyTowerPanel");
-//		this.clearGameTowerBuyChosenList();
+		// this.clearGameTowerBuyChosenList();
 		this.setErrorTowerBuy("");
 	}
 
@@ -802,6 +1021,11 @@ public class TextGui extends JFrame {
 	public void switchPanelGamePlay() {
 		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
 		cl.show(switchGamePanel, "gamePlayPanel");
+	}
+
+	public void switchPanelGameEndScreen() {
+		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
+		cl.show(switchGamePanel, "gameEndScreenPanel");
 	}
 
 	public void createMapLayout(int height, int length, String[][] tileTypes) {
@@ -940,6 +1164,7 @@ public class TextGui extends JFrame {
 	public void setGameMapType(int posY, int posX, int type) {
 		JButton newButton = new JButton();
 		newButton.setBackground(generateGameMapButtonColor(type, newButton));
+		newButton.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		buttonArray[posY][posX] = newButton;
 		this.gamePlayMapPanel.add(newButton);
 	}
@@ -993,11 +1218,53 @@ public class TextGui extends JFrame {
 	}
 
 	public void updateOwnHealth(Integer health) {
+		this.gameTowerBuyTextHealthLabel.setText("               Health: " + health);
+		this.gameEnemyBuyTextHealthLabel.setText("               Health: " + health);
 		this.gamePlayHealthOwnLabel.setText("Your Health: " + health.toString());
 	}
 
 	public void updateOtherHealth(Integer health) {
 		this.gamePlayHealthOtherLabel.setText("Other Health: " + health.toString() + "        ");
+	}
+
+	public void updateEndScreenLevel(String levelCount) {
+		this.gameEndScreenLevelLabel.setText("Level: " + levelCount);
+	}
+
+	public void updateEndScreenOwn(String ownState, String ownName, String own_Health, String ownMoney,
+			String ownEnemies, String ownTowers) {
+		this.gameEndScreenThisPlayer_PlacingLabel.setText(ownState);
+		this.gameEndScreenThisPlayer_NameLabel.setText(ownName);
+		this.gameEndScreenThisPlayer_HealthLabel.setText(own_Health);
+		this.gameEndScreenThisPlayer_MoneyLabel.setText(ownMoney);
+		this.gameEndScreenThisPlayer_EnemyLabel.setText(ownEnemies);
+		this.gameEndScreenThisPlayer_TowerLabel.setText(ownTowers);
+	}
+	
+	public void updateEndScreenOther(String otherState, String otherName, String other_Health, String otherMoney,
+			String otherEnemies, String otherTowers) {
+		this.gameEndScreenOtherPlayer_PlacingLabel.setText(otherState);
+		this.gameEndScreenOtherPlayer_NameLabel.setText(otherName);
+		this.gameEndScreenOtherPlayer_HealthLabel.setText(other_Health);
+		this.gameEndScreenOtherPlayer_MoneyLabel.setText(otherMoney);
+		this.gameEndScreenOtherPlayer_EnemyLabel.setText(otherEnemies);
+		this.gameEndScreenOtherPlayer_TowerLabel.setText(otherTowers);
+	}
+	
+	public void clearEndScreen() {
+		this.gameEndScreenThisPlayer_PlacingLabel.setText("_PLACING_");
+		this.gameEndScreenThisPlayer_NameLabel.setText("_NAME_");
+		this.gameEndScreenThisPlayer_HealthLabel.setText("_HEALTH_");
+		this.gameEndScreenThisPlayer_MoneyLabel.setText("_MONEY_");
+		this.gameEndScreenThisPlayer_EnemyLabel.setText("_ENEMY_");
+		this.gameEndScreenThisPlayer_TowerLabel.setText("_TOWER_");
+		
+		this.gameEndScreenOtherPlayer_PlacingLabel.setText("_PLACING_");
+		this.gameEndScreenOtherPlayer_NameLabel.setText("_NAME_");
+		this.gameEndScreenOtherPlayer_HealthLabel.setText("_HEALTH_");
+		this.gameEndScreenOtherPlayer_MoneyLabel.setText("_MONEY_");
+		this.gameEndScreenOtherPlayer_EnemyLabel.setText("_ENEMY_");
+		this.gameEndScreenOtherPlayer_TowerLabel.setText("_TOWER_");
 	}
 
 	public void sendToServer(String pMessage) {

@@ -113,6 +113,7 @@ public class Server_TD extends Server {
 			backMessage = Protocol.SC_GAME_STARTING;
 			this.sendToLobby(player.getLobbyIndex(), backMessage);
 			updateMoney(player);
+			updateHealth(player);
 			break;
 		/* CS_PURCHASE_TOWER:<TowerPosX>:<TowerPosY>:<TowerType> */
 		case Protocol.CS_PURCHASE_TOWER:
@@ -186,6 +187,10 @@ public class Server_TD extends Server {
 		case Protocol.CS_ARE_ALL_ROUND_OVER:
 			generateRoundOverResponse(player);
 			break;
+		/* CS_EXIT_ENDSCREEN */
+		case Protocol.CS_EXIT_ENDSCREEN:
+			this.send(pClientIP, pClientPort, Protocol.SC_EXIT_ENDSCREEN + Protocol.SEPARATOR + player.getUsername());
+			break;
 		/* CS_LOGOUT:<Username> */
 		case Protocol.CS_LOGOUT:
 			// TODO:
@@ -237,6 +242,17 @@ public class Server_TD extends Server {
 		lobbyList.get(removePlayer.getLobbyIndex()).getGameFrameWork().clear();
 		this.closeConnection(pClientIP, pClientPort);
 
+	}
+
+	public void exitGame(String pClientIP, int pClientPort) {
+		System.out.println("Der Client mit der IP: " + pClientIP + " beendet das Spiel.");
+		Player removePlayer = getPlayer(pClientIP, pClientPort);
+		removePlayer.setReady(false);
+		removePlayer.setBuyDone(false);
+		removePlayer.setInGame(false);
+		removePlayer.setInLobby(false);
+		removeFromLobby(removePlayer);
+		lobbyList.get(removePlayer.getLobbyIndex()).getGameFrameWork().clear();
 	}
 
 	public void sendToLobby(int lobbyIndex, String pMessage) {
@@ -329,6 +345,14 @@ public class Server_TD extends Server {
 		this.send(lobby.getOtherPlayer(player).getPlayerIP(), lobby.getOtherPlayer(player).getPlayerPort(),
 				Protocol.SC_UPDATE_PLAYER_MONEY + Protocol.SEPARATOR + lobby.getOtherPlayer(player).getPlayerMoney());
 	}
+	
+	private void updateHealth(Player player) {
+		Lobby lobby = lobbyList.get(player.getLobbyIndex());
+		this.send(player.getPlayerIP(), player.getPlayerPort(),
+				Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + player.getHealth() + Protocol.SEPARATOR + player.getOtherplayer().getHealth());
+		this.send(lobby.getOtherPlayer(player).getPlayerIP(), lobby.getOtherPlayer(player).getPlayerPort(),
+				Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + lobby.getOtherPlayer(player).getHealth() + Protocol.SEPARATOR + player.getHealth());
+	}
 
 	public void loadMapClient(Player player) {
 		Grid grid = lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
@@ -400,11 +424,13 @@ public class Server_TD extends Server {
 				if (lobbyList.get(i).haveSamePortIP(mPlayer, lobbyList.get(i).getPlayer_1())) {
 					lobbyList.get(i).resetPlayer_1();
 					lobbyList.get(i).setIsFull(false);
+					lobbyList.get(i).chooseRandomMap();
 				}
 			} else if ((lobbyList.get(i).getPlayer_1() == null) && (lobbyList.get(i).getPlayer_2() != null)) {
 				if (lobbyList.get(i).haveSamePortIP(mPlayer, lobbyList.get(i).getPlayer_2())) {
 					lobbyList.get(i).resetPlayer_2();
 					lobbyList.get(i).setIsFull(false);
+					lobbyList.get(i).chooseRandomMap();
 				}
 			} else if ((lobbyList.get(i).getPlayer_1() != null) && (lobbyList.get(i).getPlayer_2() != null)) {
 				if (lobbyList.get(i).haveSamePortIP(mPlayer, lobbyList.get(i).getPlayer_1())) {

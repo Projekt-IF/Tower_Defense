@@ -28,7 +28,7 @@ public class GridCreator {
 	 */
 	public Tile[][] presetToGrid(Character[][] preset, int pHeight, int pLength) {
 		Tile[][] grid = new Tile[pHeight][pLength];
-
+		int count = 0;
 		for (int y = 0; y <= pHeight - 1; y++) {
 			for (int x = 0; x <= pLength - 1; x++) {
 				Tile nT = new Tile(y, x);
@@ -55,9 +55,10 @@ public class GridCreator {
 					break;
 				}
 				grid[y][x] = nT;
-
+				count++;
 			}
 		}
+		System.out.println(count);
 		this.pathing(grid, pHeight, pLength);
 		return grid;
 	}
@@ -74,6 +75,7 @@ public class GridCreator {
 		Tile current = this.getSpawnerTile();
 		while (current != baseTile) {
 			while ((current.getHasNextTile() != true) && (current != baseTile)) {
+				System.out.println("PosY: " + current.getyPos() + " PosX: " + current.getxPos());
 				// The Tile above the current Tile
 				if ((0 <= current.getyPos() - 1) && (current.getyPos() - 1 < pHeight)) {
 					if ((0 <= current.getxPos()) && (current.getxPos() < pLength)) {
