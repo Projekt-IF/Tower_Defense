@@ -358,6 +358,7 @@ public class Server_TD extends Server {
 		Grid grid = lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
 				.getGameController(player.getPositionInLobby()).getGlobalGrid();
 		Tile[][] layer = grid.getGridLayer();
+		System.out.println("HEIGHT " + grid.getHeight() + " LENGTH " + grid.getLength());
 		this.send(player.getPlayerIP(), player.getPlayerPort(), Protocol.SC_LOAD_MAP_DIMENSIONS + Protocol.SEPARATOR
 				+ grid.getHeight() + Protocol.SEPARATOR + grid.getLength());
 		for (int y = 0; y < grid.getLength(); y++) {

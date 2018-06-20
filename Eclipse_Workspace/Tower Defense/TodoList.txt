@@ -9,8 +9,18 @@ Today:
 	
 	+ The Response to the Client when the enemies spawn and move and die
 	
+	+ End the game when (health <= 0) in Enemy_Controller
+	
+	OPTINAL:
+	
+	- show different types of enemies and towers at the endscreen
+	
 	- implement a currentLevel label on the game Map
 	
-	- End the game when (health <= 0) in Enemy_Controller
-	
 	- Change the tower color while on cool down??
+	
+	- SEE TODO in CODE
+	
+	- BALANCING
+	
+	- NEW MAPS

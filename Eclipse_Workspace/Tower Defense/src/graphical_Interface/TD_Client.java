@@ -204,6 +204,10 @@ public class TD_Client extends Client {
 		case Protocol.SC_CHANGE_ENDSCREEN:
 			this.myGui.switchPanelGameEndScreen();
 			break;
+			
+		case Protocol.SC_UPDATE_ENDSCREEN_LEVEL:
+			this.myGui.updateEndScreenLevel(tags[1]);
+			break;
 
 		case Protocol.SC_UPDATE_ENDSCREEN_OWN:
 			String ownState = tags[1];
@@ -280,8 +284,8 @@ public class TD_Client extends Client {
 		switch (mapName) {
 
 		case "Level_Test_Preset":
-			this.myGui.setTowerBuyModelXSpinner(5);
-			this.myGui.setTowerBuyModelYSpinner(5);
+			this.myGui.setTowerBuyModelXSpinner(10);
+			this.myGui.setTowerBuyModelYSpinner(10);
 			break;
 		case "Level_1_Preset":
 			this.myGui.setTowerBuyModelXSpinner(5);

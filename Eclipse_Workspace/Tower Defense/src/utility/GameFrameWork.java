@@ -18,7 +18,7 @@ public class GameFrameWork {
 
 	public static final int startMoney = 10000;
 
-	public static final int startHealth = 100;
+	public static final int startHealth = 1;
 
 	private Server_TD server;
 

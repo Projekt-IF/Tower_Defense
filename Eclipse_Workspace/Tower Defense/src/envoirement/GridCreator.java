@@ -75,7 +75,6 @@ public class GridCreator {
 		Tile current = this.getSpawnerTile();
 		while (current != baseTile) {
 			while ((current.getHasNextTile() != true) && (current != baseTile)) {
-				System.out.println("PosY: " + current.getyPos() + " PosX: " + current.getxPos());
 				// The Tile above the current Tile
 				if ((0 <= current.getyPos() - 1) && (current.getyPos() - 1 < pHeight)) {
 					if ((0 <= current.getxPos()) && (current.getxPos() < pLength)) {
