@@ -14,7 +14,7 @@ public class Enemy {
 	 * 
 	 */
 	private int number;
-	
+
 	private EnemyTypes types;
 	private int type;
 
@@ -58,10 +58,9 @@ public class Enemy {
 
 	public void startTimer() {
 		Timer timer = new Timer();
-		System.out.println("MOVE_COOLDOWN: " + (this.speed * 1000));
 		timer.schedule(new EnemyCooldownTimer(this, timer), (long) (this.speed * 1000));
 	}
-	
+
 	public void move() {
 		this.onCooldown = true;
 		startTimer();
@@ -138,7 +137,8 @@ public class Enemy {
 	}
 
 	/**
-	 * @param type the type to set
+	 * @param type
+	 *            the type to set
 	 */
 	public void setType(int type) {
 		this.type = type;
@@ -152,7 +152,8 @@ public class Enemy {
 	}
 
 	/**
-	 * @param damage the damage to set
+	 * @param damage
+	 *            the damage to set
 	 */
 	public void setDamage(int damage) {
 		this.damage = damage;
@@ -166,7 +167,8 @@ public class Enemy {
 	}
 
 	/**
-	 * @param number the number to set
+	 * @param number
+	 *            the number to set
 	 */
 	public void setNumber(int number) {
 		this.number = number;
@@ -180,7 +182,8 @@ public class Enemy {
 	}
 
 	/**
-	 * @param bounty the bounty to set
+	 * @param bounty
+	 *            the bounty to set
 	 */
 	public void setBounty(int bounty) {
 		this.bounty = bounty;

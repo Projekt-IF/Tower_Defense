@@ -1,4 +1,4 @@
-package graphical_Interface;
+package dump;
 
 import java.awt.Toolkit;
 import javax.swing.*;

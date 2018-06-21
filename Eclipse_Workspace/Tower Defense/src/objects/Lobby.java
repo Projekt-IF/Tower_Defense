@@ -1,10 +1,10 @@
-package utility;
+package objects;
 
+import game_Controller.GameFrameWork;
 import network.Server_TD;
-import objects.Player;
 
 public class Lobby {
-	
+
 	private Server_TD server;
 
 	private GameFrameWork gameFrameWork;
@@ -13,7 +13,7 @@ public class Lobby {
 	private int player_1_Index;
 	private Player player_2;
 	private int player_2_Index;
-	
+
 	private String mapName;
 
 	private boolean isFull;
@@ -29,13 +29,11 @@ public class Lobby {
 		mapName = "";
 		chooseRandomMap();
 	}
-	
+
 	public void chooseRandomMap() {
-		System.out.println(mapName);
 		setMapName(gameFrameWork.chooseRandomMap());
-		System.out.println(mapName);
 	}
-	
+
 	public void initializeGame() {
 		gameFrameWork.setPlayer_1(player_1);
 		gameFrameWork.setPlayer_2(player_2);
@@ -51,25 +49,25 @@ public class Lobby {
 			return false;
 		}
 	}
-	
+
 	public Player getOtherPlayer(Player player) {
-		if(player.equals(player_1)) {
+		if (player.equals(player_1)) {
 			return player_2;
-		} else if(player.equals(player_2)) {
+		} else if (player.equals(player_2)) {
 			return player_1;
 		}
 		return null;
 	}
-	
+
 	public boolean allBuyDone() {
-		if(player_1.isBuyDone() && player_2.isBuyDone()) {
+		if (player_1.isBuyDone() && player_2.isBuyDone()) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public boolean allRoundOver() {
-		if(player_1.isRoundOver() && player_2.isRoundOver()) {
+		if (player_1.isRoundOver() && player_2.isRoundOver()) {
 			return true;
 		}
 		return false;
@@ -200,7 +198,8 @@ public class Lobby {
 	}
 
 	/**
-	 * @param mapName the mapName to set
+	 * @param mapName
+	 *            the mapName to set
 	 */
 	public void setMapName(String mapName) {
 		this.mapName = mapName;

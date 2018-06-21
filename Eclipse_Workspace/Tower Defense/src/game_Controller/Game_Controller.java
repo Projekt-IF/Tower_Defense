@@ -9,14 +9,13 @@ import network.Server_TD;
 import objects.Enemy;
 import objects.Player;
 import objects.Tower;
-import utility.GameFrameWork;
 
 public class Game_Controller {
 
 	private Server_TD server;
 
 	private Player player;
-	
+
 	private GameFrameWork gameFrameWork;
 
 	private String currentLevel;
@@ -37,7 +36,7 @@ public class Game_Controller {
 	private Tile spawnerTile;
 
 	private Tile baseTile;
-	
+
 	private boolean loopStopped;
 
 	public Game_Controller(Server_TD pServer, GameFrameWork gFW) {
@@ -58,22 +57,20 @@ public class Game_Controller {
 	 * 
 	 */
 	public void iniciateLevel() {
-		System.out.println(currentLevel);
 		changeLevel(currentLevel);
 		updateGame();
 	}
 
 	public void createWave() {
-//		this.getGeneratedEnemyList().clear();
+		// this.getGeneratedEnemyList().clear();
 		addEnemies(wC.generateWave());
 		eC.printEnemyLists();
 		wC.setNumbers();
 		this.currentWaveIndex = wC.getCurrentWaveIndex();
 	}
-	
+
 	public void startLoop() {
-		//TODO:LOOP IT!!
-		System.out.println(towerList.size());
+		// TODO:LOOP IT!!
 		loopStopped = false;
 		while (!loopStopped) {
 			if (!getEnemyController().getGeneratedEnemyList().isEmpty()) {
@@ -98,7 +95,6 @@ public class Game_Controller {
 	}
 
 	public void changeLevel(String pLevelName) {
-		System.out.println(pLevelName);
 		setGlobalGrid(this.lC.changeLevel(pLevelName));
 		this.spawnerTile = getGlobalGrid().getSpawnerTile();
 		this.baseTile = getGlobalGrid().getBaseTile();
@@ -325,7 +321,8 @@ public class Game_Controller {
 	}
 
 	/**
-	 * @param gameFrameWork the gameFrameWork to set
+	 * @param gameFrameWork
+	 *            the gameFrameWork to set
 	 */
 	public void setGameFrameWork(GameFrameWork gameFrameWork) {
 		this.gameFrameWork = gameFrameWork;

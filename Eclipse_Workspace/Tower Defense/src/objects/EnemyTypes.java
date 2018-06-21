@@ -90,7 +90,7 @@ public class EnemyTypes {
 		}
 		return calcedCost;
 	}
-	
+
 	public int calcBounty(int pType) {
 		int calcedBounty = 0;
 

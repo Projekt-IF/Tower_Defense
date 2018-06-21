@@ -1,4 +1,4 @@
-package utility;
+package game_Controller;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -7,7 +7,6 @@ import envoirement.Level_1_Preset;
 import envoirement.Level_2_Preset;
 import envoirement.Level_Test_Preset;
 import envoirement.Tile;
-import game_Controller.Game_Controller;
 import network.Protocol;
 import network.Server_TD;
 import objects.Enemy;
@@ -16,9 +15,9 @@ import objects.Tower;
 
 public class GameFrameWork {
 
-	public static final int startMoney = 10000;
+	public static final int startMoney = 200;
 
-	public static final int startHealth = 1;
+	public static final int startHealth = 100;
 
 	private Server_TD server;
 
@@ -86,10 +85,10 @@ public class GameFrameWork {
 	}
 
 	public void sendEndOfGameResults(String player_1_placing, String player_2_placing) {
-		this.server.send(player_1.getPlayerIP(), player_1.getPlayerPort(),
-				Protocol.SC_UPDATE_ENDSCREEN_LEVEL + Protocol.SEPARATOR + player_1_Game_Controller.getCurrentWaveIndex());
-		this.server.send(player_2.getPlayerIP(), player_2.getPlayerPort(),
-				Protocol.SC_UPDATE_ENDSCREEN_LEVEL + Protocol.SEPARATOR + player_2_Game_Controller.getCurrentWaveIndex());
+		this.server.send(player_1.getPlayerIP(), player_1.getPlayerPort(), Protocol.SC_UPDATE_ENDSCREEN_LEVEL
+				+ Protocol.SEPARATOR + player_1_Game_Controller.getCurrentWaveIndex());
+		this.server.send(player_2.getPlayerIP(), player_2.getPlayerPort(), Protocol.SC_UPDATE_ENDSCREEN_LEVEL
+				+ Protocol.SEPARATOR + player_2_Game_Controller.getCurrentWaveIndex());
 		this.server.send(player_1.getPlayerIP(), player_1.getPlayerPort(),
 				Protocol.SC_UPDATE_ENDSCREEN_OWN + Protocol.SEPARATOR + player_1_placing + Protocol.SEPARATOR
 						+ player_1.getUsername() + Protocol.SEPARATOR + player_1.getHealth() + Protocol.SEPARATOR
@@ -157,7 +156,6 @@ public class GameFrameWork {
 			public void run() {
 				player_1.setRoundOver(false);
 				player_1_Game_Controller.createWave();
-				System.out.println("NOW LOOP");
 				player_1_Game_Controller.startLoop();
 			}
 		}).start();
@@ -168,7 +166,6 @@ public class GameFrameWork {
 			public void run() {
 				player_2.setRoundOver(false);
 				player_2_Game_Controller.createWave();
-				System.out.println("NOW LOOP");
 				player_2_Game_Controller.startLoop();
 			}
 		}).start();
@@ -190,10 +187,8 @@ public class GameFrameWork {
 	public void pushToBoughtEnemies(int positionInLobby, Enemy pEnemy) {
 		if (positionInLobby == 1) {
 			this.boughtEnemies_Player_1.add(pEnemy);
-			System.out.println(pEnemy);
 		} else if (positionInLobby == 2) {
 			this.boughtEnemies_Player_2.add(pEnemy);
-			System.out.println(pEnemy);
 		}
 	}
 
@@ -214,10 +209,8 @@ public class GameFrameWork {
 	public void assambleWaves(int positionInLobby) {
 		if (positionInLobby == 1) {
 			player_1_Game_Controller.addEnemies(boughtEnemies_Player_2);
-			System.out.println("Assamble 1");
 		} else if (positionInLobby == 2) {
 			player_2_Game_Controller.addEnemies(boughtEnemies_Player_1);
-			System.out.println("Assamble 2");
 		}
 	}
 

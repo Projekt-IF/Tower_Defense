@@ -44,7 +44,6 @@ public class Enemy_Controller {
 
 	public void startTimer() {
 		Timer timer = new Timer();
-		System.out.println("SPAWN_TIMER FOR: " + 2000 / 1000 + "Seconds");
 		timer.schedule(new EnemySpawnTimer(this, timer), (long) (2000));
 	}
 
@@ -93,15 +92,6 @@ public class Enemy_Controller {
 			if (!enemyList.isEmpty()) {
 				for (int i = 0; i < enemyList.size(); i++) {
 					Enemy current = enemyList.get(i);
-					// System.out.println(current + " " + e);
-					// System.out.print("C " + current.getPosX() + " N: ");
-					// System.out.println(grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getxPos());
-					// System.out.print("C " + current.getPosY() + " N: ");
-					// System.out.println(grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getyPos());
-					// System.out.println(current.getPosX() !=
-					// grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getxPos());
-					// System.out.println(current.getPosY() !=
-					// grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile().getyPos());
 					if (grid.getGridLayer()[e.getPosY()][e.getPosX()].getHasNextTile()) {
 						if (!((current.getPosX() == grid.getGridLayer()[e.getPosY()][e.getPosX()].getNextTile()
 								.getxPos())
@@ -120,9 +110,6 @@ public class Enemy_Controller {
 		for (int a = 0; a < enemyList.size(); a++) {
 			if (isMovable(enemyList.get(a))) {
 				moveEnemy(enemyList.get(a));
-				System.out.println("Enemy Here: " + enemyList.get(a).getNumber());
-				System.out.println("Y: " + enemyList.get(a).getPosY() + " X: " + enemyList.get(a).getPosX() + " Life: "
-						+ enemyList.get(a).getLife());
 			} else {
 				if (grid.getGridLayer()[enemyList.get(a).getPosY()][enemyList.get(a).getPosX()]
 						.getHasNextTile() == false) {

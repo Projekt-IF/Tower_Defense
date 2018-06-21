@@ -7,10 +7,10 @@ import envoirement.Tile;
 import network.Protocol;
 import objects.Enemy;
 import objects.EnemyTypes;
+import objects.Lobby;
 import objects.Player;
 import objects.Tower;
 import objects.TowerTypes;
-import utility.Lobby;
 
 ///Server
 public class Server_TD extends Server {
@@ -345,20 +345,20 @@ public class Server_TD extends Server {
 		this.send(lobby.getOtherPlayer(player).getPlayerIP(), lobby.getOtherPlayer(player).getPlayerPort(),
 				Protocol.SC_UPDATE_PLAYER_MONEY + Protocol.SEPARATOR + lobby.getOtherPlayer(player).getPlayerMoney());
 	}
-	
+
 	private void updateHealth(Player player) {
 		Lobby lobby = lobbyList.get(player.getLobbyIndex());
-		this.send(player.getPlayerIP(), player.getPlayerPort(),
-				Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + player.getHealth() + Protocol.SEPARATOR + player.getOtherplayer().getHealth());
+		this.send(player.getPlayerIP(), player.getPlayerPort(), Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR
+				+ player.getHealth() + Protocol.SEPARATOR + player.getOtherplayer().getHealth());
 		this.send(lobby.getOtherPlayer(player).getPlayerIP(), lobby.getOtherPlayer(player).getPlayerPort(),
-				Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + lobby.getOtherPlayer(player).getHealth() + Protocol.SEPARATOR + player.getHealth());
+				Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR + lobby.getOtherPlayer(player).getHealth()
+						+ Protocol.SEPARATOR + player.getHealth());
 	}
 
 	public void loadMapClient(Player player) {
 		Grid grid = lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
 				.getGameController(player.getPositionInLobby()).getGlobalGrid();
 		Tile[][] layer = grid.getGridLayer();
-		System.out.println("HEIGHT " + grid.getHeight() + " LENGTH " + grid.getLength());
 		this.send(player.getPlayerIP(), player.getPlayerPort(), Protocol.SC_LOAD_MAP_DIMENSIONS + Protocol.SEPARATOR
 				+ grid.getHeight() + Protocol.SEPARATOR + grid.getLength());
 		for (int y = 0; y < grid.getLength(); y++) {
@@ -496,10 +496,6 @@ public class Server_TD extends Server {
 					+ playerList.get(i).getPlayerPort() + " !");
 			System.out.println();
 		}
-	}
-
-	public void testPrint(String nNachricht) {
-		System.out.println(nNachricht);
 	}
 
 	public static void main(String[] args) {

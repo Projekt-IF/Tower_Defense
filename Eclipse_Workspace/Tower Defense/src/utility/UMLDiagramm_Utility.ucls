@@ -3,32 +3,23 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="utility.EnemyCooldownTimer" project="Tower Defense" 
     file="/Tower Defense/src/utility/EnemyCooldownTimer.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="153" width="201" x="939" y="37"/>    
+    <position height="153" width="201" x="808" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="utility.GameFrameWork" project="Tower Defense" 
-    file="/Tower Defense/src/utility/GameFrameWork.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="477" width="282" x="661" y="572"/>    
+  <class id="2" language="java" name="utility.EnemySpawnTimer" project="Tower Defense" 
+    file="/Tower Defense/src/utility/EnemySpawnTimer.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="153" width="239" x="280" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="utility.Lobby" project="Tower Defense" 
-    file="/Tower Defense/src/utility/Lobby.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="495" width="238" x="661" y="37"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="4" language="java" name="utility.TowerCooldownTimer" project="Tower Defense" 
+  <class id="3" language="java" name="utility.TowerCooldownTimer" project="Tower Defense" 
     file="/Tower Defense/src/utility/TowerCooldownTimer.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="153" width="199" x="41" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -37,48 +28,15 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="utility.Wave" project="Tower Defense" file="/Tower Defense/src/utility/Wave.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="243" width="152" x="407" y="572"/>    
+  <class id="4" language="java" name="utility.WaveGenerator" project="Tower Defense" 
+    file="/Tower Defense/src/utility/WaveGenerator.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="423" width="209" x="559" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="dump.WaveReader" project="Tower Defense" 
-    file="/Tower Defense/src/dump/WaveReader.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="135" width="214" x="407" y="37"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <association id="7">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="8" name="gameFrameWork">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="9" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="10">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="11" name="waveList">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="12" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

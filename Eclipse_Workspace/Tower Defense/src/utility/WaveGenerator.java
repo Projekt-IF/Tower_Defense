@@ -6,13 +6,13 @@ import envoirement.Grid;
 import objects.Enemy;
 
 public class WaveGenerator {
-	
+
 	private Grid grid;
 
 	private ArrayList<Enemy> generatedEnemies;
 
 	private int currentMaxNumber;
-	
+
 	private int currentWaveIndex;
 
 	private int currentType1;
@@ -60,22 +60,22 @@ public class WaveGenerator {
 		}
 		return false;
 	}
-	
-	public void generateEnemies(Integer n, int pType/*, int pLevel*/) {
-		for(int a = 0; a < n; a++) {
+
+	public void generateEnemies(Integer n, int pType/* , int pLevel */) {
+		for (int a = 0; a < n; a++) {
 			Enemy e = new Enemy(null, null, pType);
 			generatedEnemies.add(e);
 		}
 	}
-	
+
 	public void setNumbers() {
-		for(int a = 0; a < generatedEnemies.size(); a++) {
+		for (int a = 0; a < generatedEnemies.size(); a++) {
 			generatedEnemies.get(a).setNumber(a + 1);
 		}
 	}
-	
+
 	public void setNumbers(ArrayList<Enemy> list) {
-		for(int a = 0; a < list.size(); a++) {
+		for (int a = 0; a < list.size(); a++) {
 			list.get(a).setNumber(a + 1);
 		}
 	}
@@ -110,7 +110,8 @@ public class WaveGenerator {
 	}
 
 	/**
-	 * @param grid the grid to set
+	 * @param grid
+	 *            the grid to set
 	 */
 	public void setGrid(Grid grid) {
 		this.grid = grid;
@@ -124,17 +125,18 @@ public class WaveGenerator {
 	}
 
 	/**
-	 * @param currentWaveIndex the currentWaveIndex to set
+	 * @param currentWaveIndex
+	 *            the currentWaveIndex to set
 	 */
 	public void setCurrentWaveIndex(int currentWaveIndex) {
 		this.currentWaveIndex = currentWaveIndex;
 	}
-	
-//	public static void main(String[] args) {
-//		WaveGenerator wG = new WaveGenerator();
-//		for (int i = 0; i < 100; i++) {
-//			wG.printConstalation(i);
-//			wG.generateWave();
-//		}
-//	}
+
+	// public static void main(String[] args) {
+	// WaveGenerator wG = new WaveGenerator();
+	// for (int i = 0; i < 100; i++) {
+	// wG.printConstalation(i);
+	// wG.generateWave();
+	// }
+	// }
 }

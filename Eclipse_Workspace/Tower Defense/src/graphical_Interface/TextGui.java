@@ -235,7 +235,6 @@ public class TextGui extends JFrame {
 
 		BufferedImage image = null;
 		try {
-			System.out.println(System.getProperty("user.dir"));
 			image = ImageIO.read(getClass().getResource("/pictures/windowIcon.png"));
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -1239,7 +1238,7 @@ public class TextGui extends JFrame {
 		this.gameEndScreenThisPlayer_EnemyLabel.setText(ownEnemies);
 		this.gameEndScreenThisPlayer_TowerLabel.setText(ownTowers);
 	}
-	
+
 	public void updateEndScreenOther(String otherState, String otherName, String other_Health, String otherMoney,
 			String otherEnemies, String otherTowers) {
 		this.gameEndScreenOtherPlayer_PlacingLabel.setText(otherState);
@@ -1249,7 +1248,7 @@ public class TextGui extends JFrame {
 		this.gameEndScreenOtherPlayer_EnemyLabel.setText(otherEnemies);
 		this.gameEndScreenOtherPlayer_TowerLabel.setText(otherTowers);
 	}
-	
+
 	public void clearEndScreen() {
 		this.gameEndScreenThisPlayer_PlacingLabel.setText("_PLACING_");
 		this.gameEndScreenThisPlayer_NameLabel.setText("_NAME_");
@@ -1257,7 +1256,7 @@ public class TextGui extends JFrame {
 		this.gameEndScreenThisPlayer_MoneyLabel.setText("_MONEY_");
 		this.gameEndScreenThisPlayer_EnemyLabel.setText("_ENEMY_");
 		this.gameEndScreenThisPlayer_TowerLabel.setText("_TOWER_");
-		
+
 		this.gameEndScreenOtherPlayer_PlacingLabel.setText("_PLACING_");
 		this.gameEndScreenOtherPlayer_NameLabel.setText("_NAME_");
 		this.gameEndScreenOtherPlayer_HealthLabel.setText("_HEALTH_");

@@ -1,9 +1,9 @@
 package objects;
 
 public class Player {
-	
+
 	private String username;
-	
+
 	private int enemiesKilled;
 	private int towersPlaced;
 
@@ -18,7 +18,7 @@ public class Player {
 	private int health;
 
 	private boolean isReady;
-	
+
 	private boolean isBuyDone;
 	private boolean isRoundOver;
 
@@ -198,7 +198,8 @@ public class Player {
 	}
 
 	/**
-	 * @param username the username to set
+	 * @param username
+	 *            the username to set
 	 */
 	public void setUsername(String username) {
 		this.username = username;
@@ -212,7 +213,8 @@ public class Player {
 	}
 
 	/**
-	 * @param isBuyDone the isBuyDone to set
+	 * @param isBuyDone
+	 *            the isBuyDone to set
 	 */
 	public void setBuyDone(boolean isBuyDone) {
 		this.isBuyDone = isBuyDone;
@@ -226,7 +228,8 @@ public class Player {
 	}
 
 	/**
-	 * @param otherplayer the otherplayer to set
+	 * @param otherplayer
+	 *            the otherplayer to set
 	 */
 	public void setOtherplayer(Player otherplayer) {
 		this.otherplayer = otherplayer;
@@ -240,7 +243,8 @@ public class Player {
 	}
 
 	/**
-	 * @param isRoundOver the isRoundOver to set
+	 * @param isRoundOver
+	 *            the isRoundOver to set
 	 */
 	public void setRoundOver(boolean isRoundOver) {
 		this.isRoundOver = isRoundOver;
@@ -254,7 +258,8 @@ public class Player {
 	}
 
 	/**
-	 * @param enemiesKilled the enemiesKilled to set
+	 * @param enemiesKilled
+	 *            the enemiesKilled to set
 	 */
 	public void setEnemiesKilled(int enemiesKilled) {
 		this.enemiesKilled = enemiesKilled;
@@ -268,7 +273,8 @@ public class Player {
 	}
 
 	/**
-	 * @param towersPlaced the towersPlaced to set
+	 * @param towersPlaced
+	 *            the towersPlaced to set
 	 */
 	public void setTowersPlaced(int towersPlaced) {
 		this.towersPlaced = towersPlaced;

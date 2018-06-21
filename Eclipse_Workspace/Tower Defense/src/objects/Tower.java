@@ -15,7 +15,7 @@ public class Tower {
 	private int cost;
 
 	private int range;
-	
+
 	private int damage;
 
 	private boolean onCooldown;
@@ -36,7 +36,6 @@ public class Tower {
 
 	public void startTimer() {
 		Timer timer = new Timer();
-		System.out.println("SHOOT_COOLDOWN: " + (this.cooldownTime * 1000));
 		timer.schedule(new TowerCooldownTimer(this, timer), (long) (this.cooldownTime * 1000));
 	}
 
@@ -108,7 +107,8 @@ public class Tower {
 	}
 
 	/**
-	 * @param type the type to set
+	 * @param type
+	 *            the type to set
 	 */
 	public void setType(int type) {
 		this.type = type;

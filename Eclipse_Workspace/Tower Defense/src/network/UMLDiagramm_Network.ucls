@@ -3,7 +3,7 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="network.Connection" project="Tower Defense" 
     file="/Tower Defense/src/network/Connection.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="189" width="165" x="309" y="37"/>    
+    <position height="189" width="165" x="672" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="network.Protocol" project="Tower Defense" 
     file="/Tower Defense/src/network/Protocol.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="783" width="228" x="41" y="37"/>    
+    <position height="1107" width="240" x="41" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="network.Server_TD" project="Tower Defense" 
     file="/Tower Defense/src/network/Server_TD.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="315" width="228" x="180" y="860"/>    
+    <position height="549" width="253" x="584" y="1184"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,7 +30,7 @@
   </class>  
   <class id="4" language="java" name="network.Server.NewConnectionHandler" project="Tower Defense" 
     file="/Tower Defense/src/network/Server.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="153" width="163" x="662" y="860"/>    
+    <position height="153" width="163" x="167" y="1184"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,7 +39,7 @@
   </class>  
   <class id="5" language="java" name="network.Server.ClientMessageHandler" project="Tower Defense" 
     file="/Tower Defense/src/network/Server.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="189" width="174" x="448" y="860"/>    
+    <position height="189" width="174" x="370" y="1184"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -48,7 +48,7 @@
   </class>  
   <class id="6" language="java" name="network.Server" project="Tower Defense" 
     file="/Tower Defense/src/network/Server.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="315" width="311" x="514" y="37"/>    
+    <position height="315" width="311" x="321" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -57,7 +57,7 @@
   </class>  
   <class id="7" language="java" name="network.Server.ClientMessageHandler.ClientSocketWrapper" project="Tower Defense" 
     file="/Tower Defense/src/network/Server.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="225" width="168" x="448" y="1215"/>    
+    <position height="225" width="168" x="370" y="1773"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -66,36 +66,36 @@
   </class>  
   <nesting id="8">    
     <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="4"/>  
-  </nesting>  
-  <nesting id="9">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="7"/>  
-  </nesting>  
-  <generalization id="10">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <association id="11">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="12" name="socketWrapper"/>      
-      <multiplicity id="13" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <nesting id="14">    
-    <end type="SOURCE" refId="6"/>    
     <end type="TARGET" refId="5"/>  
   </nesting>  
-  <association id="15">    
+  <association id="9">    
     <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="16" name="connectionHandler"/>      
-      <multiplicity id="17" minimum="0" maximum="1"/>    
+      <attribute id="10" name="connectionHandler"/>      
+      <multiplicity id="11" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <nesting id="12">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="4"/>  
+  </nesting>  
+  <association id="13">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="14" name="socketWrapper"/>      
+      <multiplicity id="15" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="16">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <nesting id="17">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="7"/>  
+  </nesting>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

@@ -1,4 +1,4 @@
-package utility;
+package objects;
 
 public class Wave {
 
