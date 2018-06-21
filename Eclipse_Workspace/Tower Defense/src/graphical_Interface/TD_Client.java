@@ -26,12 +26,8 @@ public class TD_Client extends Client {
 		String prefix = tags[0];
 
 		switch (prefix) {
-
-		case Protocol.SC_HELLO_WORLD:
-			this.myGui.ausgeben(tags[1]);
-			break;
-
-		// Not game important communication
+		
+		// Login
 
 		case Protocol.SC_LOGIN_USERNAME_CONFIRMED:
 			this.myGui.switchPanelLoginPassword(tags[1]);
@@ -43,11 +39,13 @@ public class TD_Client extends Client {
 
 		case Protocol.SC_LOGIN_PASSWORD_CONFIRMED:
 			this.myGui.switchPanelLoggedIn(tags[1]);
-			;
+			break;
+			
+		case Protocol.SC_LOGIN_PASSWORD_DENIED:
+			this.myGui.setPasswordResponseLabelText("The Password is incorrect!");
 			break;
 
-		case Protocol.SC_LOGIN_PASSWORD_DENIED:
-			break;
+		// Lobby
 
 		case Protocol.SC_LOBBY_FOUND:
 			this.positionInLobby = setLobbyPosition(tags[1]);
@@ -55,9 +53,6 @@ public class TD_Client extends Client {
 			this.myGui.setMapPicture(tags[2]);
 			setSpinnerMaximum(tags[2]);
 			this.myGui.switchPanelLobby();
-			break;
-
-		case Protocol.SC_LOGOUT_CONFIRMED:
 			break;
 
 		case Protocol.SC_LOBBY_USERS:
@@ -77,12 +72,6 @@ public class TD_Client extends Client {
 			}
 			break;
 
-		case Protocol.SC_PLAYER_JOINED:
-			break;
-
-		case Protocol.SC_LOBBY_FULL:
-			break;
-
 		case Protocol.SC_PLAYER_READY:
 			this.setPlayerReady(tags[1], tags[2]);
 			break;
@@ -98,20 +87,12 @@ public class TD_Client extends Client {
 			reinitializeLobby(position);
 			this.myGui.clearGameTowerBuyChosenList();
 			break;
-
-		// In-Game communication
+			
+		// In-Game
 
 		case Protocol.SC_GAME_STARTING:
 			this.myGui.switchPanelGameBuyTowers();
 			break;
-
-		case Protocol.SC_LOAD_ENEMIES:
-			break;
-
-		case Protocol.SC_LOAD_TOWER:
-			break;
-
-		// Graphical Changes to be made by the Client
 
 		case Protocol.SC_UPDATE_PLAYER_MONEY:
 			String money = tags[1];
@@ -149,6 +130,12 @@ public class TD_Client extends Client {
 			String eType = tags[1];
 			String enemyListEntry = "	Type: " + eType;
 			addEnemyChosen(enemyListEntry);
+			break;
+			
+		case Protocol.SC_ENEMY_NOT_AFFORDABLE:
+			String eCost = tags[1];
+			String ePlayerMoney = tags[2];
+			setErrorEnemyBuy("Enemy not affordable! Cost: " + eCost + " Money: " + ePlayerMoney + "!");
 			break;
 
 		case Protocol.SC_BUY_DONE:
@@ -197,8 +184,8 @@ public class TD_Client extends Client {
 			this.myGui.switchPanelGameBuyTowers();
 			break;
 
-		// End of game messages
-
+		// End of Game
+			
 		case Protocol.SC_CHANGE_ENDSCREEN:
 			this.myGui.switchPanelGameEndScreen();
 			break;
@@ -233,20 +220,6 @@ public class TD_Client extends Client {
 			this.myGui.clearGameTowerBuyChosenList();
 			this.myGui.resetGameMap();
 			this.myGui.switchPanelLoggedIn(tags[1]);
-			break;
-
-		// Universal
-
-		case Protocol.SC_SENDERRORMESSAGE:
-			break;
-
-		case Protocol.SC_SURRENDER_SUCCESSFUL:
-			break;
-
-		case Protocol.SC_SURRENDER_UNSUCCESSFUL:
-			break;
-
-		case Protocol.SEPARATOR:
 			break;
 
 		default:

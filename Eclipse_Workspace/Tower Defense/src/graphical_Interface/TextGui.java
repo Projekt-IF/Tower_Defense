@@ -86,7 +86,7 @@ public class TextGui extends JFrame {
 	private JTextField usernameInputTextField;
 	private JPanel passwordPanel;
 	private JPanel passwordTextPanel;
-	private JPanel passwordInputPanel;
+	private JPanel passwordInputResponsePanel;
 	private JLabel passwordTextLabel;
 	private JTextField passwordInputTextField;
 	private JPanel passwordUsernameTextPanel;
@@ -199,6 +199,9 @@ public class TextGui extends JFrame {
 	private Component gameEndScreenText_EnemyTower_VerticalStrut;
 	private JPanel gameEndScreenExitPanel;
 	private JButton gameEndScreenExitButton;
+	private JPanel passwordInputPanel;
+	private JPanel passwordResponsePanel;
+	private JLabel passwordResponselabel;
 
 	/**
 	 * Launch the application.
@@ -310,10 +313,15 @@ public class TextGui extends JFrame {
 		passwordTextLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		passwordTextPanel.add(passwordTextLabel);
 
+		passwordInputResponsePanel = new JPanel();
+		passwordPanel.add(passwordInputResponsePanel, BorderLayout.CENTER);
+		passwordInputResponsePanel.setLayout(new BorderLayout(0, 0));
+
 		passwordInputPanel = new JPanel();
-		passwordPanel.add(passwordInputPanel, BorderLayout.CENTER);
+		passwordInputResponsePanel.add(passwordInputPanel, BorderLayout.CENTER);
 
 		passwordInputTextField = new JTextField();
+		passwordInputPanel.add(passwordInputTextField);
 		passwordInputTextField.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -330,8 +338,14 @@ public class TextGui extends JFrame {
 		});
 		passwordInputTextField.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		passwordInputTextField.setText("PASSWORD");
-		passwordInputPanel.add(passwordInputTextField);
 		passwordInputTextField.setColumns(20);
+
+		passwordResponsePanel = new JPanel();
+		passwordInputResponsePanel.add(passwordResponsePanel, BorderLayout.SOUTH);
+
+		passwordResponselabel = new JLabel("");
+		passwordResponselabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		passwordResponsePanel.add(passwordResponselabel);
 
 		passwordUsernameTextPanel = new JPanel();
 		passwordPanel.add(passwordUsernameTextPanel, BorderLayout.SOUTH);
@@ -536,12 +550,14 @@ public class TextGui extends JFrame {
 		gameTowerBuyOptionsPanel.add(gameTowerBuyOptionsTypesPanel);
 
 		gameTowerBuyOptions_Tower_1_Button = new JButton("T-Type 1");
-		gameTowerBuyOptions_Tower_1_Button.setToolTipText("\t\tTower Small:\r\n\r\nCost: 100\t\t\tRange: 1\r\n\r\n\t\t\t\t\tDamage: 5\r\n\r\n\t\t\t\t\tCooldown: 5 sec");
+		gameTowerBuyOptions_Tower_1_Button.setToolTipText(
+				"\t\tTower Small:\r\n\r\nCost: 100\t\t\tRange: 1\r\n\r\n\t\t\t\t\tDamage: 5\r\n\r\n\t\t\t\t\tCooldown: 5 sec");
 		gameTowerBuyOptionsTypesPanel.add(gameTowerBuyOptions_Tower_1_Button);
 		gameTowerBuyOptions_Tower_1_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		gameTowerBuyOptions_Tower_2_Button = new JButton("T-Type 2");
-		gameTowerBuyOptions_Tower_2_Button.setToolTipText("\t\tTower Medium:\r\n\r\nCost: 300\t\t\tRange: 2\r\n\r\n\t\t\t\t\tDamage: 10\r\n\r\n\t\t\t\t\tCooldown: 7 sec");
+		gameTowerBuyOptions_Tower_2_Button.setToolTipText(
+				"\t\tTower Medium:\r\n\r\nCost: 300\t\t\tRange: 2\r\n\r\n\t\t\t\t\tDamage: 10\r\n\r\n\t\t\t\t\tCooldown: 7 sec");
 		gameTowerBuyOptionsTypesPanel.add(gameTowerBuyOptions_Tower_2_Button);
 		gameTowerBuyOptions_Tower_2_Button.addMouseListener(new MouseAdapter() {
 			@Override
@@ -553,7 +569,8 @@ public class TextGui extends JFrame {
 		gameTowerBuyOptions_Tower_2_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		gameTowerBuyOptions_Tower_3_Button = new JButton("T-Type 3");
-		gameTowerBuyOptions_Tower_3_Button.setToolTipText("\t\tTower Big:\r\n\r\nCost: 500\t\t\tRange: 3\r\n\r\n\t\t\t\t\tDamage: 15\r\n\r\n\t\t\t\t\tCooldown: 10 sec");
+		gameTowerBuyOptions_Tower_3_Button.setToolTipText(
+				"\t\tTower Big:\r\n\r\nCost: 500\t\t\tRange: 3\r\n\r\n\t\t\t\t\tDamage: 15\r\n\r\n\t\t\t\t\tCooldown: 10 sec");
 		gameTowerBuyOptionsTypesPanel.add(gameTowerBuyOptions_Tower_3_Button);
 		gameTowerBuyOptions_Tower_3_Button.addMouseListener(new MouseAdapter() {
 			@Override
@@ -708,7 +725,8 @@ public class TextGui extends JFrame {
 		gameEnemyBuyOptionsPanel.add(gameEnemyBuyOptionsTypesPanel, BorderLayout.CENTER);
 
 		gameEnemyBuyOptions_Enemy_1_Button = new JButton("E-Type 1");
-		gameEnemyBuyOptions_Enemy_1_Button.setToolTipText("\t\tEnemy Weak:\r\n\r\nCost: 50\t\t\tLife: 10\r\n\r\n\t\t\t\t\tDamage: 1\r\n\r\n\t\t\t\t\tSpeed: 1 sec");
+		gameEnemyBuyOptions_Enemy_1_Button.setToolTipText(
+				"\t\tEnemy Weak:\r\n\r\nCost: 50\t\t\tLife: 10\r\n\r\n\t\t\t\t\tDamage: 1\r\n\r\n\t\t\t\t\tSpeed: 1 sec");
 		gameEnemyBuyOptionsTypesPanel.add(gameEnemyBuyOptions_Enemy_1_Button);
 		gameEnemyBuyOptions_Enemy_1_Button.addMouseListener(new MouseAdapter() {
 			@Override
@@ -720,7 +738,8 @@ public class TextGui extends JFrame {
 		gameEnemyBuyOptions_Enemy_1_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		gameEnemyBuyOptions_Enemy_2_Button = new JButton("E-Type 2");
-		gameEnemyBuyOptions_Enemy_2_Button.setToolTipText("\t\tEnemy Medium:\r\n\r\nCost: 100\t\t\tLife: 15\r\n\r\n\t\t\t\t\tDamage: 2\r\n\r\n\t\t\t\t\tSpeed: 2 sec");
+		gameEnemyBuyOptions_Enemy_2_Button.setToolTipText(
+				"\t\tEnemy Medium:\r\n\r\nCost: 100\t\t\tLife: 15\r\n\r\n\t\t\t\t\tDamage: 2\r\n\r\n\t\t\t\t\tSpeed: 2 sec");
 		gameEnemyBuyOptionsTypesPanel.add(gameEnemyBuyOptions_Enemy_2_Button);
 		gameEnemyBuyOptions_Enemy_2_Button.addMouseListener(new MouseAdapter() {
 			@Override
@@ -732,7 +751,8 @@ public class TextGui extends JFrame {
 		gameEnemyBuyOptions_Enemy_2_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		gameEnemyBuyOptions_Enemy_3_Button = new JButton("E-Type 3");
-		gameEnemyBuyOptions_Enemy_3_Button.setToolTipText("\t\tEnemy Strong:\r\n\r\nCost: 250\t\t\tLife: 20\r\n\r\n\t\t\t\t\tDamage: 5\r\n\r\n\t\t\t\t\tSpeed: 4 sec");
+		gameEnemyBuyOptions_Enemy_3_Button.setToolTipText(
+				"\t\tEnemy Strong:\r\n\r\nCost: 250\t\t\tLife: 20\r\n\r\n\t\t\t\t\tDamage: 5\r\n\r\n\t\t\t\t\tSpeed: 4 sec");
 		gameEnemyBuyOptionsTypesPanel.add(gameEnemyBuyOptions_Enemy_3_Button);
 		gameEnemyBuyOptions_Enemy_3_Button.addMouseListener(new MouseAdapter() {
 			@Override
@@ -1102,6 +1122,10 @@ public class TextGui extends JFrame {
 
 	public void setUsernameResponseLabelText(String pString) {
 		this.usernameResponseLabel.setText(pString);
+	}
+
+	public void setPasswordResponseLabelText(String pString) {
+		this.passwordResponselabel.setText(pString);
 	}
 
 	public void buyTower() {

@@ -52,10 +52,9 @@ public class Server_TD extends Server {
 		String backMessage = "";
 
 		switch (prefix) {
-		/* CS_HELLO_WORLD */
-		case Protocol.CS_HELLO_WORLD:
-			backMessage = Protocol.SC_HELLO_WORLD + Protocol.SEPARATOR + "Hello!";
-			break;
+		
+		// Login
+		
 		/* CS_LOGIN_USERNAME:<Username> */
 		case Protocol.CS_LOGIN_USERNAME:
 			if (token[1].equals(globalUsername)) {
@@ -75,13 +74,9 @@ public class Server_TD extends Server {
 			}
 			this.send(pClientIP, pClientPort, backMessage);
 			break;
-		/* CS_SET_NAME:<Username> */
-		case Protocol.CS_PLAYER_SET_NAME:
-			player.setUsername(token[1]);
-			backMessage = Protocol.SC_LOBBY_USERS + Protocol.SEPARATOR + player.getPositionInLobby()
-					+ Protocol.SEPARATOR + player.getUsername();
-			this.sendToLobby(player.getLobbyIndex(), backMessage);
-			break;
+			
+		// Lobby
+			
 		/* CS_SEARCH_LOBBY */
 		case Protocol.CS_SEARCH_LOBBY:
 			sortInLobby(player);
@@ -115,6 +110,9 @@ public class Server_TD extends Server {
 			updateMoney(player);
 			updateHealth(player);
 			break;
+			
+		// In-Game 
+			
 		/* CS_PURCHASE_TOWER:<TowerPosX>:<TowerPosY>:<TowerType> */
 		case Protocol.CS_PURCHASE_TOWER:
 			TowerTypes tT = new TowerTypes();
@@ -187,14 +185,12 @@ public class Server_TD extends Server {
 		case Protocol.CS_ARE_ALL_ROUND_OVER:
 			generateRoundOverResponse(player);
 			break;
+			
+		// End of Game
+			
 		/* CS_EXIT_ENDSCREEN */
 		case Protocol.CS_EXIT_ENDSCREEN:
 			this.send(pClientIP, pClientPort, Protocol.SC_EXIT_ENDSCREEN + Protocol.SEPARATOR + player.getUsername());
-			break;
-		/* CS_LOGOUT:<Username> */
-		case Protocol.CS_LOGOUT:
-			// TODO:
-			backMessage = Protocol.SC_LOGOUT_CONFIRMED + Protocol.SEPARATOR + "Logout successful!";
 			break;
 		default:
 			backMessage = Protocol.SC_SENDERRORMESSAGE + Protocol.SEPARATOR + "Error!";
