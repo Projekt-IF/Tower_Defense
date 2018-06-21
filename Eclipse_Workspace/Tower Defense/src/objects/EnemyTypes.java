@@ -17,10 +17,10 @@ public class EnemyTypes {
 			calcedSpeed = 1;
 			break;
 		case 2:
-			calcedSpeed = 1;
+			calcedSpeed = 2;
 			break;
 		case 3:
-			calcedSpeed = 1;
+			calcedSpeed = 4;
 			break;
 		default:
 			calcedSpeed = 0;
@@ -35,13 +35,13 @@ public class EnemyTypes {
 
 		switch (pType) {
 		case 1:
-			calcedLife = 5;
-			break;
-		case 2:
 			calcedLife = 10;
 			break;
-		case 3:
+		case 2:
 			calcedLife = 15;
+			break;
+		case 3:
+			calcedLife = 20;
 			break;
 		default:
 			calcedLife = 0;
@@ -96,13 +96,13 @@ public class EnemyTypes {
 
 		switch (pType) {
 		case 1:
-			calcedBounty = 25;
+			calcedBounty = 10;
 			break;
 		case 2:
-			calcedBounty = 50;
+			calcedBounty = 35;
 			break;
 		case 3:
-			calcedBounty = 75;
+			calcedBounty = 50;
 			break;
 		default:
 			calcedBounty = 0;

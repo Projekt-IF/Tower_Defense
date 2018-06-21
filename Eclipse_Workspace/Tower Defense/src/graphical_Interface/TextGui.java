@@ -211,8 +211,6 @@ public class TextGui extends JFrame {
 					frame.setVisible(true);
 					TD_Client tdc = new TD_Client(args[0], Integer.parseInt(args[1]), frame);
 					frame.setClient(tdc);
-					tdc.send(Protocol.CS_LOGIN_USERNAME + Protocol.SEPARATOR + "u");
-					tdc.send(Protocol.CS_LOGIN_PASSWORD + Protocol.SEPARATOR + "p");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -538,10 +536,12 @@ public class TextGui extends JFrame {
 		gameTowerBuyOptionsPanel.add(gameTowerBuyOptionsTypesPanel);
 
 		gameTowerBuyOptions_Tower_1_Button = new JButton("T-Type 1");
+		gameTowerBuyOptions_Tower_1_Button.setToolTipText("\t\tTower Small:\r\n\r\nCost: 100\t\t\tRange: 1\r\n\r\n\t\t\t\t\tDamage: 5\r\n\r\n\t\t\t\t\tCooldown: 5 sec");
 		gameTowerBuyOptionsTypesPanel.add(gameTowerBuyOptions_Tower_1_Button);
 		gameTowerBuyOptions_Tower_1_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		gameTowerBuyOptions_Tower_2_Button = new JButton("T-Type 2");
+		gameTowerBuyOptions_Tower_2_Button.setToolTipText("\t\tTower Medium:\r\n\r\nCost: 300\t\t\tRange: 2\r\n\r\n\t\t\t\t\tDamage: 10\r\n\r\n\t\t\t\t\tCooldown: 7 sec");
 		gameTowerBuyOptionsTypesPanel.add(gameTowerBuyOptions_Tower_2_Button);
 		gameTowerBuyOptions_Tower_2_Button.addMouseListener(new MouseAdapter() {
 			@Override
@@ -553,6 +553,7 @@ public class TextGui extends JFrame {
 		gameTowerBuyOptions_Tower_2_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		gameTowerBuyOptions_Tower_3_Button = new JButton("T-Type 3");
+		gameTowerBuyOptions_Tower_3_Button.setToolTipText("\t\tTower Big:\r\n\r\nCost: 500\t\t\tRange: 3\r\n\r\n\t\t\t\t\tDamage: 15\r\n\r\n\t\t\t\t\tCooldown: 10 sec");
 		gameTowerBuyOptionsTypesPanel.add(gameTowerBuyOptions_Tower_3_Button);
 		gameTowerBuyOptions_Tower_3_Button.addMouseListener(new MouseAdapter() {
 			@Override
@@ -707,6 +708,7 @@ public class TextGui extends JFrame {
 		gameEnemyBuyOptionsPanel.add(gameEnemyBuyOptionsTypesPanel, BorderLayout.CENTER);
 
 		gameEnemyBuyOptions_Enemy_1_Button = new JButton("E-Type 1");
+		gameEnemyBuyOptions_Enemy_1_Button.setToolTipText("\t\tEnemy Weak:\r\n\r\nCost: 50\t\t\tLife: 10\r\n\r\n\t\t\t\t\tDamage: 1\r\n\r\n\t\t\t\t\tSpeed: 1 sec");
 		gameEnemyBuyOptionsTypesPanel.add(gameEnemyBuyOptions_Enemy_1_Button);
 		gameEnemyBuyOptions_Enemy_1_Button.addMouseListener(new MouseAdapter() {
 			@Override
@@ -718,6 +720,7 @@ public class TextGui extends JFrame {
 		gameEnemyBuyOptions_Enemy_1_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		gameEnemyBuyOptions_Enemy_2_Button = new JButton("E-Type 2");
+		gameEnemyBuyOptions_Enemy_2_Button.setToolTipText("\t\tEnemy Medium:\r\n\r\nCost: 100\t\t\tLife: 15\r\n\r\n\t\t\t\t\tDamage: 2\r\n\r\n\t\t\t\t\tSpeed: 2 sec");
 		gameEnemyBuyOptionsTypesPanel.add(gameEnemyBuyOptions_Enemy_2_Button);
 		gameEnemyBuyOptions_Enemy_2_Button.addMouseListener(new MouseAdapter() {
 			@Override
@@ -729,6 +732,7 @@ public class TextGui extends JFrame {
 		gameEnemyBuyOptions_Enemy_2_Button.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		gameEnemyBuyOptions_Enemy_3_Button = new JButton("E-Type 3");
+		gameEnemyBuyOptions_Enemy_3_Button.setToolTipText("\t\tEnemy Strong:\r\n\r\nCost: 250\t\t\tLife: 20\r\n\r\n\t\t\t\t\tDamage: 5\r\n\r\n\t\t\t\t\tSpeed: 4 sec");
 		gameEnemyBuyOptionsTypesPanel.add(gameEnemyBuyOptions_Enemy_3_Button);
 		gameEnemyBuyOptions_Enemy_3_Button.addMouseListener(new MouseAdapter() {
 			@Override
