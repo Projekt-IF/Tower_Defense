@@ -15,7 +15,6 @@ import javax.swing.ListModel;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
@@ -236,9 +235,10 @@ public class TextGui extends JFrame {
 
 		BufferedImage image = null;
 		try {
-			image = ImageIO.read(new File("Images/windowIcon.png"));
+			System.out.println(System.getProperty("user.dir"));
+			image = ImageIO.read(getClass().getResource("/pictures/windowIcon.png"));
 		} catch (Exception ex) {
-
+			ex.printStackTrace();
 		}
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -1079,10 +1079,9 @@ public class TextGui extends JFrame {
 	public void setMapPicture(String pMapPictureName) {
 		readyPlayerMap_Picture_Label.setText("");
 		gameTowerBuyMapPictureLabel.setText("");
-		System.out.println("Images/MapImages/" + pMapPictureName + ".png");
 		BufferedImage pPicture = null;
 		try {
-			pPicture = ImageIO.read(new File("Images/MapImages/" + pMapPictureName + ".png"));
+			pPicture = ImageIO.read(getClass().getResource("/pictures/" + pMapPictureName + ".png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
