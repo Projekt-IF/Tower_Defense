@@ -2,6 +2,11 @@ package dump;
 
 import envoirement.Tile;
 
+/**
+ * 
+ * @author Jonas
+ *
+ */
 public class Base extends Tile {
 
 	private int xPos;

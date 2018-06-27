@@ -1,4 +1,4 @@
-package objects;
+package dump;
 
 public class Wave {
 

@@ -8,7 +8,7 @@ import network.Protocol;
 import network.Server_TD;
 import objects.Enemy;
 import objects.Player;
-import utility.EnemySpawnTimer;
+import utility.EnemySpawnTimerTask;
 
 /**
  * 
@@ -44,7 +44,7 @@ public class Enemy_Controller {
 
 	public void startTimer() {
 		Timer timer = new Timer();
-		timer.schedule(new EnemySpawnTimer(this, timer), (long) (2000));
+		timer.schedule(new EnemySpawnTimerTask(this, timer), (long) (2000));
 	}
 
 	/**

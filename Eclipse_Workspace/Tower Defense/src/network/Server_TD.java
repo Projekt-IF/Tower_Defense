@@ -12,15 +12,29 @@ import objects.Player;
 import objects.Tower;
 import objects.TowerTypes;
 
-///Server
+/**
+ * The Server_TD class extends the Server class and manages the messages send by
+ * the client. It has a List of Lobbies and Players. The Players are sorted into
+ * the Lobbies of the LobbyList.
+ * 
+ * @author Jonas Schröder
+ * @version 1.0
+ */
 public class Server_TD extends Server {
 
+	// hard coded password and username
 	public static final String globalPassword = "p";
 	public static final String globalUsername = "u";
 
 	private ArrayList<Player> playerList;
 	private ArrayList<Lobby> lobbyList;
 
+	/**
+	 * Constructs a Server_TD on the given port and creates the first Lobby.
+	 * 
+	 * @param pPort
+	 *            The Port the Server runs on the machine.
+	 */
 	public Server_TD(int pPort) {
 		super(pPort);
 		playerList = new ArrayList<Player>();
@@ -31,6 +45,10 @@ public class Server_TD extends Server {
 		showPlayer();
 	}
 
+	/**
+	 * Processes a new incoming connection from a client creating a new Player and
+	 * sorting it into the playerList.
+	 */
 	@Override
 	public void processNewConnection(String pClientIP, int pClientPort) {
 		Player newPlayer = new Player(pClientIP, pClientPort);
@@ -40,23 +58,30 @@ public class Server_TD extends Server {
 		System.out.println("Connected new Player! \n IP: " + pClientIP + " Port: " + pClientPort + " !");
 	}
 
+	/**
+	 * Prosesses the message send by the Client.
+	 */
 	@Override
 	public void processMessage(String pClientIP, int pClientPort, String pMessage) {
 
+		// Gets the Player from the playerList by its IP and Port.
 		Player player = getPlayer(pClientIP, pClientPort);
 
 		System.out.println("Server: Empfangen <" + pMessage + "> von " + pClientIP + "/" + pClientPort);
+		// Splits the message into different parts where the first indicates what kind
+		// of message it is. That is the prefix.
 		String[] token = pMessage.split(Protocol.SEPARATOR);
 		String prefix = token[0];
 
 		String backMessage = "";
 
 		switch (prefix) {
-		
+
 		// Login
-		
+
 		/* CS_LOGIN_USERNAME:<Username> */
 		case Protocol.CS_LOGIN_USERNAME:
+			// checking if entered username equals the coded username.
 			if (token[1].equals(globalUsername)) {
 				player.setUsername(token[1]);
 				backMessage = Protocol.SC_LOGIN_USERNAME_CONFIRMED + Protocol.SEPARATOR + token[1];
@@ -67,6 +92,7 @@ public class Server_TD extends Server {
 			break;
 		/* CS_LOGIN_PASSWORD:<Password> */
 		case Protocol.CS_LOGIN_PASSWORD:
+			// checking if entered password equals the coded password.
 			if (token[1].equals(globalPassword)) {
 				backMessage = Protocol.SC_LOGIN_PASSWORD_CONFIRMED + Protocol.SEPARATOR + player.getUsername();
 			} else {
@@ -74,9 +100,9 @@ public class Server_TD extends Server {
 			}
 			this.send(pClientIP, pClientPort, backMessage);
 			break;
-			
+
 		// Lobby
-			
+
 		/* CS_SEARCH_LOBBY */
 		case Protocol.CS_SEARCH_LOBBY:
 			sortInLobby(player);
@@ -110,9 +136,9 @@ public class Server_TD extends Server {
 			updateMoney(player);
 			updateHealth(player);
 			break;
-			
-		// In-Game 
-			
+
+		// In-Game
+
 		/* CS_PURCHASE_TOWER:<TowerPosX>:<TowerPosY>:<TowerType> */
 		case Protocol.CS_PURCHASE_TOWER:
 			TowerTypes tT = new TowerTypes();
@@ -185,9 +211,9 @@ public class Server_TD extends Server {
 		case Protocol.CS_ARE_ALL_ROUND_OVER:
 			generateRoundOverResponse(player);
 			break;
-			
+
 		// End of Game
-			
+
 		/* CS_EXIT_ENDSCREEN */
 		case Protocol.CS_EXIT_ENDSCREEN:
 			this.send(pClientIP, pClientPort, Protocol.SC_EXIT_ENDSCREEN + Protocol.SEPARATOR + player.getUsername());
@@ -203,6 +229,15 @@ public class Server_TD extends Server {
 
 	}
 
+	/**
+	 * Returns weather the Player has enough money to pay for the tower.
+	 * 
+	 * @param player
+	 *            The player requesting to place a tower.
+	 * @param type
+	 *            The type of the tower to be placed.
+	 * @return True: Player has money >= cost. False: Player has money < cost.
+	 */
 	private boolean checkTowerAffordable(Player player, int type) {
 		TowerTypes tt = new TowerTypes();
 		if (player.getPlayerMoney() >= tt.calcCost(type)) {
@@ -211,6 +246,15 @@ public class Server_TD extends Server {
 		return false;
 	}
 
+	/**
+	 * Returns weather the Player has enough money to pay for the enemy.
+	 * 
+	 * @param player
+	 *            The player requesting to buy an enemy.
+	 * @param type
+	 *            The type of the enemy to be bought.
+	 * @return True: Player has money >= cost. False: Player has money < cost.
+	 */
 	private boolean checkEnemyAffordable(Player player, int type) {
 		EnemyTypes et = new EnemyTypes();
 		if (player.getPlayerMoney() >= et.calcCost(type)) {
@@ -219,27 +263,42 @@ public class Server_TD extends Server {
 		return false;
 	}
 
+	/**
+	 * Processes closing connections to clients.
+	 */
 	@Override
 	public void processClosingConnection(String pClientIP, int pClientPort) {
 		System.out.println("Der Client mit der IP: " + pClientIP + " wird abgemeldet.");
 		Player removePlayer = getPlayer(pClientIP, pClientPort);
 		removePlayer.setUsername("EMPTY");
 		removePlayer.setReady(false);
+		// when in game stopping the game-loop
 		lobbyList.get(removePlayer.getLobbyIndex()).getGameFrameWork().setLoopStopped(true);
+		// sending the clients in the lobby the information to reset to lobby view
 		String removeMessage = Protocol.SC_LOBBY_USERS + Protocol.SEPARATOR + createLobbyUsersResponse(removePlayer);
 		this.sendToLobby(removePlayer.getLobbyIndex(), removeMessage);
 		this.sendToLobby(removePlayer.getLobbyIndex(),
 				Protocol.SC_LOBBY_USERS + Protocol.SEPARATOR + createLobbyUsersResponse(removePlayer));
 		this.sendToLobby(removePlayer.getLobbyIndex(),
 				Protocol.SC_LOBBY_DISCONNECT + Protocol.SEPARATOR + removePlayer.getPositionInLobby());
+		// removing the Player from the playerList and lobbyList
 		removeFromLobby(removePlayer);
 		removeFromPlayers(removePlayer);
 		removePlayer.setConnected(false);
 		lobbyList.get(removePlayer.getLobbyIndex()).getGameFrameWork().clear();
+		// closing the connection to the client
 		this.closeConnection(pClientIP, pClientPort);
 
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param pClientIP
+	 *            The Clients(Players) IP.
+	 * @param pClientPort
+	 *            The Clients(Players) Port.
+	 */
 	public void exitGame(String pClientIP, int pClientPort) {
 		System.out.println("Der Client mit der IP: " + pClientIP + " beendet das Spiel.");
 		Player removePlayer = getPlayer(pClientIP, pClientPort);
@@ -418,22 +477,22 @@ public class Server_TD extends Server {
 		for (int i = 0; i < lobbyList.size(); i++) {
 			if ((lobbyList.get(i).getPlayer_1() == null) && (lobbyList.get(i).getPlayer_2() == null)) {
 			} else if ((lobbyList.get(i).getPlayer_1() != null) && (lobbyList.get(i).getPlayer_2() == null)) {
-				if (lobbyList.get(i).haveSamePortIP(mPlayer, lobbyList.get(i).getPlayer_1())) {
+				if (mPlayer.haveSameStats(mPlayer, lobbyList.get(i).getPlayer_1())) {
 					lobbyList.get(i).resetPlayer_1();
 					lobbyList.get(i).setIsFull(false);
 					lobbyList.get(i).chooseRandomMap();
 				}
 			} else if ((lobbyList.get(i).getPlayer_1() == null) && (lobbyList.get(i).getPlayer_2() != null)) {
-				if (lobbyList.get(i).haveSamePortIP(mPlayer, lobbyList.get(i).getPlayer_2())) {
+				if (mPlayer.haveSameStats(mPlayer, lobbyList.get(i).getPlayer_2())) {
 					lobbyList.get(i).resetPlayer_2();
 					lobbyList.get(i).setIsFull(false);
 					lobbyList.get(i).chooseRandomMap();
 				}
 			} else if ((lobbyList.get(i).getPlayer_1() != null) && (lobbyList.get(i).getPlayer_2() != null)) {
-				if (lobbyList.get(i).haveSamePortIP(mPlayer, lobbyList.get(i).getPlayer_1())) {
+				if (mPlayer.haveSameStats(mPlayer, lobbyList.get(i).getPlayer_1())) {
 					lobbyList.get(i).resetPlayer_1();
 					lobbyList.get(i).setIsFull(false);
-				} else if (lobbyList.get(i).haveSamePortIP(mPlayer, lobbyList.get(i).getPlayer_2())) {
+				} else if (mPlayer.haveSameStats(mPlayer, lobbyList.get(i).getPlayer_2())) {
 					lobbyList.get(i).resetPlayer_2();
 					lobbyList.get(i).setIsFull(false);
 				}

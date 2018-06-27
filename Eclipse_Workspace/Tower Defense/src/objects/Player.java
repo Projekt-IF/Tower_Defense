@@ -1,18 +1,26 @@
 package objects;
 
+/**
+ * The Player class represents the communication parter of the Sever, as well as
+ * the Player in game.
+ * 
+ * @author Jonas Schröder
+ * @version 1.0
+ */
 public class Player {
-
-	private String username;
-
-	private int enemiesKilled;
-	private int towersPlaced;
 
 	private String playerIP;
 	private Integer playerPort;
-
+	
 	private Player otherplayer;
+	
+	private String username;
+	
 	private int lobbyIndex;
 	private int positionInLobby;
+
+	private int enemiesKilled;
+	private int towersPlaced;
 
 	private long playerMoney;
 	private int health;
@@ -26,11 +34,29 @@ public class Player {
 	private boolean isInLobby;
 	private boolean isInGame;
 
+	/**
+	 * Constructs a Player Object.
+	 * 
+	 * @param pPlayerIP
+	 *            The Plsyer's IP for networking.
+	 * @param pPlayerPort
+	 *            The Player's Port for networking.
+	 */
 	public Player(String pPlayerIP, Integer pPlayerPort) {
 		this.setPlayerIP(pPlayerIP);
 		this.setPlayerPort(pPlayerPort);
 	}
 
+	/**
+	 * Compares the IP and Port of two Players.
+	 * 
+	 * @param testPlayer
+	 *            The Player to be compared.
+	 * @param listPlayer
+	 *            The Player to be compared to.
+	 * @return (boolean) True: both Players have same IP and Port, False: both Players have not the
+	 *         same IP and Port.
+	 */
 	public boolean haveSameStats(Player testPlayer, Player listPlayer) {
 		if ((testPlayer.getPlayerIP().equals(listPlayer.getPlayerIP()))
 				&& ((int) testPlayer.getPlayerPort() == (int) listPlayer.getPlayerPort())) {

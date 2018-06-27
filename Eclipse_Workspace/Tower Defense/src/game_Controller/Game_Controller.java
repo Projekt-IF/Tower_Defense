@@ -82,6 +82,9 @@ public class Game_Controller {
 			} else {
 				loopStopped = true;
 				player.setRoundOver(true);
+				player.setPlayerMoney(player.getPlayerMoney() + (currentWaveIndex * 20));
+				this.server.send(player.getPlayerIP(), player.getPlayerPort(),
+						Protocol.SC_UPDATE_PLAYER_MONEY + Protocol.SEPARATOR + player.getPlayerMoney());
 				this.server.send(player.getPlayerIP(), player.getPlayerPort(), Protocol.SC_ROUND_OVER);
 			}
 		}

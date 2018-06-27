@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import envoirement.Grid;
 import objects.Enemy;
 
+/**
+ * The WaveGenerator is capable of generating ongoing Waves of Enemies
+ * 
+ * @author Jonas
+ * @version 1.0
+ */
 public class WaveGenerator {
 
 	private Grid grid;
@@ -19,6 +25,9 @@ public class WaveGenerator {
 	private int currentType2;
 	private int currentType3;
 
+	/**
+	 * Constructs an object of the WaveGenerator.
+	 */
 	public WaveGenerator() {
 		generatedEnemies = new ArrayList<Enemy>();
 		currentMaxNumber = 5;
@@ -28,6 +37,15 @@ public class WaveGenerator {
 		currentType1 = 0;
 	}
 
+	/**
+	 * Generates ongoing waves. The pattern determines how many Enemies of what type
+	 * are generated. It goes up from 1 to 5 and increments the number of Enemies
+	 * for each type based on the amount of enemies form other types. If the
+	 * maxAmount is reached it increments the next up type. This loops until the
+	 * highest type is at the max number and then the max number is incremented.
+	 * 
+	 * @return (ArrayList<Enemy>) generatedEnemies
+	 */
 	public ArrayList<Enemy> generateWave() {
 		generatedEnemies.clear();
 		currentWaveIndex++;
@@ -46,6 +64,7 @@ public class WaveGenerator {
 				}
 			}
 		}
+		// Generating the Wave based on the amount of enemies of each type.
 		generateEnemies((currentType1 * 3), 1);
 		generateEnemies((currentType2 * 3), 2);
 		generateEnemies((currentType3 * 3), 3);
@@ -54,6 +73,12 @@ public class WaveGenerator {
 		return generatedEnemies;
 	}
 
+	/**
+	 * Checks weather the amount of enemies all together is lower or higher of the
+	 * maximum amount of enemies.
+	 * 
+	 * @return (boolean) maxNumberReached
+	 */
 	public boolean checkMaxNumber() {
 		if ((currentType1 + currentType2 + currentType3) < currentMaxNumber) {
 			return true;
@@ -61,25 +86,34 @@ public class WaveGenerator {
 		return false;
 	}
 
-	public void generateEnemies(Integer n, int pType/* , int pLevel */) {
+	/**
+	 * Generates a certain amount of enemies based on their type and adds them to
+	 * the generatedEnemiesList.
+	 * 
+	 * @param n
+	 *            The amount of enemies to be generated.
+	 * @param pType
+	 *            The type of the Enemies.
+	 */
+	public void generateEnemies(Integer n, int pType) {
 		for (int a = 0; a < n; a++) {
 			Enemy e = new Enemy(null, null, pType);
 			generatedEnemies.add(e);
 		}
 	}
 
+	/**
+	 * Sets the dedicated position of the Enemy in the Wave.w
+	 */
 	public void setNumbers() {
 		for (int a = 0; a < generatedEnemies.size(); a++) {
 			generatedEnemies.get(a).setNumber(a + 1);
 		}
 	}
 
-	public void setNumbers(ArrayList<Enemy> list) {
-		for (int a = 0; a < list.size(); a++) {
-			list.get(a).setNumber(a + 1);
-		}
-	}
-
+	/**
+	 * Increases the maximum possible number of enemies.
+	 */
 	public void increaseCurrentNumber() {
 		if (currentType3 == currentMaxNumber) {
 			currentMaxNumber += 5;
@@ -87,7 +121,12 @@ public class WaveGenerator {
 	}
 
 	/*
-	 * Type3: [] + Type2: [] + Type1: []
+	 * Prints out the number of enemies per type in the following pattern.
+	 * Type3: [] 
+	 * 		+ 
+	 * 		Type2: [] 
+	 * 			+ 
+	 * 			Type1: []
 	 */
 	public void printConstalation(int i) {
 		print("Wave Number: " + i);
@@ -103,6 +142,8 @@ public class WaveGenerator {
 	}
 
 	/**
+	 * Returns the designated Grid for the WaveGenerator.
+	 * 
 	 * @return the grid
 	 */
 	public Grid getGrid() {
@@ -131,12 +172,4 @@ public class WaveGenerator {
 	public void setCurrentWaveIndex(int currentWaveIndex) {
 		this.currentWaveIndex = currentWaveIndex;
 	}
-
-	// public static void main(String[] args) {
-	// WaveGenerator wG = new WaveGenerator();
-	// for (int i = 0; i < 100; i++) {
-	// wG.printConstalation(i);
-	// wG.generateWave();
-	// }
-	// }
 }

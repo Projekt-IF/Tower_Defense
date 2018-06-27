@@ -3,6 +3,14 @@ package objects;
 import game_Controller.GameFrameWork;
 import network.Server_TD;
 
+/**
+ * The Lobby class represents a storage and communication device for Players to
+ * play a game of Tower Defense using the GameFrameWork. It is used to store Players split up
+ * into groups of 2.
+ * 
+ * @author Jonas Schröder
+ * @version 1.0
+ */
 public class Lobby {
 
 	private Server_TD server;
@@ -19,6 +27,14 @@ public class Lobby {
 	private boolean isFull;
 	private boolean inGame;
 
+	/**
+	 * Constructs a Lobby on which the GameFrameWork organizes the players in game.
+	 * Also a map is chosen.
+	 * 
+	 * @param pServer
+	 *            The server the Lobby is run on and from which it send messages to
+	 *            the Player's Clients.
+	 */
 	public Lobby(Server_TD pServer) {
 		this.server = pServer;
 		this.gameFrameWork = new GameFrameWork(this.server);
@@ -30,10 +46,17 @@ public class Lobby {
 		chooseRandomMap();
 	}
 
+	/**
+	 * Requests a random map of the map-possibilities from the gameFrameWork.
+	 */
 	public void chooseRandomMap() {
 		setMapName(gameFrameWork.chooseRandomMap());
 	}
 
+	/**
+	 * Initializes the game by setting the two Players and starting the game
+	 * routine.
+	 */
 	public void initializeGame() {
 		gameFrameWork.setPlayer_1(player_1);
 		gameFrameWork.setPlayer_2(player_2);
@@ -41,15 +64,13 @@ public class Lobby {
 		gameFrameWork.startGame();
 	}
 
-	public boolean haveSamePortIP(Player testPlayer, Player lobbyPlayer) {
-		if ((testPlayer.getPlayerIP().equals(lobbyPlayer.getPlayerIP()))
-				&& ((int) testPlayer.getPlayerPort() == (int) lobbyPlayer.getPlayerPort())) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
+	/**
+	 * Returns the enemy Player.
+	 * 
+	 * @param player
+	 *            The requested Player.
+	 * @return (Player) otherPlayer The other Player.
+	 */
 	public Player getOtherPlayer(Player player) {
 		if (player.equals(player_1)) {
 			return player_2;
@@ -59,6 +80,12 @@ public class Lobby {
 		return null;
 	}
 
+	/**
+	 * Returns weather all Players are ready with the buy phase.
+	 * 
+	 * @return (boolean) True: All Players are done buying. False: Not all Players
+	 *         are done buying.
+	 */
 	public boolean allBuyDone() {
 		if (player_1.isBuyDone() && player_2.isBuyDone()) {
 			return true;
@@ -66,6 +93,12 @@ public class Lobby {
 		return false;
 	}
 
+	/**
+	 * Returns weather all Players are done with the current round.
+	 * 
+	 * @return (boolean) True: All Players are done fighting. False: Not all Players
+	 *         are done fighting.
+	 */
 	public boolean allRoundOver() {
 		if (player_1.isRoundOver() && player_2.isRoundOver()) {
 			return true;
@@ -73,10 +106,16 @@ public class Lobby {
 		return false;
 	}
 
+	/**
+	 * Sets the Player_1 = null.
+	 */
 	public void resetPlayer_1() {
 		this.player_1 = null;
 	}
 
+	/**
+	 * Sets the Player_2 = null.
+	 */
 	public void resetPlayer_2() {
 		this.player_2 = null;
 	}
