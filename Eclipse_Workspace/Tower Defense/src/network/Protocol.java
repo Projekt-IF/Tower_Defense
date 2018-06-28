@@ -1,5 +1,11 @@
 package network;
 
+/**
+ * The dedicated protocol for the Tower Defense network game.
+ * 
+ * @author Jonas Schröder
+ * @version 1.0
+ */
 public class Protocol {
 
 	public static final String SEPARATOR = ":";

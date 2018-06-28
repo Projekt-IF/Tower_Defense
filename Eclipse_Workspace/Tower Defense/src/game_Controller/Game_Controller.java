@@ -10,6 +10,12 @@ import objects.Enemy;
 import objects.Player;
 import objects.Tower;
 
+/**
+ * The Game_Controller manages the game for one player.
+ * 
+ * @author Jonas Schröder
+ * @version 1.0
+ */
 public class Game_Controller {
 
 	private Server_TD server;
@@ -39,6 +45,14 @@ public class Game_Controller {
 
 	private boolean loopStopped;
 
+	/**
+	 * Constructs a Game_Controller with a player and all other Controllers.
+	 * 
+	 * @param pServer
+	 *            The designated server.
+	 * @param gFW
+	 *            The gameFrameWork.
+	 */
 	public Game_Controller(Server_TD pServer, GameFrameWork gFW) {
 		this.server = pServer;
 		this.setGameFrameWork(gFW);
@@ -54,23 +68,28 @@ public class Game_Controller {
 	}
 
 	/**
-	 * 
+	 * Changes the grid.
 	 */
 	public void iniciateLevel() {
 		changeLevel(currentLevel);
 		updateGame();
 	}
 
+	/**
+	 * Creates the next Wave.
+	 */
 	public void createWave() {
-		// this.getGeneratedEnemyList().clear();
 		addEnemies(wC.generateWave());
 		eC.printEnemyLists();
 		wC.setNumbers();
 		this.currentWaveIndex = wC.getCurrentWaveIndex();
 	}
 
+	/**
+	 * Starts the in-game loop where the enemies move and the towers shoot without
+	 * player interaction.
+	 */
 	public void startLoop() {
-		// TODO:LOOP IT!!
 		loopStopped = false;
 		while (!loopStopped) {
 			if (!getEnemyController().getGeneratedEnemyList().isEmpty()) {
@@ -90,6 +109,9 @@ public class Game_Controller {
 		}
 	}
 
+	/**
+	 * Spawning an enemy from the generatedEnemyList
+	 */
 	public void spawnEnemy() {
 		if (!eC.isOnSpawnCooldown()) {
 			eC.spawnEnemy();
@@ -97,6 +119,12 @@ public class Game_Controller {
 		}
 	}
 
+	/**
+	 * Changes the level and grid.
+	 * 
+	 * @param pLevelName
+	 *            The new level's name.
+	 */
 	public void changeLevel(String pLevelName) {
 		setGlobalGrid(this.lC.changeLevel(pLevelName));
 		this.spawnerTile = getGlobalGrid().getSpawnerTile();
@@ -104,6 +132,12 @@ public class Game_Controller {
 		updateGame();
 	}
 
+	/**
+	 * Removing the given enemy from the enemyList.
+	 * 
+	 * @param pKilledEnemy
+	 *            The enemy to be removed.
+	 */
 	public void removeEnemyFromList(Enemy pKilledEnemy) {
 		if (!enemyList.isEmpty()) {
 			for (int i = 0; i < enemyList.size(); i++) {
@@ -115,6 +149,12 @@ public class Game_Controller {
 		updateGame();
 	}
 
+	/**
+	 * Adding the boughtTowers List to the purchasedTowerList.
+	 * 
+	 * @param boughtTowers
+	 *            The Towers to be added.
+	 */
 	public void addPurchasedTowers(ArrayList<Tower> boughtTowers) {
 		for (int i = 0; i < boughtTowers.size(); i++) {
 			addPurchasedTower(boughtTowers.get(i).getPosX(), boughtTowers.get(i).getPosY(),
@@ -123,10 +163,26 @@ public class Game_Controller {
 		boughtTowers.clear();
 	}
 
+	/**
+	 * Adding the tower to the towerList.
+	 * 
+	 * @param pPosX
+	 *            The x coordinate.
+	 * @param pPosY
+	 *            The y coordinate.
+	 * @param pType
+	 *            The tower's type.
+	 */
 	public void addPurchasedTower(int pPosX, int pPosY, int pType) {
 		getTowerList().add(getTowerController().createTower(pPosX, pPosY, pType));
 	}
 
+	/**
+	 * Adding the pAddedEnemies List to the generatedEnemyList.
+	 * 
+	 * @param pAddedEnemies
+	 *            The enemies to be added.
+	 */
 	public void addEnemies(ArrayList<Enemy> pAddedEnemies) {
 		for (int i = 0; i < pAddedEnemies.size(); i++) {
 			getGeneratedEnemyList().add(pAddedEnemies.get(i));
@@ -136,6 +192,9 @@ public class Game_Controller {
 		pAddedEnemies.clear();
 	}
 
+	/**
+	 * Updating everything game important.
+	 */
 	public void updateGame() {
 		this.setCurrentLevel(this.getCurrentLevel());
 		this.setGlobalGrid(this.getGlobalGrid());
@@ -146,10 +205,20 @@ public class Game_Controller {
 		this.setTowerList(this.getTowerList());
 	}
 
+	/**
+	 * 
+	 * @return The enemyList.
+	 */
 	public ArrayList<Enemy> getEnemyList() {
 		return enemyList;
 	}
 
+	/**
+	 * Sets the enemyLIst for the Game/Enemy Controller.
+	 * 
+	 * @param enemyList
+	 *            The enemyList.
+	 */
 	public void setEnemyList(ArrayList<Enemy> enemyList) {
 		eC.setEnemyList(enemyList);
 		this.enemyList = enemyList;
@@ -163,6 +232,8 @@ public class Game_Controller {
 	}
 
 	/**
+	 * Sets the gris for the Enemy/Tower/Wave/Game Controller
+	 * 
 	 * @param globalGrid
 	 *            the globalGrid to set
 	 */
@@ -173,10 +244,20 @@ public class Game_Controller {
 		this.globalGrid = globalGrid;
 	}
 
+	/**
+	 * 
+	 * @return The Game_Controller's currentLevel.
+	 */
 	public String getCurrentLevel() {
 		return currentLevel;
 	}
 
+	/**
+	 * Sets the currentLevel for the Game_Controller and the Level_Controller.
+	 * 
+	 * @param currentLevel
+	 *            The Game_Controller's currentLevel.
+	 */
 	public void setCurrentLevel(String currentLevel) {
 		lC.setCurrentLevel(currentLevel);
 		this.currentLevel = currentLevel;
@@ -228,34 +309,70 @@ public class Game_Controller {
 		this.towerList = towerList;
 	}
 
+	/**
+	 * 
+	 * @return The Enemy_Controller
+	 */
 	public Enemy_Controller getEnemyController() {
 		return eC;
 	}
 
+	/**
+	 * 
+	 * @param eC
+	 *            The Enemy_Controller
+	 */
 	public void setEnemyController(Enemy_Controller eC) {
 		this.eC = eC;
 	}
 
+	/**
+	 * 
+	 * @return The Wave_Controller
+	 */
 	public Wave_Controller getWaveController() {
 		return wC;
 	}
 
+	/**
+	 * 
+	 * @param wC
+	 *            The Wave_Controller
+	 */
 	public void setWaveController(Wave_Controller wC) {
 		this.wC = wC;
 	}
 
+	/**
+	 * 
+	 * @return The Level_Controller
+	 */
 	public Level_Controller getLevelController() {
 		return lC;
 	}
 
+	/**
+	 * 
+	 * @param lC
+	 *            The Level_Controller
+	 */
 	public void setLevelController(Level_Controller lC) {
 		this.lC = lC;
 	}
 
+	/**
+	 * 
+	 * @return tower_Controller
+	 */
 	public Tower_Controller getTowerController() {
 		return tC;
 	}
 
+	/**
+	 * 
+	 * @param tC
+	 *            The Tower_Controller
+	 */
 	public void setTowerController(Tower_Controller tC) {
 		this.tC = tC;
 	}

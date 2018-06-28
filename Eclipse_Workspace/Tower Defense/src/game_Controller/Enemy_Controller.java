@@ -11,7 +11,10 @@ import objects.Player;
 import utility.EnemySpawnTimerTask;
 
 /**
+ * The Enemy_Controller manages the spawning and movement of the enemies.
  * 
+ * @author Jonas Schröder
+ * @version 1.0
  */
 public class Enemy_Controller {
 
@@ -29,7 +32,19 @@ public class Enemy_Controller {
 	private boolean isOnSpawnCooldown;
 
 	/**
+	 * Constructs an Enemy_Controller with a designated server to control the enemy
+	 * spawn and movement.
 	 * 
+	 * @param pServer
+	 *            The designated server.
+	 * @param pEnemyList
+	 *            The enemyList.
+	 * @param pGeneratedEnemyList
+	 *            The generatedEnemyList.
+	 * @param pPlayer
+	 *            The player.
+	 * @param pGame_Controller
+	 *            The Game_Controller.
 	 */
 	public Enemy_Controller(Server_TD pServer, ArrayList<Enemy> pEnemyList, ArrayList<Enemy> pGeneratedEnemyList,
 			Player pPlayer, Game_Controller pGame_Controller) {
@@ -42,13 +57,16 @@ public class Enemy_Controller {
 		;
 	}
 
+	/**
+	 * Starting the spawn cool down.
+	 */
 	public void startTimer() {
 		Timer timer = new Timer();
 		timer.schedule(new EnemySpawnTimerTask(this, timer), (long) (2000));
 	}
 
 	/**
-	 * 
+	 * Spawning a new Enemy from the generatedEnemyList.
 	 */
 	public void spawnEnemy() {
 		Enemy e = generatedEnemyList.get(0);
@@ -62,14 +80,20 @@ public class Enemy_Controller {
 		spawn();
 	}
 
+	/**
+	 * Starting the move cool down.
+	 */
 	public void spawn() {
 		this.isOnSpawnCooldown = true;
 		startTimer();
 	}
 
 	/**
+	 * Changes the enemies position and starts the enemies cool down. A message with
+	 * the updated position is send to the server.
 	 * 
 	 * @param e
+	 *            The enemy.
 	 */
 	public void moveEnemy(Enemy e) {
 		int currentXPos = e.getPosX();
@@ -83,9 +107,12 @@ public class Enemy_Controller {
 	}
 
 	/**
+	 * Checks if the ENemy is on cool down, no enemies ion the List or not next tile
+	 * available.
 	 * 
 	 * @param e
-	 * @return
+	 *            The enemy to check.
+	 * @return True: Is movable. False: Is not movable.
 	 */
 	public Boolean isMovable(Enemy e) {
 		if (!e.isOnCooldown()) {
@@ -106,8 +133,13 @@ public class Enemy_Controller {
 		return false;
 	}
 
+	/**
+	 * Checks to move the enemies in the enemyList. Otherwise the enemy is at the
+	 * base and damages the player or the player looses.
+	 */
 	public void checkMoveEnemies() {
 		for (int a = 0; a < enemyList.size(); a++) {
+			// checks for cool down and life and if there is a next tile.
 			if (isMovable(enemyList.get(a))) {
 				moveEnemy(enemyList.get(a));
 			} else {
@@ -119,7 +151,6 @@ public class Enemy_Controller {
 							player.setHealth(player.getHealth() - enemyList.get(a).getDamage());
 						}
 						if (player.getHealth() <= 0) {
-							// TODO: END GAME
 							this.game_Controller.getGameFrameWork().stopGame();
 							this.game_Controller.getGameFrameWork().evaluateGameResults();
 						}
@@ -141,6 +172,13 @@ public class Enemy_Controller {
 		}
 	}
 
+	/**
+	 * Checks weather the enemy is affordable.
+	 * 
+	 * @param pCost
+	 *            The enemy's cost.
+	 * @return True: Money >= cost. False: Money < cost.
+	 */
 	public boolean isEnemyAffordable(int pCost) {
 		if (player.getPlayerMoney() >= pCost) {
 			return true;
@@ -148,10 +186,16 @@ public class Enemy_Controller {
 		return false;
 	}
 
+	/**
+	 * Clearing the enemyList.
+	 */
 	public void clearEnemyList() {
 		enemyList.clear();
 	}
 
+	/**
+	 * Printing the generatedNEmeyLista and the enemyList to the Command Prompt.
+	 */
 	public void printEnemyLists() {
 		System.out.println("The GeneratedEnemyList: ");
 		for (int a = 0; a < generatedEnemyList.size(); a++) {
@@ -167,18 +211,36 @@ public class Enemy_Controller {
 		}
 	}
 
+	/**
+	 * 
+	 * @return The grid.
+	 */
 	public Grid getGrid() {
 		return grid;
 	}
 
+	/**
+	 * 
+	 * @param grid
+	 *            The grid.
+	 */
 	public void setGrid(Grid grid) {
 		this.grid = grid;
 	}
 
+	/**
+	 * 
+	 * @return The player.
+	 */
 	public Player getPlayer() {
 		return player;
 	}
 
+	/**
+	 * 
+	 * @param player
+	 *            The player.
+	 */
 	public void setPlayer(Player player) {
 		this.player = player;
 	}

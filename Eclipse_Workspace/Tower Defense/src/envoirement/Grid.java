@@ -61,6 +61,9 @@ public class Grid {
 		}
 	}
 
+	/**
+	 * Printing the grid to the command prompt
+	 */
 	public void printGrid() {
 		System.out.println();
 		for (int y = 0; y <= height - 1; y++) {
@@ -71,6 +74,9 @@ public class Grid {
 		}
 	}
 
+	/**
+	 * Printing the path to the command prompt
+	 */
 	public void printPath() {
 		Tile current = this.spawnerTile;
 		while (current.getNextTile() != null) {

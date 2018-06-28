@@ -41,11 +41,15 @@ import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import java.awt.GridLayout;
 
+/**
+ * The TextGui extends the JFrame class. It is the GUI for the tower defense
+ * game.
+ * 
+ * @author Jonas Schröder
+ * @version 1.0
+ */
 public class TextGui extends JFrame {
 
-	/**
-	 * 
-	 */
 	private Integer chosenTowerType;
 	private Integer chosenEnemyType;
 
@@ -205,6 +209,9 @@ public class TextGui extends JFrame {
 
 	/**
 	 * Launch the application.
+	 * 
+	 * @param args
+	 *            The server's IP and Port.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -221,6 +228,12 @@ public class TextGui extends JFrame {
 		});
 	}
 
+	/**
+	 * Sets the GUI client to get messages from it.
+	 * 
+	 * @param pClient
+	 *            The TD_Cient
+	 */
 	public void setClient(TD_Client pClient) {
 		this.myClient = pClient;
 	}
@@ -234,6 +247,7 @@ public class TextGui extends JFrame {
 		this.chosenTowerType = null;
 		this.chosenEnemyType = null;
 
+		// Setting the applications icon.
 		BufferedImage image = null;
 		try {
 			image = ImageIO.read(getClass().getResource("/pictures/windowIcon.png"));
@@ -281,6 +295,7 @@ public class TextGui extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					// Sending the server a login_username request.
 					sendToServer(Protocol.CS_LOGIN_USERNAME + Protocol.SEPARATOR + usernameInputTextField.getText());
 				}
 			}
@@ -332,6 +347,7 @@ public class TextGui extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					// Sending the server a login_password request.
 					sendToServer(Protocol.CS_LOGIN_PASSWORD + Protocol.SEPARATOR + passwordInputTextField.getText());
 				}
 			}
@@ -379,6 +395,7 @@ public class TextGui extends JFrame {
 		loggedInSearchLobbyButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				// Sending the server a lobby_search request.
 				sendToServer(Protocol.CS_SEARCH_LOBBY);
 			}
 		});
@@ -511,6 +528,7 @@ public class TextGui extends JFrame {
 		readyPlayerMapPanel.add(readyPlayerMap_Picture_Label, BorderLayout.CENTER);
 		readyPlayerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Sending the server a lobby_player_ready request.
 				sendToServer(Protocol.CS_READY_LOBBY);
 			}
 		});
@@ -562,6 +580,7 @@ public class TextGui extends JFrame {
 		gameTowerBuyOptions_Tower_2_Button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// Sending the server a game_buy_Tower_Type_2 request.
 				chosenTowerType = 2;
 				buyTower();
 			}
@@ -575,6 +594,7 @@ public class TextGui extends JFrame {
 		gameTowerBuyOptions_Tower_3_Button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// Sending the server a game_buy_Tower_Type_3 request.
 				chosenTowerType = 3;
 				buyTower();
 			}
@@ -588,6 +608,7 @@ public class TextGui extends JFrame {
 		gameTowerBuyOptionsConfirm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				// Sending the server a game_buy_Tower_Ready request.
 				sendToServer(Protocol.CS_READY_TOWERPLACING);
 			}
 		});
@@ -597,6 +618,7 @@ public class TextGui extends JFrame {
 		gameTowerBuyOptions_Tower_1_Button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				// Sending the server a game_buy_Tower_Type_1 request.
 				chosenTowerType = 1;
 				buyTower();
 			}
@@ -656,6 +678,7 @@ public class TextGui extends JFrame {
 		gameTowerBuyMapChosenSplitPanel.setRightComponent(gameTowerBuyChosenInfoPanel);
 		gameTowerBuyChosenInfoPanel.setLayout(new BorderLayout(0, 0));
 
+		// The towerList
 		gameTowerBuyChosenList = new JList();
 		gameTowerBuyChosenList.setModel(new AbstractListModel() {
 			String[] values = new String[] { "Towers:" };
@@ -698,6 +721,7 @@ public class TextGui extends JFrame {
 		gameBuyEnemiesPanel.add(gameEnemyBuyChosenPanel, BorderLayout.CENTER);
 		gameEnemyBuyChosenPanel.setLayout(new BorderLayout(0, 0));
 
+		// The enemyList
 		gameEnemyBuyChosenList = new JList();
 		gameEnemyBuyChosenList.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		gameEnemyBuyChosenList.setModel(new AbstractListModel() {
@@ -731,6 +755,7 @@ public class TextGui extends JFrame {
 		gameEnemyBuyOptions_Enemy_1_Button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// Sending the server a game_buy_Enemy_Type_1 request.
 				chosenEnemyType = 1;
 				buyEnemy();
 			}
@@ -744,6 +769,7 @@ public class TextGui extends JFrame {
 		gameEnemyBuyOptions_Enemy_2_Button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// Sending the server a game_buy_Enemy_Type_2 request.
 				chosenEnemyType = 2;
 				buyEnemy();
 			}
@@ -757,6 +783,7 @@ public class TextGui extends JFrame {
 		gameEnemyBuyOptions_Enemy_3_Button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// Sending the server a game_buy_Enemy_Type_3 request.
 				chosenEnemyType = 3;
 				buyEnemy();
 			}
@@ -770,6 +797,7 @@ public class TextGui extends JFrame {
 		gameEnemyBuyOptionsConfirm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				// Sending the server a game_buy_Enemy_Ready request.
 				sendToServer(Protocol.CS_READY_ENEMIESPURCHASED);
 			}
 		});
@@ -960,13 +988,10 @@ public class TextGui extends JFrame {
 		gameEndScreenPanel.add(gameEndScreenExitPanel, BorderLayout.SOUTH);
 
 		gameEndScreenExitButton = new JButton("EXIT");
-		gameEndScreenExitButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
 		gameEndScreenExitButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				// Sending the server a game_End_Exit request.
 				sendToServer(Protocol.CS_EXIT_ENDSCREEN);
 			}
 		});
@@ -976,6 +1001,9 @@ public class TextGui extends JFrame {
 		gameEndScreenExitPanel.add(gameEndScreenExitButton);
 	}
 
+	/**
+	 * Switching to the loginUsernamePanel
+	 */
 	public void switchPanelLoginUsername() {
 		CardLayout cl = (CardLayout) switchablePanel.getLayout();
 		cl.show(switchablePanel, "loginPanel");
@@ -983,6 +1011,9 @@ public class TextGui extends JFrame {
 		clUP.show(usernamePasswordSwitchPanel, "usernamePanel");
 	}
 
+	/**
+	 * Switching to the loginPasswordPanel
+	 */
 	public void switchPanelLoginPassword(String pUsername) {
 		CardLayout cl = (CardLayout) switchablePanel.getLayout();
 		cl.show(switchablePanel, "loginPanel");
@@ -991,6 +1022,9 @@ public class TextGui extends JFrame {
 		this.passwordUsernameLabel.setText(USERNAMEPRESET + pUsername);
 	}
 
+	/**
+	 * Switching to the searchLobbyPanel
+	 */
 	public void switchPanelLoggedIn(String pUsername) {
 		CardLayout cl = (CardLayout) switchablePanel.getLayout();
 		cl.show(switchablePanel, "loginPanel");
@@ -1000,16 +1034,25 @@ public class TextGui extends JFrame {
 
 	}
 
+	/**
+	 * Switching to the lobbyPanel
+	 */
 	public void switchPanelLobby() {
 		CardLayout cl = (CardLayout) switchablePanel.getLayout();
 		cl.show(switchablePanel, "lobbyPanel");
 	}
 
+	/**
+	 * Switching to the gamePanel
+	 */
 	public void switchPanelGame() {
 		CardLayout cl = (CardLayout) switchablePanel.getLayout();
 		cl.show(switchablePanel, "gamePanel");
 	}
 
+	/**
+	 * Switching to the gameBuyTowerPanel
+	 */
 	public void switchPanelGameBuyTowers() {
 		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
 		cl.show(switchGamePanel, "gameBuyTowerPanel");
@@ -1017,6 +1060,9 @@ public class TextGui extends JFrame {
 		this.setErrorTowerBuy("");
 	}
 
+	/**
+	 * Switching to the gameBuyEnemyPanel
+	 */
 	public void switchPanelGameBuyEnemies() {
 		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
 		cl.show(switchGamePanel, "gameBuyEnemiesPanel");
@@ -1024,41 +1070,79 @@ public class TextGui extends JFrame {
 		this.setErrorEnemyBuy("");
 	}
 
+	/**
+	 * Switching to the gameBuyWaitPanel
+	 */
+	public void switchPanelGameBuyWait() {
+		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
+		cl.show(switchGamePanel, "gameBuyWaitPanel");
+	}
+
+	/**
+	 * Switching to the gamePlayPanel
+	 */
+	public void switchPanelGamePlay() {
+		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
+		cl.show(switchGamePanel, "gamePlayPanel");
+	}
+
+	/**
+	 * Switching to the gameEnsScreenPanel
+	 */
+	public void switchPanelGameEndScreen() {
+		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
+		cl.show(switchGamePanel, "gameEndScreenPanel");
+	}
+
+	/**
+	 * Clears the enemy list.
+	 */
 	public void clearGameEnemyBuyChosenList() {
 		DefaultListModel<String> dListModel = new DefaultListModel<String>();
 		dListModel.addElement("Next Wave : ");
 		gameEnemyBuyChosenList.setModel(dListModel);
 	}
 
+	/**
+	 * Clears the tower list.
+	 */
 	public void clearGameTowerBuyChosenList() {
 		DefaultListModel<String> dListModel = new DefaultListModel<String>();
 		dListModel.addElement("Towers:");
 		gameTowerBuyChosenList.setModel(dListModel);
 	}
 
-	public void switchPanelGameBuyWait() {
-		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
-		cl.show(switchGamePanel, "gameBuyWaitPanel");
+	/**
+	 * Creates a new GridLayout for the buttons on the gamePlayPanel according to
+	 * the height and width of the map.
+	 * 
+	 * @param height
+	 *            The map's height.
+	 * @param width
+	 *            The map's width.
+	 * @param tileTypes
+	 *            The tile's type.
+	 */
+	public void createMapLayout(int height, int width, String[][] tileTypes) {
+		gamePlayMapPanel.setLayout(new GridLayout(height, width, 0, 0));
 	}
 
-	public void switchPanelGamePlay() {
-		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
-		cl.show(switchGamePanel, "gamePlayPanel");
-	}
-
-	public void switchPanelGameEndScreen() {
-		CardLayout cl = (CardLayout) switchGamePanel.getLayout();
-		cl.show(switchGamePanel, "gameEndScreenPanel");
-	}
-
-	public void createMapLayout(int height, int length, String[][] tileTypes) {
-		gamePlayMapPanel.setLayout(new GridLayout(height, length, 0, 0));
-	}
-
+	/**
+	 * Prints a message to the label in the lobbyPanel.
+	 * 
+	 * @param message
+	 *            The message to be printed out.
+	 */
 	public void ausgeben(String message) {
 		this.lblContent.setText(message);
 	}
 
+	/**
+	 * Sets player_1 in the lobby as ready and changing the font color and text.
+	 * 
+	 * @param readyText
+	 *            Is the player ready or not.
+	 */
 	public void setReadyPlayer1(String readyText) {
 		this.readyPlayer_1_Label.setText(readyText);
 		if (readyText.equals("READY")) {
@@ -1068,6 +1152,12 @@ public class TextGui extends JFrame {
 		}
 	}
 
+	/**
+	 * Sets player_2 in the lobby as ready and changing the font color and text.
+	 * 
+	 * @param readyText
+	 *            Is the player ready or not.
+	 */
 	public void setReadyPlayer2(String readyText) {
 		this.readyPlayer_2_Label.setText(readyText);
 		if (readyText.equals("READY")) {
@@ -1077,6 +1167,12 @@ public class TextGui extends JFrame {
 		}
 	}
 
+	/**
+	 * Sets the button's font color and text.
+	 * 
+	 * @param readyStatus
+	 *            Is the player ready or not.
+	 */
 	public void setReadyButton(String playerStatus) {
 		if (playerStatus.equals("true")) {
 			readyPlayerButton.setText("READY");
@@ -1087,18 +1183,42 @@ public class TextGui extends JFrame {
 		}
 	}
 
+	/**
+	 * Sets the maximum in the tower placing Y spinner.
+	 * 
+	 * @param maximum
+	 *            The maximum Y coordinate.
+	 */
 	public void setTowerBuyModelYSpinner(int maximum) {
 		gameTowerBuyMapPosition_YSpinner.setModel(new SpinnerNumberModel(1, 1, maximum, 1));
 	}
 
+	/**
+	 * Sets the maximum in the tower placing X spinner.
+	 * 
+	 * @param maximum
+	 *            The maximum X coordinate.
+	 */
 	public void setTowerBuyModelXSpinner(int maximum) {
 		gameTowerBuyMapPosition_XSpinner.setModel(new SpinnerNumberModel(1, 1, maximum, 1));
 	}
 
+	/**
+	 * Sets the map's name.
+	 * 
+	 * @param pMapName
+	 *            The map's name.
+	 */
 	public void setMapName(String pMapName) {
 		this.readyPlayerMap_Name_Label.setText(pMapName);
 	}
 
+	/**
+	 * Sets the map's picture.
+	 * 
+	 * @param pMapPictureName
+	 *            The map's name.
+	 */
 	public void setMapPicture(String pMapPictureName) {
 		readyPlayerMap_Picture_Label.setText("");
 		gameTowerBuyMapPictureLabel.setText("");
@@ -1112,22 +1232,49 @@ public class TextGui extends JFrame {
 		this.gameTowerBuyMapPictureLabel.setIcon(new ImageIcon(pPicture));
 	}
 
+	/**
+	 * Sets the player_1's username.
+	 * 
+	 * @param name
+	 *            The username.
+	 */
 	public void setUsernamePlayer1(String name) {
 		this.lblPlayer_1_Name.setText(name);
 	}
 
+	/**
+	 * Sets the player_2's username.
+	 * 
+	 * @param name
+	 *            The username.
+	 */
 	public void setUsernamePlayer2(String name) {
 		this.lblPlayer_2_Name.setText(name);
 	}
 
+	/**
+	 * Sets the error response for the username text to the given message.
+	 * 
+	 * @param pString
+	 *            The errorMessage.
+	 */
 	public void setUsernameResponseLabelText(String pString) {
 		this.usernameResponseLabel.setText(pString);
 	}
 
+	/**
+	 * Sets the error response for the password text to the given message.
+	 * 
+	 * @param pString
+	 *            The errorMessage.
+	 */
 	public void setPasswordResponseLabelText(String pString) {
 		this.passwordResponselabel.setText(pString);
 	}
 
+	/**
+	 * Request to buy a tower of the given type at the given position.
+	 */
 	public void buyTower() {
 		int type = chosenTowerType;
 		int posY = Integer.parseInt(gameTowerBuyMapPosition_YSpinner.getValue().toString());
@@ -1136,6 +1283,12 @@ public class TextGui extends JFrame {
 				+ Protocol.SEPARATOR + type);
 	}
 
+	/**
+	 * Adds a tower to the tower list.
+	 * 
+	 * @param string
+	 *            The text about the tower.
+	 */
 	public void addTowerChosen(String string) {
 		ListModel<String> listModel = gameTowerBuyChosenList.getModel();
 		ArrayList<String> elements = new ArrayList<String>();
@@ -1150,6 +1303,12 @@ public class TextGui extends JFrame {
 		gameTowerBuyChosenList.setModel(dListModel);
 	}
 
+	/**
+	 * Adds an enemy to the enemy list.
+	 * 
+	 * @param string
+	 *            The text about the enemy.
+	 */
 	public void addEnemyChosen(String string) {
 		ListModel<String> listModel = gameEnemyBuyChosenList.getModel();
 		ArrayList<String> elements = new ArrayList<String>();
@@ -1164,29 +1323,68 @@ public class TextGui extends JFrame {
 		gameEnemyBuyChosenList.setModel(dListModel);
 	}
 
+	/**
+	 * Updates this player's money.
+	 * 
+	 * @param string
+	 *            The player's money.
+	 */
 	public void updateMoney(String string) {
 		this.gameTowerBuyTextMoneyLabel.setText("				Money: " + string);
 		this.gameEnemyBuyTextMoneyLabel.setText("				Money: " + string);
 	}
 
+	/**
+	 * Sets the error response for the tower buy text to the given message.
+	 * 
+	 * @param string
+	 *            The errorMessage.
+	 */
 	public void setErrorTowerBuy(String string) {
 		this.gameTowerBuyChosenResponseLabel.setText(string);
 	}
 
+	/**
+	 * Sets the error response for the enemy buy text to the given message.
+	 * 
+	 * @param string
+	 *            The errorMessage.
+	 */
 	public void setErrorEnemyBuy(String string) {
 		this.gameEnemyBuyChosenResponseLabel.setText(string);
 	}
 
+	/**
+	 * Request to buy an enemy of the given type.
+	 */
 	public void buyEnemy() {
 		int type = chosenEnemyType;
 		this.sendToServer(Protocol.CS_PURCHASE_ENEMY + Protocol.SEPARATOR + type);
 	}
 
-	public void setGameMapBoundries(int height, int length) {
-		this.gamePlayMapPanel.setLayout(new GridLayout(height, length, 1, 1));
-		this.buttonArray = new JButton[height][length];
+	/**
+	 * Sets the playPanels GridLayout according to the maps height and width.
+	 * 
+	 * @param height
+	 *            The map's height.
+	 * @param width
+	 *            The map's width.
+	 */
+	public void setGameMapBoundries(int height, int width) {
+		this.gamePlayMapPanel.setLayout(new GridLayout(height, width, 1, 1));
+		this.buttonArray = new JButton[height][width];
 	}
 
+	/**
+	 * Sets the button color and text according to the type.
+	 * 
+	 * @param posY
+	 *            The y position in the button list.
+	 * @param posX
+	 *            The x position in the button list.
+	 * @param type
+	 *            The tower's type.
+	 */
 	public void setGameMapType(int posY, int posX, int type) {
 		JButton newButton = new JButton();
 		newButton.setBackground(generateGameMapButtonColor(type, newButton));
@@ -1195,22 +1393,43 @@ public class TextGui extends JFrame {
 		this.gamePlayMapPanel.add(newButton);
 	}
 
+	/**
+	 * Increases the number equivalent to he number of enemies on the position.
+	 * 
+	 * @param x
+	 *            The x position in the button list.
+	 * @param y
+	 *            The y position in the button list.
+	 */
 	public void increaseEnemyCount(Integer x, Integer y) {
-		// TODO: The Grid does not really save the location and error for not casting
-		// panel to button on pc but not laptop
 		JButton button = buttonArray[y][x];
 		Integer number = Integer.parseInt(button.getText()) + 1;
 		button.setText(number.toString());
 	}
 
+	/**
+	 * Decreases the number equivalent to he number of enemies on the position.
+	 * 
+	 * @param x
+	 *            The x position in the button list.
+	 * @param y
+	 *            The y position in the button list.
+	 */
 	public void decreaseEnemyCount(Integer x, Integer y) {
-		// TODO: The Grid does not really save the location and error for not casting
-		// panel to button on pc but not laptop
 		JButton button = buttonArray[y][x];
 		Integer number = Integer.parseInt(button.getText()) - 1;
 		button.setText(number.toString());
 	}
 
+	/**
+	 * Generates the button's color according to the type.
+	 * 
+	 * @param type
+	 *            The tower's type.
+	 * @param newButton
+	 *            The button.
+	 * @return (Color) The corresponding color.
+	 */
 	private Color generateGameMapButtonColor(int type, JButton newButton) {
 		Color color;
 		switch (type) {
@@ -1239,24 +1458,62 @@ public class TextGui extends JFrame {
 		return color;
 	}
 
+	/**
+	 * Resets the gamePlayMapPanel removing all buttons.
+	 */
 	public void resetGameMap() {
 		this.gamePlayMapPanel.removeAll();
 	}
 
+	/**
+	 * Updating the player's own health in the enemy and tower buy panels as well as
+	 * the play panel.
+	 * 
+	 * @param health
+	 *            The player's health.
+	 */
 	public void updateOwnHealth(Integer health) {
 		this.gameTowerBuyTextHealthLabel.setText("               Health: " + health);
 		this.gameEnemyBuyTextHealthLabel.setText("               Health: " + health);
 		this.gamePlayHealthOwnLabel.setText("Your Health: " + health.toString());
 	}
 
+	/**
+	 * Updating the other player's health in the play panel.
+	 * 
+	 * @param health
+	 *            The other player's health.
+	 */
 	public void updateOtherHealth(Integer health) {
 		this.gamePlayHealthOtherLabel.setText("Other Health: " + health.toString() + "        ");
 	}
 
+	/**
+	 * Updating the level the game ended in.
+	 * 
+	 * @param levelCount
+	 *            The level the game ended in.
+	 */
 	public void updateEndScreenLevel(String levelCount) {
 		this.gameEndScreenLevelLabel.setText("Level: " + levelCount);
 	}
 
+	/**
+	 * Updating the own statistics for the end screen.
+	 * 
+	 * @param ownState
+	 *            Has the player won.
+	 * @param ownName
+	 *            The player's name.
+	 * @param own_Health
+	 *            The player's health left.
+	 * @param ownMoney
+	 *            The player's money.
+	 * @param ownEnemies
+	 *            The player's enemies defeated.
+	 * @param ownTowers
+	 *            The player's towers placed.
+	 */
 	public void updateEndScreenOwn(String ownState, String ownName, String own_Health, String ownMoney,
 			String ownEnemies, String ownTowers) {
 		this.gameEndScreenThisPlayer_PlacingLabel.setText(ownState);
@@ -1267,6 +1524,22 @@ public class TextGui extends JFrame {
 		this.gameEndScreenThisPlayer_TowerLabel.setText(ownTowers);
 	}
 
+	/**
+	 * Updating the others statistics for the end screen.
+	 * 
+	 * @param otherState
+	 *            Has the player won.
+	 * @param otherName
+	 *            The player's name.
+	 * @param other_Health
+	 *            The player's health left.
+	 * @param otherMoney
+	 *            The player's money.
+	 * @param otherEnemies
+	 *            The player's enemies defeated.
+	 * @param otherTowers
+	 *            The player's towers placed.
+	 */
 	public void updateEndScreenOther(String otherState, String otherName, String other_Health, String otherMoney,
 			String otherEnemies, String otherTowers) {
 		this.gameEndScreenOtherPlayer_PlacingLabel.setText(otherState);
@@ -1277,6 +1550,9 @@ public class TextGui extends JFrame {
 		this.gameEndScreenOtherPlayer_TowerLabel.setText(otherTowers);
 	}
 
+	/**
+	 * Clearing all statistics for the end screen.
+	 */
 	public void clearEndScreen() {
 		this.gameEndScreenThisPlayer_PlacingLabel.setText("_PLACING_");
 		this.gameEndScreenThisPlayer_NameLabel.setText("_NAME_");
@@ -1293,6 +1569,12 @@ public class TextGui extends JFrame {
 		this.gameEndScreenOtherPlayer_TowerLabel.setText("_TOWER_");
 	}
 
+	/**
+	 * Sending a message to the server.
+	 * 
+	 * @param pMessage
+	 *            The message.
+	 */
 	public void sendToServer(String pMessage) {
 		this.myClient.send(pMessage);
 	}

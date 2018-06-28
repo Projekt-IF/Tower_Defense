@@ -3,6 +3,9 @@ package envoirement;
 /**
  * The Tile Class represents the content of the specific point on the level's
  * map. It also saves the path's, or spawner's connected path Tile.
+ * 
+ * @author Jonas Schröder
+ * @version 1.0
  */
 public class Tile {
 

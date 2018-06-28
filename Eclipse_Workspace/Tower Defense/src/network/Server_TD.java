@@ -42,7 +42,7 @@ public class Server_TD extends Server {
 		lobbyList.add(new Lobby(this));
 		System.out.println("Server auf Port: " + pPort + " geöffnet!");
 		showLobbys();
-		showPlayer();
+		showPlayerList();
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class Server_TD extends Server {
 	}
 
 	/**
-	 * Prosesses the message send by the Client.
+	 * Processes the message send by the Client.
 	 */
 	@Override
 	public void processMessage(String pClientIP, int pClientPort, String pMessage) {
@@ -125,7 +125,7 @@ public class Server_TD extends Server {
 				this.sendToLobby(player.getLobbyIndex(), backMessage);
 			}
 			showLobbys();
-			showPlayer();
+			showPlayerList();
 			break;
 		/* CS_GO */
 		case Protocol.CS_GO:
@@ -158,7 +158,6 @@ public class Server_TD extends Server {
 					this.send(pClientIP, pClientPort, backMessage);
 					backMessage = Protocol.SC_UPDATE_PLAYER_MONEY + Protocol.SEPARATOR + player.getPlayerMoney();
 					this.send(pClientIP, pClientPort, backMessage);
-					// TODO: editing so you can undo the buy
 				} else {
 					int tileType = lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
 							.getGameController(player.getPositionInLobby()).getGlobalGrid().getGridLayer()[tPosY][tPosX]
@@ -194,7 +193,6 @@ public class Server_TD extends Server {
 				this.send(pClientIP, pClientPort, backMessage);
 				backMessage = Protocol.SC_UPDATE_PLAYER_MONEY + Protocol.SEPARATOR + player.getPlayerMoney();
 				this.send(pClientIP, pClientPort, backMessage);
-				// TODO: editing so you can undo the buy
 			} else {
 				backMessage = Protocol.SC_ENEMY_NOT_AFFORDABLE + Protocol.SEPARATOR + eT.calcCost(eType)
 						+ Protocol.SEPARATOR + player.getPlayerMoney();
@@ -292,7 +290,8 @@ public class Server_TD extends Server {
 	}
 
 	/**
-	 * 
+	 * Resets the Player's game and lobby important variables. The Player gets
+	 * removed from the Lobby but not disconnected from the server.
 	 * 
 	 * @param pClientIP
 	 *            The Clients(Players) IP.
@@ -310,6 +309,14 @@ public class Server_TD extends Server {
 		lobbyList.get(removePlayer.getLobbyIndex()).getGameFrameWork().clear();
 	}
 
+	/**
+	 * Sends a message to all the players in the given lobby.
+	 * 
+	 * @param lobbyIndex
+	 *            The position of the lobby in the lobbyList.
+	 * @param pMessage
+	 *            The message to be send to the players in the lobby.
+	 */
 	public void sendToLobby(int lobbyIndex, String pMessage) {
 		if ((lobbyList.get(lobbyIndex).getPlayer_1() != null) && (lobbyList.get(lobbyIndex).getPlayer_2() == null)) {
 			this.send(lobbyList.get(lobbyIndex).getPlayer_1().getPlayerIP(),
@@ -328,6 +335,15 @@ public class Server_TD extends Server {
 
 	}
 
+	/**
+	 * Returns the Player from the playerList the IP and Port fit to.
+	 * 
+	 * @param pClientIP
+	 *            The Player's IP.
+	 * @param pClientPort
+	 *            The Player's Port.
+	 * @return (Player) The requested Player from the playerList.
+	 */
 	private Player getPlayer(String pClientIP, int pClientPort) {
 		Player testPlayer = new Player(pClientIP, pClientPort);
 		Player player = null;
@@ -340,6 +356,15 @@ public class Server_TD extends Server {
 		return null;
 	}
 
+	/**
+	 * Returns the sequence of Protocol messages fitting to the Player's position in
+	 * the lobby.
+	 * 
+	 * @param player
+	 *            The Player to base the response on.
+	 * @return (String) The sequence of Protocol messages fitting to the Player's
+	 *         position in the lobby.
+	 */
 	private String createLobbyUsersResponse(Player player) {
 		String pMessage = "";
 		Lobby lobby = lobbyList.get(player.getLobbyIndex());
@@ -357,6 +382,13 @@ public class Server_TD extends Server {
 		return pMessage;
 	}
 
+	/**
+	 * Sends messages to start the game play mode to the clients according to their
+	 * state of buying.
+	 * 
+	 * @param player
+	 *            The Player to base the response on.
+	 */
 	private void generateBuyPhaseDoneResponse(Player player) {
 		Lobby lobby = lobbyList.get(player.getLobbyIndex());
 		String backMessage = "";
@@ -373,7 +405,6 @@ public class Server_TD extends Server {
 			this.sendToLobby(player.getLobbyIndex(), backMessage);
 			lobby.getPlayer_1().setBuyDone(false);
 			lobby.getPlayer_2().setBuyDone(false);
-			// TODO: now the wave has to be played.
 			lobby.getGameFrameWork().startWave();
 		} else {
 			backMessage = Protocol.SC_BUY_DONE;
@@ -381,6 +412,13 @@ public class Server_TD extends Server {
 		}
 	}
 
+	/**
+	 * Sends messages to start the game buy mode to the clients according to their
+	 * state of playing.
+	 * 
+	 * @param player
+	 *            The Player to base the response on.
+	 */
 	private void generateRoundOverResponse(Player player) {
 		Lobby lobby = lobbyList.get(player.getLobbyIndex());
 		String backMessage = "";
@@ -393,6 +431,13 @@ public class Server_TD extends Server {
 		}
 	}
 
+	/**
+	 * Sends messages to the clients to update the money of the players based on the
+	 * given players position.
+	 * 
+	 * @param player
+	 *            The player to base the response on.
+	 */
 	private void updateMoney(Player player) {
 		Lobby lobby = lobbyList.get(player.getLobbyIndex());
 		this.send(player.getPlayerIP(), player.getPlayerPort(),
@@ -401,6 +446,13 @@ public class Server_TD extends Server {
 				Protocol.SC_UPDATE_PLAYER_MONEY + Protocol.SEPARATOR + lobby.getOtherPlayer(player).getPlayerMoney());
 	}
 
+	/**
+	 * Sends messages to the clients to update the health of the players based on
+	 * the given players position.
+	 * 
+	 * @param player
+	 *            The player to base the response on.
+	 */
 	private void updateHealth(Player player) {
 		Lobby lobby = lobbyList.get(player.getLobbyIndex());
 		this.send(player.getPlayerIP(), player.getPlayerPort(), Protocol.SC_UPDATE_PLAYER_HEALTH + Protocol.SEPARATOR
@@ -410,6 +462,13 @@ public class Server_TD extends Server {
 						+ Protocol.SEPARATOR + player.getHealth());
 	}
 
+	/**
+	 * Sends messages the client uses to create the map that shows the enemy's
+	 * movement.
+	 * 
+	 * @param player
+	 *            The player to base the response on.
+	 */
 	public void loadMapClient(Player player) {
 		Grid grid = lobbyList.get(player.getLobbyIndex()).getGameFrameWork()
 				.getGameController(player.getPositionInLobby()).getGlobalGrid();
@@ -424,6 +483,14 @@ public class Server_TD extends Server {
 		}
 	}
 
+	/**
+	 * Returns weather all players in the lobby of the given player are ready to
+	 * play.
+	 * 
+	 * @param player
+	 *            The player to base the response on.
+	 * @return (boolean) True: All players ready. False: Not all players ready.
+	 */
 	private boolean lobbyReady(Player player) {
 		Lobby lobby = lobbyList.get(player.getLobbyIndex());
 		if ((lobby.getPlayer_1() != null) && lobby.getPlayer_1().isReady()) {
@@ -434,6 +501,13 @@ public class Server_TD extends Server {
 		return false;
 	}
 
+	/**
+	 * Sorts the given player into a lobby with a free spot. If no place is free a
+	 * new lobby is created and the player is placed in it.
+	 * 
+	 * @param player
+	 *            The player to be sorted into a lobby.
+	 */
 	public void sortInLobby(Player player) {
 		for (int i = 0; i < lobbyList.size(); i++) {
 			if (!lobbyList.get(i).getIsFull()) {
@@ -470,9 +544,16 @@ public class Server_TD extends Server {
 		}
 		player.setInLobby(true);
 		showLobbys();
-		showPlayer();
+		showPlayerList();
 	}
 
+	/**
+	 * Removes the given player from its lobby. If the lobby is empty after removing
+	 * a new map is chosen for the lobby.
+	 * 
+	 * @param mPlayer
+	 *            The player to be removed from its lobby.
+	 */
 	public void removeFromLobby(Player mPlayer) {
 		for (int i = 0; i < lobbyList.size(); i++) {
 			if ((lobbyList.get(i).getPlayer_1() == null) && (lobbyList.get(i).getPlayer_2() == null)) {
@@ -502,6 +583,13 @@ public class Server_TD extends Server {
 		showLobbys();
 	}
 
+	/**
+	 * Removes the given player from the playerList if there is a player with the
+	 * same IP and Port of the given player.
+	 * 
+	 * @param mPlayer
+	 *            The player to be removed from its lobby.
+	 */
 	public void removeFromPlayers(Player mPlayer) {
 		for (int i = 0; i < playerList.size(); i++) {
 			if (mPlayer != null) {
@@ -511,15 +599,25 @@ public class Server_TD extends Server {
 			}
 		}
 		mPlayer = null;
-		showPlayer();
+		showPlayerList();
 	}
 
+	/**
+	 * Starts the game for the given lobby if all players are ready.
+	 * 
+	 * @param lobbyIndex
+	 *            The position of the lobby in the lobbyList.
+	 */
 	public void startGame(int lobbyIndex) {
 		if (lobbyList.get(lobbyIndex).getGameFrameWork().playerReadyCheck()) {
 			lobbyList.get(lobbyIndex).setInGame(true);
 		}
 	}
 
+	/**
+	 * Prints a list of the lobbies and the players in it with their status into the
+	 * Command Prompt.
+	 */
 	public void showLobbys() {
 		for (int i = 0; i < lobbyList.size(); i++) {
 			if ((lobbyList.get(i).getPlayer_1() == null) && (lobbyList.get(i).getPlayer_2() == null)) {
@@ -545,7 +643,10 @@ public class Server_TD extends Server {
 		}
 	}
 
-	public void showPlayer() {
+	/**
+	 * Prints a list of the players with their IP and Port into the Command Prompt.
+	 */
+	public void showPlayerList() {
 		for (int i = 0; i < playerList.size(); i++) {
 			System.out.println("List Place: " + (i + 1) + " is Player: " + playerList.get(i).getPlayerIP() + " + "
 					+ playerList.get(i).getPlayerPort() + " !");

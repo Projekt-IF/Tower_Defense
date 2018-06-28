@@ -6,6 +6,13 @@ import network.Protocol;
 import objects.Enemy;
 import objects.Tower;
 
+/**
+ * The TD_Client class extends the Client class and manages the incoming and
+ * outgoing messages. It is the interface between the Server and the GUI.
+ * 
+ * @author Jonas Schröder, Simon Lukas
+ * @version 1.0
+ */
 public class TD_Client extends Client {
 
 	private Integer positionInLobby;
@@ -15,38 +22,59 @@ public class TD_Client extends Client {
 
 	private TextGui myGui;
 
+	/**
+	 * Constructs a TD_Client and connecting it to the server with the given IP on
+	 * the given Port and initializing the TextGui.
+	 * 
+	 * @param pServerIP
+	 *            The dedicated server's IP.
+	 * @param pServerPort
+	 *            The dedicated server's Port.
+	 * @param tg
+	 *            The textGUI.
+	 */
 	public TD_Client(String pServerIP, int pServerPort, TextGui tg) {
 		super(pServerIP, pServerPort);
 		this.myGui = tg;
 
 	}
 
+	/**
+	 * Processes the message send by the server.
+	 */
 	public void processMessage(String pMessage) {
+		// Splits the message into different parts where the first indicates what kind
+		// of message it is. That is the prefix.
 		String[] tags = pMessage.split(Protocol.SEPARATOR);
 		String prefix = tags[0];
 
 		switch (prefix) {
-		
+
 		// Login
 
+		/* SC_LOGIN_USERNAME_CONFIRMED:<Username> */
 		case Protocol.SC_LOGIN_USERNAME_CONFIRMED:
 			this.myGui.switchPanelLoginPassword(tags[1]);
 			break;
 
+		/* SC_LOGIN_USERNAME_DENIED:<Username> */
 		case Protocol.SC_LOGIN_USERNAME_DENIED:
 			this.myGui.setUsernameResponseLabelText("The Username : " + tags[1] + " is not existent!");
 			break;
 
+		/* SC_LOGIN_PASSWORD_CONFIRMED:<Username> */
 		case Protocol.SC_LOGIN_PASSWORD_CONFIRMED:
 			this.myGui.switchPanelLoggedIn(tags[1]);
 			break;
-			
+
+		/* SC_LOGIN_PASSWORD_DENIED */
 		case Protocol.SC_LOGIN_PASSWORD_DENIED:
 			this.myGui.setPasswordResponseLabelText("The Password is incorrect!");
 			break;
 
 		// Lobby
 
+		/* SC_LOBBY_FOUND:<Position> */
 		case Protocol.SC_LOBBY_FOUND:
 			this.positionInLobby = setLobbyPosition(tags[1]);
 			this.myGui.setMapName(tags[2]);
@@ -55,6 +83,7 @@ public class TD_Client extends Client {
 			this.myGui.switchPanelLobby();
 			break;
 
+		/* SC_LOBBY_USERS:<Username_1>:<Ready_1>:<Username_2>:<Ready_2> */
 		case Protocol.SC_LOBBY_USERS:
 			if (!tags[1].equals("null")) {
 				this.setPlayerUsername("1", tags[1]);
@@ -72,33 +101,39 @@ public class TD_Client extends Client {
 			}
 			break;
 
+		/* SC_PLAYER_READY:<Integer>:<boolean> */
 		case Protocol.SC_PLAYER_READY:
 			this.setPlayerReady(tags[1], tags[2]);
 			break;
 
+		/* SC_ALL_PLAYER_READY:<String> */
 		case Protocol.SC_ALL_PLAYER_READY:
 			this.myGui.switchPanelGame();
 			this.myGui.switchPanelGameBuyTowers();
 			this.send(Protocol.CS_GO);
 			break;
 
+		/* SC_LOBBY_DISCONNECT:<Position> */
 		case Protocol.SC_LOBBY_DISCONNECT:
 			String position = tags[1];
 			reinitializeLobby(position);
 			this.myGui.clearGameTowerBuyChosenList();
 			break;
-			
+
 		// In-Game
 
+		/* SC_GAME_STARTING */
 		case Protocol.SC_GAME_STARTING:
 			this.myGui.switchPanelGameBuyTowers();
 			break;
 
+		/* SC_UPDATE_PLAYER_MONEY:<Money> */
 		case Protocol.SC_UPDATE_PLAYER_MONEY:
 			String money = tags[1];
 			updatePlayerMoney(money);
 			break;
 
+		/* SC_UPDATE_POSITION_TOWER:<PosX>:<PosY>:<Type> */
 		case Protocol.SC_UPDATE_POSITION_TOWER:
 			int tPosX = Integer.parseInt(tags[1]);
 			int tPosY = Integer.parseInt(tags[2]);
@@ -107,6 +142,7 @@ public class TD_Client extends Client {
 			addTowerChosen(towerListEntry);
 			break;
 
+		/* SC_TOWER_NOT_AFFORDABLE:<Cost>:<Money> */
 		case Protocol.SC_TOWER_NOT_AFFORDABLE:
 			String cost = tags[1];
 			String pMoney = tags[2];
@@ -114,6 +150,7 @@ public class TD_Client extends Client {
 			setErrorTowerBuy(towerBuyErrorAffordable);
 			break;
 
+		/* SC_TOWER_NOT_PLACABLE:<TowerPosX>:<TowerPosY>:<TileType> */
 		case Protocol.SC_TOWER_NOT_PLACEABLE:
 			String towerX = tags[1];
 			String towerY = tags[2];
@@ -122,36 +159,43 @@ public class TD_Client extends Client {
 			setErrorTowerBuy(towerBuyErrorPlaceable);
 			break;
 
+		/* SC_ENEMY_BUY_SWAP */
 		case Protocol.SC_ENEMY_BUY_SWAP:
 			this.myGui.switchPanelGameBuyEnemies();
 			break;
 
+		/* SC_ENEMY_BUY_ADD */
 		case Protocol.SC_ENEMY_BUY_ADD:
 			String eType = tags[1];
 			String enemyListEntry = "	Type: " + eType;
 			addEnemyChosen(enemyListEntry);
 			break;
-			
+
+		/* SC_ENEMY_NOT_AFFORDABLE:<Cost>:<Money> */
 		case Protocol.SC_ENEMY_NOT_AFFORDABLE:
 			String eCost = tags[1];
 			String ePlayerMoney = tags[2];
 			setErrorEnemyBuy("Enemy not affordable! Cost: " + eCost + " Money: " + ePlayerMoney + "!");
 			break;
 
+		/* SC_BUY_DONE */
 		case Protocol.SC_BUY_DONE:
 			this.myGui.switchPanelGameBuyWait();
 			break;
 
+		/* SC_BUY_ALL_READY */
 		case Protocol.SC_BUY_ALL_READY:
 			this.myGui.switchPanelGamePlay();
 			break;
 
+		/* SC_LOAD_MAP_DIMENSIONS:<Hight>:<Length> */
 		case Protocol.SC_LOAD_MAP_DIMENSIONS:
 			int height = Integer.parseInt(tags[1]);
 			int length = Integer.parseInt(tags[2]);
 			this.setGameMapBoundries(height, length);
 			break;
 
+		/* SC_LOAD_MAP_TYPE:<PosY>:<PosX>:<Type> */
 		case Protocol.SC_LOAD_MAP_TYPE:
 			int tilePosY = Integer.parseInt(tags[1]);
 			int tilePosX = Integer.parseInt(tags[2]);
@@ -159,10 +203,15 @@ public class TD_Client extends Client {
 			this.setGameMapType(tilePosY, tilePosX, type);
 			break;
 
+		/*
+		 * SC_UPDATE_POSITION_ENEMY:<PreviousPosX>:<PreviousPosY>:<CurrentPosX>:<
+		 * CurrentPosY>
+		 */
 		case Protocol.SC_UPDATE_POSITION_ENEMY:
 			updatePositionEnemy(tags[1], tags[2], tags[3], tags[4]);
 			break;
 
+		/* SC_UPDATE_PLAYER_HEALTH:<Health> */
 		case Protocol.SC_UPDATE_PLAYER_HEALTH:
 			Integer ownHealth = Integer.parseInt(tags[1]);
 			Integer otherHealth = Integer.parseInt(tags[2]);
@@ -170,14 +219,17 @@ public class TD_Client extends Client {
 			this.myGui.updateOtherHealth(otherHealth);
 			break;
 
+		/* SC_ROUND_OVER */
 		case Protocol.SC_ROUND_OVER:
 			this.send(Protocol.CS_ARE_ALL_ROUND_OVER);
 			break;
 
+		/* SC_ALL_ROUND_OVER_FALSE */
 		case Protocol.SC_ALL_ROUND_OVER_FALSE:
 			this.myGui.switchPanelGameBuyWait();
 			break;
 
+		/* SC_ALL_ROUND_OVER_TRUE */
 		case Protocol.SC_ALL_ROUND_OVER_TRUE:
 			this.myGui.resetGameMap();
 			this.myGui.switchPanelGame();
@@ -185,15 +237,18 @@ public class TD_Client extends Client {
 			break;
 
 		// End of Game
-			
+
+		/* SC_CHANGE_ENDSCREEN */
 		case Protocol.SC_CHANGE_ENDSCREEN:
 			this.myGui.switchPanelGameEndScreen();
 			break;
 
+		/* SC_UPDATE_ENDSCREEN_LEVEL:<Level> */
 		case Protocol.SC_UPDATE_ENDSCREEN_LEVEL:
 			this.myGui.updateEndScreenLevel(tags[1]);
 			break;
 
+		/* SC_UPDATE_ENDSCREEN_OWN:<State>:<Name>:<Health>:<Money>:<Enemies>:<Towers> */
 		case Protocol.SC_UPDATE_ENDSCREEN_OWN:
 			String ownState = tags[1];
 			String ownName = tags[2];
@@ -204,6 +259,9 @@ public class TD_Client extends Client {
 			this.myGui.updateEndScreenOwn(ownState, ownName, own_Health, ownMoney, ownEnemies, ownTowers);
 			break;
 
+		/*
+		 * SC_UPDATE_ENDSCREEN_OTHER:<State>:<Name>:<Health>:<Money>:<Enemies>:<Towers>
+		 */
 		case Protocol.SC_UPDATE_ENDSCREEN_OTHER:
 			String otherState = tags[1];
 			String otherName = tags[2];
@@ -214,6 +272,7 @@ public class TD_Client extends Client {
 			this.myGui.updateEndScreenOther(otherState, otherName, other_Health, otherMoney, otherEnemies, otherTowers);
 			break;
 
+		/* SC_EXIT_ENDSCREEN */
 		case Protocol.SC_EXIT_ENDSCREEN:
 			this.myGui.clearEndScreen();
 			this.myGui.clearGameEnemyBuyChosenList();
@@ -229,6 +288,20 @@ public class TD_Client extends Client {
 		}
 	}
 
+	/**
+	 * If the enemy was on a position before the button's enemyCount is decreased by
+	 * 1. If the enemy is on a position now the button's enemyCount is increased by
+	 * 1.
+	 * 
+	 * @param PreviousPosX
+	 *            The Enemy's previous x-position.
+	 * @param PreviousPosY
+	 *            The Enemy's previous y-position.
+	 * @param CurrentPosX
+	 *            The Enemy's current x-position.
+	 * @param CurrentPosY
+	 *            The Enemy's current x-position.
+	 */
 	private void updatePositionEnemy(String PreviousPosX, String PreviousPosY, String CurrentPosX, String CurrentPosY) {
 		// Was on a Tile before
 		if (!PreviousPosX.equals("null") && !PreviousPosY.equals("null")) {
@@ -244,6 +317,13 @@ public class TD_Client extends Client {
 		}
 	}
 
+	/**
+	 * Returns the position of the player in the lobby as an integer.
+	 * 
+	 * @param string
+	 *            The player's position.
+	 * @return (int) The player's position.
+	 */
 	private int setLobbyPosition(String string) {
 		if (string.equals("1")) {
 			return 1;
@@ -251,6 +331,11 @@ public class TD_Client extends Client {
 		return 2;
 	}
 
+	/**
+	 * Sets the GUI's jSpinner's maximum for placing Towers according to the map.
+	 * 
+	 * @param mapName
+	 */
 	private void setSpinnerMaximum(String mapName) {
 		switch (mapName) {
 
@@ -273,6 +358,15 @@ public class TD_Client extends Client {
 		}
 	}
 
+	/**
+	 * Requests the GUI to change the usernames according to the players usernames
+	 * and their position.
+	 * 
+	 * @param playerPosition
+	 *            The player's position in the lobby.
+	 * @param playerName
+	 *            The player's name.
+	 */
 	private void setPlayerUsername(String playerPosition, String playerName) {
 		if (playerPosition.equals("1")) {
 			this.myGui.setUsernamePlayer1(playerName);
@@ -281,6 +375,15 @@ public class TD_Client extends Client {
 		}
 	}
 
+	/**
+	 * Requests the GUI to change the player's status according to the players ready
+	 * status.
+	 * 
+	 * @param playerPosition
+	 *            The player's position in the lobby.
+	 * @param playerStatus
+	 *            The player's ready status.
+	 */
 	private void setPlayerReady(String playerPosition, String playerStatus) {
 		if (playerPosition.equals("1")) {
 			if (playerStatus.equals("true")) {
@@ -302,32 +405,80 @@ public class TD_Client extends Client {
 		}
 	}
 
+	/**
+	 * The lobby in reinitialized with the given players.
+	 * 
+	 * @param playerPosition
+	 *            The player's position in the lobby.
+	 */
 	public void reinitializeLobby(String playerPosition) {
 		this.setPlayerReady(playerPosition, "false");
 		this.myGui.resetGameMap();
 		this.myGui.switchPanelLobby();
 	}
 
+	/**
+	 * Appends a new list entry to the Tower list of the GUI.
+	 * 
+	 * @param string
+	 *            The String to be appended to the Tower list.
+	 */
 	public void addTowerChosen(String string) {
 		this.myGui.addTowerChosen(string);
 	}
 
+	/**
+	 * Appends a new list entry to the Enemy list of the GUI.
+	 * 
+	 * @param string
+	 *            The String to be appended to the Enemy list.
+	 */
 	public void addEnemyChosen(String string) {
 		this.myGui.addEnemyChosen(string);
 	}
 
+	/**
+	 * Updates the money for the players.
+	 * 
+	 * @param string
+	 *            The message the GUI processes.
+	 */
 	public void updatePlayerMoney(String string) {
 		this.myGui.updateMoney(string);
 	}
 
+	/**
+	 * Updates the error text when buying a tower for the player.
+	 * 
+	 * @param string
+	 *            The message the GUI processes.
+	 */
 	public void setErrorTowerBuy(String string) {
 		this.myGui.setErrorTowerBuy(string);
 	}
 
+	/**
+	 * Updates the error when buying an enemy for the player.
+	 * 
+	 * @param string
+	 *            The message the GUI processes.
+	 */
 	public void setErrorEnemyBuy(String string) {
 		this.myGui.setErrorEnemyBuy(string);
 	}
 
+	/**
+	 * Creates the error response for placing a tower based on the position and
+	 * Tile.
+	 * 
+	 * @param pPosX
+	 *            The Tower's x-position.
+	 * @param pPosY
+	 *            The Tower's y-position.
+	 * @param tileType
+	 *            The Tile's type.
+	 * @return (String) errorMessage
+	 */
 	public String generateErrorResponsePlaceable(String pPosX, String pPosY, String tileType) {
 		String message = "";
 		switch (tileType) {
@@ -351,10 +502,29 @@ public class TD_Client extends Client {
 		return message;
 	}
 
-	private void setGameMapBoundries(int height, int length) {
-		this.myGui.setGameMapBoundries(height, length);
+	/**
+	 * Sets the height and width of the GUI's button array according to the maps
+	 * height and width.
+	 * 
+	 * @param height
+	 *            The maps height.
+	 * @param width
+	 *            The maps width.
+	 */
+	private void setGameMapBoundries(int height, int width) {
+		this.myGui.setGameMapBoundries(height, width);
 	}
 
+	/**
+	 * Sets the color of the button at the position to the color of the tileType.
+	 * 
+	 * @param posY
+	 *            The button's y-position.
+	 * @param posX
+	 *            The button's x-position.
+	 * @param type
+	 *            The tile's type.
+	 */
 	private void setGameMapType(int posY, int posX, int type) {
 		this.myGui.setGameMapType(posY, posX, type);
 	}

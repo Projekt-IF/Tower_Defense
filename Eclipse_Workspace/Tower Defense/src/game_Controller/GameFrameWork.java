@@ -13,6 +13,13 @@ import objects.Enemy;
 import objects.Player;
 import objects.Tower;
 
+/**
+ * The GameFrameWork manages the game and functions as an interface between the
+ * game and the lobby(server).
+ * 
+ * @author Jonas Schröder
+ * @version 1.0
+ */
 public class GameFrameWork {
 
 	public static final int startMoney = 200;
@@ -37,6 +44,12 @@ public class GameFrameWork {
 
 	private boolean loopStopped;
 
+	/**
+	 * Constructs a GameFrameWork initializing the players as null.
+	 * 
+	 * @param pServer
+	 *            The designated server.
+	 */
 	public GameFrameWork(Server_TD pServer) {
 		this.server = pServer;
 		this.player_1 = null;
@@ -50,6 +63,9 @@ public class GameFrameWork {
 		this.currentLevel = "";
 	}
 
+	/**
+	 * Clears the gameControllers and enemy and tower lists.
+	 */
 	public void clear() {
 		this.player_1_Game_Controller = new Game_Controller(this.server, this);
 		this.player_2_Game_Controller = new Game_Controller(this.server, this);
@@ -60,13 +76,19 @@ public class GameFrameWork {
 		setLevel();
 	}
 
+	/**
+	 * Stops both player game loops.
+	 */
 	public void stopGame() {
 		this.player_1_Game_Controller.setLoopStopped(true);
 		this.player_2_Game_Controller.setLoopStopped(true);
 	}
 
+	/**
+	 * Evaluating who won and sending the evaluated statistics. Exiting the players
+	 * from the lobby.
+	 */
 	public void evaluateGameResults() {
-		// SC_UPDATE_ENDSCREEN_OWN:<State>:<Name>:<Health>:<Money>:<Enemies>:<Towers>
 		int health_player_1 = player_1.getHealth();
 		int health_player_2 = player_2.getHealth();
 		if ((health_player_1 <= 0) && (health_player_2 <= 0)) {
@@ -84,6 +106,14 @@ public class GameFrameWork {
 		this.server.exitGame(player_2.getPlayerIP(), player_2.getPlayerPort());
 	}
 
+	/**
+	 * Sending the statistics for the end screen to the server.
+	 * 
+	 * @param player_1_placing
+	 *            Has won/lost.
+	 * @param player_2_placing
+	 *            Has won/lost.
+	 */
 	public void sendEndOfGameResults(String player_1_placing, String player_2_placing) {
 		this.server.send(player_1.getPlayerIP(), player_1.getPlayerPort(), Protocol.SC_UPDATE_ENDSCREEN_LEVEL
 				+ Protocol.SEPARATOR + player_1_Game_Controller.getCurrentWaveIndex());
@@ -111,6 +141,11 @@ public class GameFrameWork {
 						+ Protocol.SEPARATOR + player_1.getTowersPlaced());
 	}
 
+	/**
+	 * Chooses a random map from the map-pool.
+	 * 
+	 * @return (String) The chosen mapName.
+	 */
 	public String chooseRandomMap() {
 		Random rand = new Random();
 		String mapName = "";
@@ -133,6 +168,10 @@ public class GameFrameWork {
 		return mapName;
 	}
 
+	/**
+	 * Sets the level for the GameControllers who create the grid using the
+	 * Level_Controller.
+	 */
 	public void setLevel() {
 		player_1_Game_Controller.setCurrentLevel(currentLevel);
 		player_1_Game_Controller.iniciateLevel();
@@ -149,6 +188,10 @@ public class GameFrameWork {
 		setLevel();
 	}
 
+	/**
+	 * Starting two separate threads, one for each player, to go over the in-game
+	 * loop.
+	 */
 	public void startWave() {
 		new Thread(new Runnable() {
 
@@ -172,6 +215,9 @@ public class GameFrameWork {
 		;
 	}
 
+	/**
+	 * Sets the players starting health and money.
+	 */
 	private void prepareGame() {
 		player_1.setPlayerMoney(startMoney);
 		player_2.setPlayerMoney(startMoney);
@@ -179,11 +225,22 @@ public class GameFrameWork {
 		player_2.setHealth(startHealth);
 	}
 
+	/**
+	 * Sets the other player for each player.
+	 */
 	public void setOtherPlayer() {
 		this.player_1.setOtherplayer(player_2);
 		this.player_2.setOtherplayer(player_1);
 	}
 
+	/**
+	 * Adds a new Enemy to the boughtEmemyList.
+	 * 
+	 * @param positionInLobby
+	 *            The player's position in the lobby.
+	 * @param pEnemy
+	 *            The purchased Enemy.
+	 */
 	public void pushToBoughtEnemies(int positionInLobby, Enemy pEnemy) {
 		if (positionInLobby == 1) {
 			this.boughtEnemies_Player_1.add(pEnemy);
@@ -192,6 +249,14 @@ public class GameFrameWork {
 		}
 	}
 
+	/**
+	 * Adds a new Tower to the boughtTowerList and changing the grid's type.
+	 * 
+	 * @param positionInLobby
+	 *            The player's position in the lobby.
+	 * @param pTower
+	 *            The purchased Tower.
+	 */
 	public void pushToBoughtTowers(int positionInLobby, Tower pTower) {
 		if (positionInLobby == 1) {
 			this.boughtTowers_Player_1.add(pTower);
@@ -206,6 +271,12 @@ public class GameFrameWork {
 		}
 	}
 
+	/**
+	 * Adds the purchased enemyLists crosswise to the enemie's enemies.
+	 * 
+	 * @param positionInLobby
+	 *            The player'S position in the lobby.
+	 */
 	public void assambleWaves(int positionInLobby) {
 		if (positionInLobby == 1) {
 			player_1_Game_Controller.addEnemies(boughtEnemies_Player_2);
@@ -214,6 +285,12 @@ public class GameFrameWork {
 		}
 	}
 
+	/**
+	 * Adds the purchased towerList to the towerList.
+	 * 
+	 * @param positionInLobby
+	 *            The player's position in the lobby.
+	 */
 	public void placeNewTowers(int positionInLobby) {
 		if (positionInLobby == 1) {
 			player_1_Game_Controller.addPurchasedTowers(boughtTowers_Player_1);
@@ -222,6 +299,12 @@ public class GameFrameWork {
 		}
 	}
 
+	/**
+	 * Checks if both players are ready.
+	 * 
+	 * @return (boolean) True: All players ready for game start. False: Not all
+	 *         players ready for game start.
+	 */
 	public boolean playerReadyCheck() {
 		if (player_1.isReady()) {
 			if (player_2.isReady()) {
@@ -304,6 +387,12 @@ public class GameFrameWork {
 		this.player_2_Game_Controller = player_2_Game_COntroller;
 	}
 
+	/**
+	 * 
+	 * @param positionInLobby
+	 *            The player's position in the lobby.
+	 * @return (game_COntroller) the palyers gameCOntroller.
+	 */
 	public Game_Controller getGameController(int positionInLobby) {
 		if (positionInLobby == 1) {
 			return player_1_Game_Controller;
@@ -313,6 +402,12 @@ public class GameFrameWork {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param positionInLobby
+	 *            The player's position in the lobby.
+	 * @return (ArrayList<Tower>) The player's towerList.
+	 */
 	public ArrayList<Tower> getBoughtTowerList(int positionInLobby) {
 		if (positionInLobby == 1) {
 			return boughtTowers_Player_1;
@@ -322,6 +417,12 @@ public class GameFrameWork {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param positionInLobby
+	 *            The player's position in the lobby.
+	 * @return (ArrayList<Enemy>) The player's enemyList.
+	 */
 	public ArrayList<Enemy> getBoughtEnemyList(int positionInLobby) {
 		if (positionInLobby == 1) {
 			return boughtEnemies_Player_1;
