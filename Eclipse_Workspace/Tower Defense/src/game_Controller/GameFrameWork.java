@@ -279,8 +279,14 @@ public class GameFrameWork {
 	 */
 	public void assambleWaves(int positionInLobby) {
 		if (positionInLobby == 1) {
+			for (int i = 0; i < boughtEnemies_Player_2.size(); i++) {
+				boughtEnemies_Player_2.get(i).setBounty(0);
+			}
 			player_1_Game_Controller.addEnemies(boughtEnemies_Player_2);
 		} else if (positionInLobby == 2) {
+			for (int i = 0; i < boughtEnemies_Player_1.size(); i++) {
+				boughtEnemies_Player_1.get(i).setBounty(0);
+			}
 			player_2_Game_Controller.addEnemies(boughtEnemies_Player_1);
 		}
 	}

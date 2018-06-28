@@ -28,13 +28,13 @@ public class TowerTypes {
 
 		switch (pType) {
 		case 1:
-			calcedCooldown = 2;
+			calcedCooldown = 1;
 			break;
 		case 2:
-			calcedCooldown = 4;
+			calcedCooldown = 3;
 			break;
 		case 3:
-			calcedCooldown = 7;
+			calcedCooldown = 5;
 			break;
 		default:
 			calcedCooldown = 0;
@@ -58,13 +58,13 @@ public class TowerTypes {
 
 		switch (pType) {
 		case 1:
-			calcedStrength = 5;
-			break;
-		case 2:
 			calcedStrength = 10;
 			break;
-		case 3:
+		case 2:
 			calcedStrength = 15;
+			break;
+		case 3:
+			calcedStrength = 25;
 			break;
 		default:
 			calcedStrength = 0;
@@ -124,7 +124,7 @@ public class TowerTypes {
 			calcedCost = 450;
 			break;
 		case 3:
-			calcedCost = 1000;
+			calcedCost = 1500;
 			break;
 		default:
 			calcedCost = 0;

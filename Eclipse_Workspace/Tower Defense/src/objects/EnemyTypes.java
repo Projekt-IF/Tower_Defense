@@ -27,13 +27,13 @@ public class EnemyTypes {
 
 		switch (pType) {
 		case 1:
-			calcedSpeed = 1;
-			break;
-		case 2:
 			calcedSpeed = 2;
 			break;
+		case 2:
+			calcedSpeed = 1;
+			break;
 		case 3:
-			calcedSpeed = 4;
+			calcedSpeed = 3;
 			break;
 		default:
 			calcedSpeed = 0;
@@ -84,13 +84,13 @@ public class EnemyTypes {
 
 		switch (pType) {
 		case 1:
-			calcedDamage = 1;
+			calcedDamage = 5;
 			break;
 		case 2:
-			calcedDamage = 2;
+			calcedDamage = 10;
 			break;
 		case 3:
-			calcedDamage = 5;
+			calcedDamage = 20;
 			break;
 		default:
 			calcedDamage = 0;
