@@ -1,7 +1,5 @@
 package envoirement;
 
-import envoirement.Tile;
-
 /**
  * The Grid Class represents the Level the Player is playing on. Therefore the
  * Map is represented as an Array.

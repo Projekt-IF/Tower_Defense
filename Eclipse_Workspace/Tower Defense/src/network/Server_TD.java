@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import envoirement.Grid;
 import envoirement.Tile;
-import network.Protocol;
 import objects.Enemy;
 import objects.EnemyTypes;
 import objects.Lobby;
